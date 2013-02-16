@@ -1,0 +1,25 @@
+Input: A pain - a blast - ah, that's Albania, Pa! 
+
+Output:
+
+A pain - a blast - ah, that's Albania, Pa! is a palindrome!
+
+*** End of program ***
+
+
+Input: Was it a cart I saw?
+
+Output:
+
+Was it a cart I saw? is not a palindrome.
+
+*** End of program ***
+
+
+Input: No lemon, no melon.
+
+Output:
+
+No lemon, no melon. is a palindrome!
+
+*** End of program ***

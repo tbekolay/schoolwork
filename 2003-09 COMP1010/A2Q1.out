@@ -1,0 +1,34 @@
+Input: radar
+
+Output:
+
+radar is a palindrome!
+
+*** End of program ***
+
+
+Input: A
+
+Output:
+
+A is a palindrome!
+
+*** End of program ***
+
+
+Input: 123456789587654321
+
+Output:
+
+123456789587654321 is not a palindrome.
+
+*** End of program ***
+
+
+Input: 12345678987654321
+
+Output:
+
+12345678987654321 is a palindrome!
+
+*** End of program ***
