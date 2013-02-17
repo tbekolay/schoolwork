@@ -1,0 +1,81 @@
+Students (PKEY:studentID, studentName)
+Courses (PKEY:courseID, courseName)
+Profs (PKEY: profID, profName, profOffice)
+Section (PKEY: courseID, PKEY: sectNum, profID)
+	where foreign key (courseID) references Courses on delete cascade
+		foreign key (profID) references Profs
+Enrolled (PKEY: studentID, PKEY: courseID, PKEY: sectNum, grade)
+	where foreign key (studentID) references Students,
+		foreign key (courseID, sectNum) references Section
+		
+a) student ID's of all students in 'COMP 3380'
+project(studentID) select(courseID = 'COMP 3380')Enrolled
+
+b) Cartesian-product of Students and Enrolled
+Students X Enrolled
+
+c) Student name, course name and grade for each student who received an A+
+project(studentName, courseName, grade) [ select(grade = 'A+') Courses (join) Enrolled (join) Students ]
+
+d) Name of each professor that teaches a course
+project(profName) (Section (join) Profs)
+
+e) Names of professors that don't teach any courses
+project(profName) Profs - ( project(profName) Section (join) Profs )
+
+f) Names of professors who teach all courses
+project(profName) Profs (join) [ project(courseID, profID) Section / project(courseID) ]
+
+g) ID's of students not enrolled in 'COMP 4380'
+project(studentID) Students - [ project(studentID) select(courseID = 'COMP 4380') Enrolled ]
+
+h) student ID of students enrolled in 'COMP 3380' but not in 'COMP 4380'
+project(studentID) select(courseID = 'COMP 3380') Enrolled - project(studentID) select(courseID = 'COMP 4380') Enrolled
+
+a)
+SELECT studentID
+FROM Enrolled
+WHERE courseID = 'COMP 3380'
+
+b)
+SELECT *
+FROM Students, Enrolled
+
+c)
+SELECT S.studentName, C.courseName, E.grade
+FROM Students S, Courses C, Enrolled E
+WHERE grade = 'A+' AND S.studentID = E.studentID AND C.courseID = E.courseID
+
+d)
+SELECT P.profName
+FROM Section S, Profs P
+WHERE S.profID = P.profID
+
+e)
+SELECT profName
+FROM Profs
+EXCEPT
+SELECT P.profName
+FROM Section S, Profs P
+WHERE S.profID = P.profID
+
+f)
+SELECT P.profName
+FROM ...
+
+g)
+SELECT studentID
+FROM Students
+EXCEPT
+SELECT studentID
+FROM Enrolled
+WHERE courseID = 'COMP 4380'
+
+h)
+SELECT studentID
+FROM Enrolled
+WHERE courseID = 'COMP 3380'
+EXCEPT
+SELECT studentID
+FROM Enrolled
+WHERE courseID = 'COMP 4380'

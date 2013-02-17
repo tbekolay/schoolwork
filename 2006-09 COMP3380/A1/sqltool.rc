@@ -1,0 +1,32 @@
+# $Id: sqltool.rc,v 1.11 2004/07/18 21:34:35 unsaved Exp $
+
+# This is a sample SqlTool configuration file, a.k.a. rc file.
+
+# You can run SqlTool right now by copying this file to your home directory
+# and running
+#    java -jar /path/to/hsqldb.jar mem
+# This will access the first urlid definition below in order to use a
+# personal Memory-Only database.
+
+# If you have the least concerns about security, then secure access to
+# your sqltool.rc file.
+# See the documentation for SqlTool for various ways to use this file.
+
+# A personal Memory-Only database.
+urlid Students
+url jdbc:hsqldb:Students
+username sa
+password
+
+# A personal Memory-Only database.
+urlid SCP
+url jdbc:hsqldb:SCP
+username sa
+password
+
+# A personal Memory-Only database.
+urlid AnotherDB
+url jdbc:hsqldb:AnotherDB
+username sa
+password
+

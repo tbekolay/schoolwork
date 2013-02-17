@@ -1,0 +1,11 @@
+RA = Procedural, SQL = Non-procedural
+Domain Constraints - Type of attribute values
+Key Constraints - Primary key stuff
+Entity Integrity Constraints - Primary key not null
+Referential Integrity Constraints - Foreign key stuff
+
+SQL:
+IN: membership test
+EXISTS: existence test (if relation is non-empty)
+UNIQUE: uniqueness test (check is relation has duplicates)
+IN is =ANY, NOT IN is != ALL

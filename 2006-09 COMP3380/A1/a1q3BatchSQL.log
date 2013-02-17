@@ -1,0 +1,98 @@
+STUDENTID  STUDENTNAME
+---------  --------------
+  1000000  Joe Dirt
+  2000000  Clint Eastwood
+  3000000  Neo Matrix
+  4000000  Michael Zapp
+  5000000  Alan Marshall
+
+5 rows
+COURSEID   COURSENAME
+---------  ----------
+COMP 3020  HCI
+COMP 3350  SE
+COMP 3380  DB
+
+3 rows
+STUDENTID  COURSEID   GRADE
+---------  ---------  -----
+  1000000  COMP 3020  B
+  1000000  COMP 3350  A
+  1000000  COMP 3380  B+
+  2000000  COMP 3020  A+
+  2000000  COMP 3350  A
+  2000000  COMP 3380  A+
+  3000000  COMP 3020  B
+  3000000  COMP 3380  A
+
+8 rows
+1 row updated
+COURSEID   COURSENAME
+---------  ------------
+COMP 3020  HCI
+COMP 3350  SE
+COMP 3380  DB
+COMP 4060  Topics in CS
+
+4 rows
+1 row updated
+COURSEID   COURSENAME
+---------  ----------
+COMP 3020  HCI
+COMP 3350  SE
+COMP 3380  DB
+
+3 rows
+1 row updated
+STUDENTID  STUDENTNAME
+---------  --------------
+  1000000  Joe Dirt
+  2000000  Clint Eastwood
+  3000000  Neo Matrix
+  4000000  Michael Zapp
+  5000000  Alan Marshall
+  8000000  James Bond
+
+6 rows
+1 row updated
+STUDENTID  STUDENTNAME
+---------  --------------
+  1000000  Joe Dirt
+  2000000  Clint Eastwood
+  3000000  Neo Matrix
+  4000000  Michael Zapp
+  5000000  Alan Marshall
+  8000000  Jesse James
+
+6 rows
+1 row updated
+STUDENTID  STUDENTNAME
+---------  --------------
+  1000000  Joe Dirt
+  2000000  Clint Eastwood
+  3000000  Neo Matrix
+  4000000  Michael Zapp
+  5000000  Alan Marshall
+
+5 rows
+STUDENTID  STUDENTNAME
+---------  --------------
+  1000000  Joe Dirt
+  2000000  Clint Eastwood
+  3000000  Neo Matrix
+  4000000  Michael Zapp
+  5000000  Alan Marshall
+
+5 rows
+STUDENTNAME     COURSENAME  GRADE
+--------------  ----------  -----
+Joe Dirt        HCI         B
+Joe Dirt        SE          A
+Joe Dirt        DB          B+
+Clint Eastwood  HCI         A+
+Clint Eastwood  SE          A
+Clint Eastwood  DB          A+
+Neo Matrix      HCI         B
+Neo Matrix      DB          A
+
+8 rows
