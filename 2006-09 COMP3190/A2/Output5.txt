@@ -1,0 +1,386 @@
+Miscellaneous Rules (Simple relationships):
+
+?- consult('E:\\University\\CompSci\\COMP3190\\A2\\family.pro')
+yes
+
+?- married_to(X,Y).
+
+X = abigail
+Y = abbot ;
+
+X = ainslie
+Y = ajax ;
+
+X = adelaide
+Y = adolf ;
+
+X = alaska
+Y = alastair ;
+
+X = agatha
+Y = ahmed ;
+
+X = barbie
+Y = bernard ;
+
+X = beatrix
+Y = beauregard ;
+
+X = bernice
+Y = benedict ;
+
+X = beavis
+Y = bob ;
+
+X = cinderella
+Y = chip ;
+
+X = clarissa
+Y = clay ;
+no
+
+?- sibling(chip,Name).
+
+Name = chyna ;
+
+Name = chuck ;
+
+Name = chyna ;
+
+Name = chuck ;
+no
+
+?- parent(X,Y).
+
+X = abigail
+Y = bernard ;
+
+X = ainslie
+Y = barbie ;
+
+X = alaska
+Y = beck ;
+
+X = adelaide
+Y = becky ;
+
+X = ainslie
+Y = beatrix ;
+
+X = agatha
+Y = beavis ;
+
+X = agatha
+Y = butthead ;
+
+X = becky
+Y = cinderella ;
+
+X = barbie
+Y = chip ;
+
+X = barbie
+Y = chyna ;
+
+X = barbie
+Y = chuck ;
+
+X = becky
+Y = clarissa ;
+
+X = becky
+Y = cleatus ;
+
+X = bernice
+Y = cloris ;
+
+X = bernice
+Y = cleopatra ;
+
+X = beatrix
+Y = collice ;
+
+X = beatrix
+Y = clifton ;
+
+X = cinderella
+Y = dakota ;
+
+X = cinderella
+Y = daisy ;
+
+X = cinderella
+Y = dylan ;
+
+X = cruella
+Y = delta ;
+
+X = cruella
+Y = demetrius ;
+
+X = clarissa
+Y = derex ;
+
+X = clarissa
+Y = denver ;
+
+X = abbot
+Y = bernard ;
+
+X = ajax
+Y = barbie ;
+
+X = alastair
+Y = beck ;
+
+X = adolf
+Y = becky ;
+
+X = ajax
+Y = beatrix ;
+
+X = ahmed
+Y = beavis ;
+
+X = ahmed
+Y = butthead ;
+
+X = beck
+Y = cinderella ;
+
+X = bernard
+Y = chip ;
+
+X = bernard
+Y = chyna ;
+
+X = bernard
+Y = chuck ;
+
+X = beck
+Y = clarissa ;
+
+X = beck
+Y = cleatus ;
+
+X = benedict
+Y = cloris ;
+
+X = benedict
+Y = cleopatra ;
+
+X = beauregard
+Y = collice ;
+
+X = beauregard
+Y = clifton ;
+
+X = beavis
+Y = cordelia ;
+
+X = bob
+Y = cordelia ;
+
+X = chip
+Y = dakota ;
+
+X = chip
+Y = daisy ;
+
+X = chip
+Y = dylan ;
+
+X = chuck
+Y = delta ;
+
+X = chuck
+Y = demetrius ;
+
+X = clay
+Y = derex ;
+
+X = clay
+Y = denver ;
+no
+
+?- brother(Name, becky).
+
+Name = benedict ;
+no
+
+?- sister(Name, abigail).
+
+Name = agatha ;
+no
+
+?- grandparent(X,Y).
+
+X = abigail
+Y = chip ;
+
+X = abigail
+Y = chyna ;
+
+X = abigail
+Y = chuck ;
+
+X = ainslie
+Y = chip ;
+
+X = ainslie
+Y = chyna ;
+
+X = ainslie
+Y = chuck ;
+
+X = alaska
+Y = cinderella ;
+
+X = alaska
+Y = clarissa ;
+
+X = alaska
+Y = cleatus ;
+
+X = adelaide
+Y = cinderella ;
+
+X = adelaide
+Y = clarissa ;
+
+X = adelaide
+Y = cleatus ;
+
+X = ainslie
+Y = collice ;
+
+X = ainslie
+Y = clifton ;
+
+X = agatha
+Y = cordelia ;
+
+X = becky
+Y = dakota ;
+
+X = becky
+Y = daisy ;
+
+X = becky
+Y = dylan ;
+
+X = barbie
+Y = dakota ;
+
+X = barbie
+Y = daisy ;
+
+X = barbie
+Y = dylan ;
+
+X = barbie
+Y = delta ;
+
+X = barbie
+Y = demetrius ;
+
+X = becky
+Y = derex ;
+
+X = becky
+Y = denver ;
+
+X = abbot
+Y = chip ;
+
+X = abbot
+Y = chyna ;
+
+X = abbot
+Y = chuck ;
+
+X = ajax
+Y = chip ;
+
+X = ajax
+Y = chyna ;
+
+X = ajax
+Y = chuck ;
+
+X = alastair
+Y = cinderella ;
+
+X = alastair
+Y = clarissa ;
+
+X = alastair
+Y = cleatus ;
+
+X = adolf
+Y = cinderella ;
+
+X = adolf
+Y = clarissa ;
+
+X = adolf
+Y = cleatus ;
+
+X = ajax
+Y = collice ;
+
+X = ajax
+Y = clifton ;
+
+X = ahmed
+Y = cordelia ;
+
+X = beck
+Y = dakota ;
+
+X = beck
+Y = daisy ;
+
+X = beck
+Y = dylan ;
+
+X = bernard
+Y = dakota ;
+
+X = bernard
+Y = daisy ;
+
+X = bernard
+Y = dylan ;
+
+X = bernard
+Y = delta ;
+
+X = bernard
+Y = demetrius ;
+
+X = beck
+Y = derex ;
+
+X = beck
+Y = denver ;
+no
+
+?- grandfather(ajax, Name).
+
+Name = chip ;
+
+Name = chyna ;
+
+Name = chuck ;
+
+Name = collice ;
+
+Name = clifton ;
+no
+
+?- grandmother(agatha, Name).
+
+Name = cordelia ;
+no
+

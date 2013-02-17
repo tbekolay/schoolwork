@@ -1,0 +1,226 @@
+Elementary Reinforcement Learning Techniques
+
+Trevor Bekolay, 6796723
+trevor_bekolay@umanitoba.ca
+
+Abstract
+
+In machine learning, novel reinforcement learning techniques are based on three sets of elementary reinforcement learning techniques: dynamic programming, Monte Carlo methods, and temporal difference learning.  In an effort to understand the internals of these techniques, and through that their strengths and weaknesses, this paper will select a representative algorithm from each set of techniques and illustrate its mechanism through the example of the n-puzzle (in this case, the 8-puzzle).
+
+Table of Contents
+
+------------------------------------
+
+Introduction
+
+-Definition
+	-Symbolic learning technique
+	-Not supervised, but not totally unsupervised
+		-Pros over supervised?
+		-Usable in dynamic environments
+	-RL is concerned with 3 elements: an environment, and the agent acting in it. The Environment provides rewards for an agent's actions
+	-[overview]How far an agent considers their reward can be done 3 ways:
+		-Finite horizon
+		-Infinite horizon, average
+		-Infinite horizon, discounted
+	-We will use the last.  Rewards may not be directly obvious, so a delayed-reward system is typically required
+		-Discounting is used to control how near or far-sighted an agent is
+	-The goal of an agent in an environment is to maximize its reward over time
+	-Exploration vs. Exploitation (will go into detail later)
+	-Easiest way to model RL situations is to imagine a set of states, actions that can be done on those states, and the immediate reward to taking a certain action in a certain state. Leads into Markov Decision Process
+
+--------------------------------------
+
+Markov Decision Process
+
+-MDP's are described as:
+	-S, set of states
+	-A, set of actions for each state
+	-P, probability of each possible next state (transition probabilities)
+	-R, expected value of the next reward
+-[UNICORN]MDP's have been used in other stuff for a long time, so given a complete MDP, it's easy to find the optimal sol'n
+-RL deals with finite MDP's, where states and actions are known, and states conform to the Markov Property
+	-Means that each state accurately describes the environment and future possibilites regardless of how that state was derived
+		-Mathematically: [nice book] Pr{st = s' ... etc
+-Finite MDP's can describe many situations where RL is useful (eg, gameplaying)
+-so, given any state s and action a, the probability and reward for the next state s' can be learned over time
+
+-RL algorithms are developed to change the P and R for a given (s,a) -> (s')
+-From MDP's, RL problems go one step further
+-Bellman Optimality Equations
+
+Policies
+-Recall from the intro: RL is concerned with Agents, and Environments
+-To further this, we add in time; an agent interacts with its environment at defined time-steps (T)
+-For each time step, an agent perceives its state (s(t) E S), and selects from a set of actions (a(t) E A) that, on the next time step, produces some reward (r(t+1)) and leaves the agent in some state s(t+1)
+[an overview]- An agent's job is to find a policy (pi) that, given the state, selects actions to maximizes reward.
+-A policy is simply a mapping of states and actions to the probability that the agent will take that action in that state.
+-Diagramatically:
+	-Table: Policy (pi)
+	states | action | pi(s,a)
+	s1     | left   | 0.2
+	s1     | right  | 0.8
+	s2     | left   | 0.4
+	s2     | right  | 0.6
+
+Value Functions
+- RL algorithms depend on the ability to evaluate a given state
+- In general, a state's worth is based on the actions it can perform, and rewards that can be gained from taking that action in that state.
+
+- Functions for calculating a state's value are done with respect to a policy
+- Value is represented a V(pi)(s), which stands for the value of state s under policy pi
+- ie, what is the expected return (the 'goodness') of being in state s and following policy pi
+- Formally: [good book]
+V(pi)(s) = E(pi){R(t)|s(t) = s} = E(pi){sum(k=0 to infinity)(gamma^k r(t+k+1)) | s(t) = s}
+- where E(pi){} the expected value given that the agent follows policy pi, and t is any time step
+- This function, V(pi), is called the state-value function for policy (pi).
+
+- Extending from V(pi), we can also take actions into account and calculate the value of taking an action in a particular state.  This is denoted as Q(pi)(s,a).
+- Formally: [good book]
+Q(pi)(s,a) = E(pi){R(t)|s(t) = s, a(t) = a} = E(pi){sum(k=0 to infinity)(gamma^k r(t+k+1)) | s(t) = s, a(t) = a}
+- This function, Q(pi), i scalled the action-value function for policy (pi).
+
+- These value functions lead to an important equation in RL called the Bellman equation.
+- It is a recursive function that uses the values of successor states to calculate the value of the current state.
+- Note that the value of a terminal state, if it exists, is 0
+- The equation is, formally:
+V(pi)(s) = sum(all a's)(pi (s,a)) * sum(all s''s)(P(a,s,s')(R(a,s,s')+ gamma(V(pi)(s'))
+- Look at it piece by piece:
+	-R(a,s,s') is the immediate reward given by going to a certain successor state by an action
+	-gamma(V(pi)(s')) is the discounted value of a successor state
+	-P(a,s,s') is the transition probability of s' given s and a
+	-sum(all s''s) - gives the sum of all weighted values for all possible successor states from state s, given action a
+	-pi(s,a) - takes that sum and weighs it based on the probability of taking action a in state s based on policy pi
+	-sum(all a's) - iterates over all possible actions in a state
+- There exists an optimal state-value and action-value function.  We will call these V*(s) and Q*(s,a).  They will be discussed in Dynamic Programming
+- This equation forms the basis of many RL algorithms, including the three that will be examined in this paper.
+
+Policy Evaluation and Policy Improvement
+Eval
+- Policy evaluation refers to how a RL algorithm evaluates the policy it has assumed at a certain point in time.
+- This is usually done by calculating the state-value function (V(pi)(s)) for all states [pdf file] for a given policy
+- Some algorithms use different methods for evaluating policies as well
+- Also known as the 'prediction problem'
+
+Improvement
+- Policy improvement poses the question; how do you optimize a policy, based on a policy evaluation?-
+- Greedy techniques are common, but many different methods exist
+- Related to the 'control problem' (finding an optimal policy)
+
+- [pdf] says that RL techniques can be described by these two steps, policy evaluation and policy improvement
+
+-We will examine three techniques from 3 archetypes
+
+----------------------------------
+
+Dynamic programming
+
+-Dynamic Programming refers to a problem solving technique that has been used for decades
+-solves overlapping subproblems etc
+-Based on what we have already discussed, we can see the usefulness of DP in the Bellman equation, which recursively calls V(pi)(s)
+-Using value estimates to compute other value estimates is called 'bootstrapping'
+-Limited in usefulness due to the requirement of a perfect model of environment as a MDP and the requirement to calculate values for every state (which is prohibitively expensive in problems with large state-spaces).
+-However, it does converge on an optimal solution relatively quickly
+
+Optimality Equations
+-Before we examine the alg, we must first examine Bellman's optimality equation
+-These are closely related to Bellman's equation, except that they are only interested in the best results.
+-So, V(pi)(s) becomes
+V*(s) = max(a) (sum(all s''s)P(a,s,s')*R(a,s,s') + gamma(V*(s'))
+-This reduces the value of each state to the overall return of the best action for that state.
+-Value iteration uses this formula as an update rule to determine the optimal value for each state
+
+Value Iteration
+- In each iteration of the Value Iteration algorithm, the currently policy is evaluated once then updated
+- pseudocode: [copy from good book]
+- explanation:
+- the main while loop iterates over every state in S
+	-it calculates V*(s) as described above for each state and updates each state with its new optimal value
+	-it determines the difference between its previous value and its current value
+	-it iterates until the largest change the value of a state in S is below some threshold (theta)
+	-(We can see that when theta = 0, we have reached the optimal solution)
+- It then outputs a policy (pi) that maps the optimal action a in A to each state s in S.
+
+//- A full implementation can (hopefully) be found in the appendix.
+
+Generalized Policy Iteration
+- Value iteration, like many RL methods including the other two that will be exmained, can be described as using Generalized Policy Iteration
+- this term simply means that the policy evaluation and policy improvement processes interact
+- more specifically, it means that the algorithm has obvious policies and value functions, and as the policy improves with respect to the value functions, the value funtions produce results that improve the policy.
+- In value iteration, we only evaluate the policy once before updating it
+
+-----------------------------------
+
+Monte Carlo Methods
+
+-Monte Carlo methods describe those that, instead of computing values for each state, Changes values and policies by experience
+-Unlike DP, does not require a perfect model of the environment, nor does it suffer from the problems associated with large state or action spaces in DP
+-Monte Carlo methods are relatively new in the context of RL, and because of that, it is not yet clear whether or not they will always converge on an optimal solution
+
+Exploration vs. Exploitation
+-In DP, every state in S is examined on every iteration of the alg
+-MC, on the other hand, uses experience to gather information
+-if it simply chooses the best action in a state based on previous experience, some actions will never be explored even though they may be optimal
+-Exploration is achieved in MC by the addition of a number epsilon
+-Epsilon is the probability of exploration; that is, the probability that the algorithm will choose an action other than that which is determined to be the best at the time
+	-if epsilon is 0, there is no exploration.  if epsilon is 1, the algorithm will always choose a random action
+-Epsilon-soft policies are those in which pi(s,a) >= episilon / (#actions in s)
+-In epsilon-greedy, the action with the best estimated value is chosen most of the time, and the rest of time a random non-greedy action is chosen
+-In each state s in S, the action with the best estimated value is known as a*
+-formally
+	-if a = a*, pi(s, a) = 1 - epsilon + (epsilon / (#actions in s))
+	-if a != a*, pi(s, a) = epsilon / (#actions in s)
+
+epsilon-soft on-policy Monte Carlo control
+-On-policy refers to MC methods that improve and evaluate the same policy that it uses to gather experience information.
+	-Conversely, off-policy methods consider experience that is obtained from policies other than the one being modified
+-An episode is a run-through of a problem given some starting state s and using policy pi
+	-thus, MC techniques can only be used on problems that can be expressed in episodes that terminate regardless of actions taken
+-while Val.It increments on a step-by-step basis, MC does so on an episode-by-episode basis
+-it is common practice in MC algorithms, especially elementary ones, to disclude the first 'visit' to a state that occurs in an episode
+
+-pseudo-code: [good book]
+-explanation:
+	-self-explanatory in general
+	-we average out all of the returns of a state-action pair to get the action-value
+
+-------------------------------------
+
+Temporal Difference Learning
+
+-A fusion of DP and MC; taking the good points of both
+	-Like MC, learns from experience, so does not require a perfect model of the environment
+	-Like DP, updates estimated values based on other values (bootstraps), so it does not have to wait until the end of an episode to update the policy
+-The key to this (as the name indicates) is calculating the difference ...
+
+Error
+-In updating an estimated value, it is much faster to use the previously estimated value to caculate a new estimate
+-A general formula for this kind of performance optimization is
+	NewEstimate = OldEstimate + StepSize[Target - OldEstimate]
+-The [Target - OldEstimate] portion is the Error of the estimate
+-This concept is inherent in MC, though it wasn't discussed earlier.
+-Consider a simple MC method
+-We can represent the updating of a state-value function at time t as
+	V(s(t)) = V(s(t)) + (alpha)[R(t) - V(s(t))]
+	-where R(t) is the actual return following time t, and alpha is a constant step-size parameter
+-Since R(t) is not known until the episode reaches a terminal state, this update function only occurs at the end of an episode
+-The simplest TD method, TD(0), uses this idea, but uses bootstrapping to update the value during an episode
+-The update function is
+	V(s(t)) = V(s(t)) + alpha[r(t+1) + gamma(V(s(t+1)) - V(s(t))]
+-The only difference in the two functions is the target, yet since the TD method bases its update on a value that can be estimated on-line, we are able to learn step-by-step instead of episode-by-episode
+
+One Step Q-learning
+-The most well known example of an RL algorithm
+-Unlike MC, Q-learning has been proven to exhibit optimal behavior eventually
+-Q-learning deals with the action-value function, but the update function is still similar to that of TD(0)
+Q(s,a) = Q(s,a) + alpha[r + gamma(max(a')(Q(s',a')) - Q(s,a)]
+-Recognize that this function will work regardless of the policy that was used for initially determine Q(s,a)
+	-because it uses the best action (chosen by the previous policy) as the target
+
+----------------------------------------
+
+Conclusion
+-Through examining the theory behind each of the elementary RL algorithms, and examining the strengths and weaknesses of each, we can see that temporal difference learning encompasses the advantages of DP and MC techniques for most problems
+-Hence why most novel RL techniques are based on the ideas presented in TD methods
+-RL is a relatively young area of AI, with new ways of looking at the problem being discovered regularily
+-Despite that, most new RL techniques are just refinements of the three discussed in this paper, so understnding their operation is important

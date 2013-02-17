@@ -1,0 +1,421 @@
+OUTPUT from 3 consecutive runs (to show that it does not need to be re-consulted every time).
+	1st run likes innovative single-player games, does not want to spend much (ie, Wii-centered)
+	2nd run likes action games, but doesn't want to spend too much, but is in no rush to buy (ie, PS3-centered)
+	3rd run likes multiplayer games, willing to pay to play them online (ie, Xbox360-centered)
+
+?- consult('E:\\University\\CompSci\\COMP3190\\A3\\console.pro')
+yes
+?- run.
+Welcome to the Christmas 2006 Next-gen Console Assistant!
+To determine which console you should be bugging your parents for, please answer all questions!  Or at least some.  But you 
+ill get better results the more questions you answer.
+
+Please choose a line of questioning by typing in the number of the selection, followed by a period:
+1. Game preference
+2. Time factors
+3. Financial factors
+1.
+
+Answer the following questions honestly.  You won't hurt my feelings!
+Have you played any of the Legend of Zelda games?
+Answer with a y or n, followed by a period.
+y.
+
+How would you rate the game, on a scale of 0 to 10?
+0 = Absolutely hated it, 5 = Neither hated nor liked it, 10 = Absolutely loved it.
+Enter a number (decimals are fine), then a period.
+7.8.
+
+Have you played Wario Ware?
+Answer with a y or n, followed by a period.
+y.
+
+How would you rate the game, on a scale of 0 to 10?
+0 = Absolutely hated it, 5 = Neither hated nor liked it, 10 = Absolutely loved it.
+Enter a number (decimals are fine), then a period.
+7.6.
+
+Have you played Halo 1 and/or 2?
+Answer with a y or n, followed by a period.
+y.
+
+How would you rate the game, on a scale of 0 to 10?
+0 = Absolutely hated it, 5 = Neither hated nor liked it, 10 = Absolutely loved it.
+Enter a number (decimals are fine), then a period.
+4.5.
+
+Have you played Fable?
+Answer with a y or n, followed by a period.
+y.
+
+How would you rate the game, on a scale of 0 to 10?
+0 = Absolutely hated it, 5 = Neither hated nor liked it, 10 = Absolutely loved it.
+Enter a number (decimals are fine), then a period.
+2.5.
+
+Have you played any of the Metal Gear Solid games?
+Answer with a y or n, followed by a period.
+n.
+
+Have you played a Grand Theft Auto game?
+Answer with a y or n, followed by a period.
+y.
+
+How would you rate the game, on a scale of 0 to 10?
+0 = Absolutely hated it, 5 = Neither hated nor liked it, 10 = Absolutely loved it.
+Enter a number (decimals are fine), then a period.
+3.5.
+
+Have you played one or more of Final Fantasy 7 through 12?
+Answer with a y or n, followed by a period.
+n.
+
+How likely are you to play multiplayer games off-line?
+0 = Not likely at all, 5 = Neither likely nor unlikely, 10 = Certainly.
+Enter a number (decimals are fine), then a period.
+7.5.
+
+How likely are you to play multiplayer games on-line?
+0 = Not likely at all, 5 = Neither likely nor unlikely, 10 = Certainly.
+Enter a number (decimals are fine), then a period.
+3.5.
+
+Continue inputting data? y/n
+y.
+
+Please choose a line of questioning by typing in the number of the selection, followed by a period:
+1. Game preference
+2. Time factors
+3. Financial factors
+2.
+
+How willing are you to wait until after Christmas to obtain a next-gen console?
+0 = Must have it on or before Christams, 5 = Doesn't have to be on Christmas, but not much later, 10 = Doesn't matter when I
+get it.
+Enter a number (decimals are fine), then a period.
+4.
+
+Continue inputting data? y/n
+y.
+
+Please choose a line of questioning by typing in the number of the selection, followed by a period:
+1. Game preference
+2. Time factors
+3. Financial factors
+3.
+
+How much would you ideally spend on a console?
+Please enter an amount (in Canadian dollars) from $200 - $1000 (don't include the $).
+Enter a number (decimals are fine), then a period.
+250.
+
+Do you plan to use online services?  This includes playing multiplayer games online, or downloading extra content for offlin
+ games.
+y.
+
+How much would you be willing to spend per year to access online content?
+Please enter a dollar amount between $0 (free) and $100 (don't include the $).
+Enter a number (decimals are fine), then a period.
+20.
+
+Continue inputting data? y/n
+n.
+
+Based on the answers you have given, we have deduced that:
+	You will like the Wii the best!
+
+Go into more detail? y/n
+y.
+
+Based on the answers you have given, we have deduced that:
+	You will like the Wii, with 72.0944% confidence.
+	You will like the Xbox360, with 13.5714% confidence.
+	You will dislike the PS3, with 63.1% confidence.
+
+Want to know why? y/n
+y.
+
+Based on the answers you have given, we can say that:
+	You will like Wii's selection of games, with 39.5% confidence.
+	You will dislike XBox 360's selection of games, with 30% confidence.
+	You will dislike PS3's selection of games, with 10% confidence.
+	You do not have the patience to wait until after Christmas, with 20% confidence.
+	You do not have the urge to spend a lot of money on a console purchase, with 48.75% confidence.
+Thanks for using the Next-gen Console Assistant!
+yes
+?- run.
+Welcome to the Christmas 2006 Next-gen Console Assistant!
+To determine which console you should be bugging your parents for, please answer all questions!  Or at least some.  But you 
+ill get better results the more questions you answer.
+
+Please choose a line of questioning by typing in the number of the selection, followed by a period:
+1. Game preference
+2. Time factors
+3. Financial factors
+1.
+
+Answer the following questions honestly.  You won't hurt my feelings!
+Have you played any of the Legend of Zelda games?
+Answer with a y or n, followed by a period.
+y.
+
+How would you rate the game, on a scale of 0 to 10?
+0 = Absolutely hated it, 5 = Neither hated nor liked it, 10 = Absolutely loved it.
+Enter a number (decimals are fine), then a period.
+6.5.
+
+Have you played Wario Ware?
+Answer with a y or n, followed by a period.
+n.
+
+Have you played Halo 1 and/or 2?
+Answer with a y or n, followed by a period.
+y.
+
+How would you rate the game, on a scale of 0 to 10?
+0 = Absolutely hated it, 5 = Neither hated nor liked it, 10 = Absolutely loved it.
+Enter a number (decimals are fine), then a period.
+5.5.
+
+Have you played Fable?
+Answer with a y or n, followed by a period.
+y.
+
+How would you rate the game, on a scale of 0 to 10?
+0 = Absolutely hated it, 5 = Neither hated nor liked it, 10 = Absolutely loved it.
+Enter a number (decimals are fine), then a period.
+6.
+
+Have you played any of the Metal Gear Solid games?
+Answer with a y or n, followed by a period.
+y.
+
+How would you rate the game, on a scale of 0 to 10?
+0 = Absolutely hated it, 5 = Neither hated nor liked it, 10 = Absolutely loved it.
+Enter a number (decimals are fine), then a period.
+8.5.
+
+Have you played a Grand Theft Auto game?
+Answer with a y or n, followed by a period.
+y.
+
+How would you rate the game, on a scale of 0 to 10?
+0 = Absolutely hated it, 5 = Neither hated nor liked it, 10 = Absolutely loved it.
+Enter a number (decimals are fine), then a period.
+9.1.
+
+Have you played one or more of Final Fantasy 7 through 12?
+Answer with a y or n, followed by a period.
+y.
+
+How would you rate the game, on a scale of 0 to 10?
+0 = Absolutely hated it, 5 = Neither hated nor liked it, 10 = Absolutely loved it.
+Enter a number (decimals are fine), then a period.
+7.2.
+
+How likely are you to play multiplayer games off-line?
+0 = Not likely at all, 5 = Neither likely nor unlikely, 10 = Certainly.
+Enter a number (decimals are fine), then a period.
+5.
+
+How likely are you to play multiplayer games on-line?
+0 = Not likely at all, 5 = Neither likely nor unlikely, 10 = Certainly.
+Enter a number (decimals are fine), then a period.
+5.
+
+Continue inputting data? y/n
+y.
+
+Please choose a line of questioning by typing in the number of the selection, followed by a period:
+1. Game preference
+2. Time factors
+3. Financial factors
+2.
+
+How willing are you to wait until after Christmas to obtain a next-gen console?
+0 = Must have it on or before Christams, 5 = Doesn't have to be on Christmas, but not much later, 10 = Doesn't matter when I
+get it.
+Enter a number (decimals are fine), then a period.
+9.
+
+Continue inputting data? y/n
+y.
+
+Please choose a line of questioning by typing in the number of the selection, followed by a period:
+1. Game preference
+2. Time factors
+3. Financial factors
+3.
+
+How much would you ideally spend on a console?
+Please enter an amount (in Canadian dollars) from $200 - $1000 (don't include the $).
+Enter a number (decimals are fine), then a period.
+425.
+
+Do you plan to use online services?  This includes playing multiplayer games online, or downloading extra content for offlin
+ games.
+y.
+
+How much would you be willing to spend per year to access online content?
+Please enter a dollar amount between $0 (free) and $100 (don't include the $).
+Enter a number (decimals are fine), then a period.
+10.
+
+Continue inputting data? y/n
+n.
+
+Based on the answers you have given, we have deduced that:
+	You will like the PS3 the best!
+
+Go into more detail? y/n
+y.
+
+Based on the answers you have given, we have deduced that:
+	You will like the Wii, with 14.2552% confidence.
+	You will dislike the Xbox360, with 65.943% confidence.
+	You will like the PS3, with 89.0165% confidence.
+
+Want to know why? y/n
+y.
+
+Based on the answers you have given, we can say that:
+	You will like Wii's selection of games, with 18.5% confidence.
+	You will like XBox 360's selection of games, with 28% confidence.
+	You will like PS3's selection of games, with 65.3333% confidence.
+	You do have the patience to wait until after Christmas, with 80% confidence.
+	You do not have the urge to spend a lot of money on a console purchase, with 36.875% confidence.
+Thanks for using the Next-gen Console Assistant!
+yes
+?- run.
+Welcome to the Christmas 2006 Next-gen Console Assistant!
+To determine which console you should be bugging your parents for, please answer all questions!  Or at least some.  But you 
+ill get better results the more questions you answer.
+
+Please choose a line of questioning by typing in the number of the selection, followed by a period:
+1. Game preference
+2. Time factors
+3. Financial factors
+1.
+
+Answer the following questions honestly.  You won't hurt my feelings!
+Have you played any of the Legend of Zelda games?
+Answer with a y or n, followed by a period.
+y.
+
+How would you rate the game, on a scale of 0 to 10?
+0 = Absolutely hated it, 5 = Neither hated nor liked it, 10 = Absolutely loved it.
+Enter a number (decimals are fine), then a period.
+3.5.
+
+Have you played Wario Ware?
+Answer with a y or n, followed by a period.
+y.
+
+How would you rate the game, on a scale of 0 to 10?
+0 = Absolutely hated it, 5 = Neither hated nor liked it, 10 = Absolutely loved it.
+Enter a number (decimals are fine), then a period.
+6.5.
+
+Have you played Halo 1 and/or 2?
+Answer with a y or n, followed by a period.
+y.
+
+How would you rate the game, on a scale of 0 to 10?
+0 = Absolutely hated it, 5 = Neither hated nor liked it, 10 = Absolutely loved it.
+Enter a number (decimals are fine), then a period.
+8.1.
+
+Have you played Fable?
+Answer with a y or n, followed by a period.
+n.
+
+Have you played any of the Metal Gear Solid games?
+Answer with a y or n, followed by a period.
+n.
+
+Have you played a Grand Theft Auto game?
+Answer with a y or n, followed by a period.
+y.
+
+How would you rate the game, on a scale of 0 to 10?
+0 = Absolutely hated it, 5 = Neither hated nor liked it, 10 = Absolutely loved it.
+Enter a number (decimals are fine), then a period.
+6.
+
+Have you played one or more of Final Fantasy 7 through 12?
+Answer with a y or n, followed by a period.
+n.
+
+How likely are you to play multiplayer games off-line?
+0 = Not likely at all, 5 = Neither likely nor unlikely, 10 = Certainly.
+Enter a number (decimals are fine), then a period.
+9.5.
+
+How likely are you to play multiplayer games on-line?
+0 = Not likely at all, 5 = Neither likely nor unlikely, 10 = Certainly.
+Enter a number (decimals are fine), then a period.
+9.5.
+
+Continue inputting data? y/n
+y.
+
+Please choose a line of questioning by typing in the number of the selection, followed by a period:
+1. Game preference
+2. Time factors
+3. Financial factors
+2.
+
+How willing are you to wait until after Christmas to obtain a next-gen console?
+0 = Must have it on or before Christams, 5 = Doesn't have to be on Christmas, but not much later, 10 = Doesn't matter when I
+get it.
+Enter a number (decimals are fine), then a period.
+3.
+
+Continue inputting data? y/n
+y.
+
+Please choose a line of questioning by typing in the number of the selection, followed by a period:
+1. Game preference
+2. Time factors
+3. Financial factors
+3.
+
+How much would you ideally spend on a console?
+Please enter an amount (in Canadian dollars) from $200 - $1000 (don't include the $).
+Enter a number (decimals are fine), then a period.
+450.
+
+Do you plan to use online services?  This includes playing multiplayer games online, or downloading extra content for offlin
+ games.
+y.
+
+How much would you be willing to spend per year to access online content?
+Please enter a dollar amount between $0 (free) and $100 (don't include the $).
+Enter a number (decimals are fine), then a period.
+100.
+
+Continue inputting data? y/n
+n.
+
+Based on the answers you have given, we have deduced that:
+	You will like the Xbox360 the best!
+
+Go into more detail? y/n
+y.
+
+Based on the answers you have given, we have deduced that:
+	You will dislike the Wii, with 29.4355% confidence.
+	You will like the Xbox360, with 52.4174% confidence.
+	You will like the PS3, with 31.9444% confidence.
+
+Want to know why? y/n
+y.
+
+Based on the answers you have given, we can say that:
+	You will like Wii's selection of games, with 22.5% confidence.
+	You will like XBox 360's selection of games, with 43% confidence.
+	You will like PS3's selection of games, with 6.66667% confidence.
+	You do not have the patience to wait until after Christmas, with 40% confidence.
+	You do have the urge to spend a lot of money on a console purchase, with 56.25% confidence.
+Thanks for using the Next-gen Console Assistant!
+yes

@@ -1,0 +1,81 @@
+1. human(the_rock)
+2. borg(seven_of_nine)
+3. forall(X): ~borg(X) -> futile(resistance)
+4. exists(X): can_smell(X, cooking(the_rock))
+5. forall(X, Y): fight(X,Y,X) -> ~fight(X,Y,Y)
+6. fight(the_rock, seven_of_nine, the_rock)
+7. forall(X, Y): human(X) ^ borg(Y) ^ ~fight(X,Y,Y) -> lucky(X)
+8. exists(X): borg(X) ^ lucky(X)
+9. exists(X): fight(X, law, law)
+
+--------------------------------------
+
+Turn to clause form:
+3. 	forall(X): ~borg(X) -> futile(resistance)
+	forall(X): borg(X) v futile(resistance)
+	borg(X) v futile(resistance)
+	borg(A) v futile(resistance)
+
+4.	exists(X): can_smell(X, cooking(the_rock))
+		Skolem constant: dude
+	can_smell(dude, cooking(the_rock))
+	
+5.	forall(X,Y): fight(X,Y,X) -> ~fight(X,Y,Y)
+	forall(X,Y): ~fight(X,Y,X) v ~fight(X,Y,Y)
+	~fight(X,Y,X) v ~fight(X,Y,Y)
+	~fight(B,C,B) v ~fight(B,C,C)
+
+7.	forall(X,Y): human(X) ^ borg(Y) ^ ~fight(X,Y,Y) -> lucky(X)
+	forall(X,Y): ~(human(X) ^ borg(Y) ^ ~fight(X,Y,Y)) v lucky(X)
+	forall(X,Y): ~human(X) v ~borg(Y) v fight(X,Y,Y) v lucky(X)
+	~human(X) v ~borg(Y) v fight(X,Y,Y) v lucky(X)
+	~human(D) v ~borg(E) v fight(D,E,E) v lucky(D)
+
+8.	exists(X): borg(X) ^ lucky(X)
+		Skolem constant: hugh
+	borg(hugh) ^ lucky(hugh)
+	8a. borg(hugh)
+	8b. lucky(hugh)
+
+	
+9.	exists(x): fight(X, law) ^ win(law)
+		Skolem constant: locke
+	fight(locke, law, law)
+
+So, we end up with:
+
+1. human(the_rock)
+2. borg(seven_of_nine)
+3. borg(A) v futile(resistance) (from 3)
+4. can_smell(dude, cooking(the_rock)) (from 4)
+5. ~fight(B,C,B) v ~fight(B,C,C) (from 5)
+6. fight(the_rock, seven_of_nine, the_rock)
+7. ~human(D) v ~borg(E) v fight(D,E,E) v lucky(D) (from 7)
+8a. borg(hugh) (from 8)
+8b. lucky(hugh) (from 8)
+9. fight(locke, law, law) (from 9)
+
+--------------------------------------
+
+Prove: The Rock is lucky.
+ie, lucky(the_rock)
+
+Introduce the converse to the system:
+10. ~lucky(the_rock)
+
+Now resolve.
+Resolve 7 and 10:
+	11. ~human(the_rock) v ~borg(E) v fight(the_rock,E,E)
+	with the substitution {the_rock/D}
+	
+Resolve 5 and 11:
+	12. ~human(the_rock) v ~borg(seven_of_nine) v ~fight(the_rock, seven_of_nine, the_rock)
+	with the substitutions {the_rock/B, seven_of_nine/C}
+	
+Resolve 1 and 12:
+	13. ~borg(seven_of_nine) v ~fight(the_rock, seven_of_nine, the_rock)
+	
+Resolve 2 and 13:
+	14. ~fight(the_rock, seven_of_nine, the_rock)
+	
+Resolving 6 and 14 leaves us with nil, which means we have reached a contradiction; thus, our original hypothesis must be true!  So, The Rock is indeed lucky.

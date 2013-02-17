@@ -1,0 +1,38 @@
+Various types of cousin rules
+
+?- consult('E:\\University\\CompSci\\COMP3190\\A2\\family.pro')
+yes
+
+?- cousin(cloris, Name).
+
+Name = cinderella ;
+
+Name = clarissa ;
+
+Name = cleatus ;
+no
+
+?- second-cousin(X,Y).
+
+X = cordelia
+Y = chip ;
+
+X = cordelia
+Y = chyna ;
+
+X = cordelia
+Y = chuck ;
+
+X = cordelia
+Y = chip ;
+
+X = cordelia
+Y = chyna ;
+
+X = cordelia
+Y = chuck ;
+no
+
+?- first-cousin-removed(collice, demetrius).
+
+yes

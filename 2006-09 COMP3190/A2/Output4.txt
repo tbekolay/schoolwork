@@ -1,0 +1,177 @@
+Niece/Nephew Rules:
+
+?- consult('E:\\University\\CompSci\\COMP3190\\A2\\family.pro')
+yes
+
+?- niece(X,Y).
+
+X = chyna
+Y = beatrix ;
+
+X = chyna
+Y = beatrix ;
+
+X = cloris
+Y = becky ;
+
+X = cleopatra
+Y = becky ;
+
+X = collice
+Y = barbie ;
+
+X = collice
+Y = barbie ;
+
+X = cordelia
+Y = butthead ;
+
+X = cordelia
+Y = butthead ;
+
+X = daisy
+Y = clarissa ;
+
+X = daisy
+Y = cleatus ;
+
+X = daisy
+Y = chyna ;
+
+X = daisy
+Y = chuck ;
+
+X = daisy
+Y = clarissa ;
+
+X = daisy
+Y = cleatus ;
+
+X = daisy
+Y = chyna ;
+
+X = daisy
+Y = chuck ;
+
+X = dakota
+Y = clarissa ;
+
+X = dakota
+Y = cleatus ;
+
+X = dakota
+Y = chyna ;
+
+X = dakota
+Y = chuck ;
+
+X = dakota
+Y = clarissa ;
+
+X = dakota
+Y = cleatus ;
+
+X = dakota
+Y = chyna ;
+
+X = dakota
+Y = chuck ;
+
+X = delta
+Y = chip ;
+
+X = delta
+Y = chyna ;
+
+X = delta
+Y = chip ;
+
+X = delta
+Y = chyna ;
+no
+?- nephew(X,Y).
+
+X = beavis
+Y = abigail ;
+
+X = butthead
+Y = abigail ;
+
+X = chip
+Y = beatrix ;
+
+X = chip
+Y = beatrix ;
+
+X = chuck
+Y = beatrix ;
+
+X = chuck
+Y = beatrix ;
+
+X = clifton
+Y = barbie ;
+
+X = clifton
+Y = barbie ;
+
+X = dylan
+Y = clarissa ;
+
+X = dylan
+Y = cleatus ;
+
+X = dylan
+Y = chyna ;
+
+X = dylan
+Y = chuck ;
+
+X = dylan
+Y = clarissa ;
+
+X = dylan
+Y = cleatus ;
+
+X = dylan
+Y = chyna ;
+
+X = dylan
+Y = chuck ;
+
+X = demetrius
+Y = chip ;
+
+X = demetrius
+Y = chyna ;
+
+X = demetrius
+Y = chip ;
+
+X = demetrius
+Y = chyna ;
+
+X = denver
+Y = cinderella ;
+
+X = denver
+Y = cleatus ;
+
+X = denver
+Y = cinderella ;
+
+X = denver
+Y = cleatus ;
+
+X = derex
+Y = cinderella ;
+
+X = derex
+Y = cleatus ;
+
+X = derex
+Y = cinderella ;
+
+X = derex
+Y = cleatus ;
+no

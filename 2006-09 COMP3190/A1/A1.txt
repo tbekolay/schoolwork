@@ -1,0 +1,359 @@
+74.319: Assignment 1
+Trevor Bekolay, 6796723
+
+
+
+Question 1:
+
+1. human(the_rock)
+2. borg(seven_of_nine)
+3. forall(X): ~borg(X) -> futile(resistance)
+4. exists(X): can_smell(X, cooking(the_rock))
+5. forall(X, Y): fight(X,Y,X) -> ~fight(X,Y,Y)
+6. fight(the_rock, seven_of_nine, the_rock)
+7. forall(X, Y): human(X) ^ borg(Y) ^ ~fight(X,Y,Y) -> lucky(X)
+8. exists(X): borg(X) ^ lucky(X)
+9. exists(X): fight(X, law, law)
+
+--------------------------------------
+
+Turn to clause form:
+3. 	forall(X): ~borg(X) -> futile(resistance)
+	forall(X): borg(X) v futile(resistance)
+	borg(X) v futile(resistance)
+	borg(A) v futile(resistance)
+
+4.	exists(X): can_smell(X, cooking(the_rock))
+		Skolem constant: dude
+	can_smell(dude, cooking(the_rock))
+	
+5.	forall(X,Y): fight(X,Y,X) -> ~fight(X,Y,Y)
+	forall(X,Y): ~fight(X,Y,X) v ~fight(X,Y,Y)
+	~fight(X,Y,X) v ~fight(X,Y,Y)
+	~fight(B,C,B) v ~fight(B,C,C)
+
+7.	forall(X,Y): human(X) ^ borg(Y) ^ ~fight(X,Y,Y) -> lucky(X)
+	forall(X,Y): ~(human(X) ^ borg(Y) ^ ~fight(X,Y,Y)) v lucky(X)
+	forall(X,Y): ~human(X) v ~borg(Y) v fight(X,Y,Y) v lucky(X)
+	~human(X) v ~borg(Y) v fight(X,Y,Y) v lucky(X)
+	~human(D) v ~borg(E) v fight(D,E,E) v lucky(D)
+
+8.	exists(X): borg(X) ^ lucky(X)
+		Skolem constant: hugh
+	borg(hugh) ^ lucky(hugh)
+	8a. borg(hugh)
+	8b. lucky(hugh)
+	
+9.	exists(x): fight(X, law, law)
+		Skolem constant: locke
+	fight(locke, law, law)
+
+So, we end up with:
+
+1. human(the_rock)
+2. borg(seven_of_nine)
+3. borg(A) v futile(resistance) (from 3)
+4. can_smell(dude, cooking(the_rock)) (from 4)
+5. ~fight(B,C,B) v ~fight(B,C,C) (from 5)
+6. fight(the_rock, seven_of_nine, the_rock)
+7. ~human(D) v ~borg(E) v fight(D,E,E) v lucky(D) (from 7)
+8a. borg(hugh) (from 8)
+8b. lucky(hugh) (from 8)
+9. fight(locke, law, law) (from 9)
+
+--------------------------------------
+
+Prove: The Rock is lucky.
+ie, lucky(the_rock)
+
+Introduce the converse to the system:
+10. ~lucky(the_rock)
+
+Now resolve.
+Resolve 7 and 10:
+	11. ~human(the_rock) v ~borg(E) v fight(the_rock,E,E)
+	with the substitution {the_rock/D}
+	
+Resolve 5 and 11:
+	12. ~human(the_rock) v ~borg(seven_of_nine) v ~fight(the_rock, seven_of_nine, the_rock)
+	with the substitutions {the_rock/B, seven_of_nine/C}
+	
+Resolve 1 and 12:
+	13. ~borg(seven_of_nine) v ~fight(the_rock, seven_of_nine, the_rock)
+	
+Resolve 2 and 13:
+	14. ~fight(the_rock, seven_of_nine, the_rock)
+	
+Resolving 6 and 14 leaves us with nil, which means we have reached a contradiction; thus, our original hypothesis must be true!  So, The Rock is indeed lucky.
+
+
+
+Question 2:
+
+1. person(spiderman) ^ person(green_goblin) ^ person(wolverine) ^ person(mary_jane)
+2. has_powers(green_goblin) ^ cheats(green_goblin)
+3. ~fan(green_goblin, mary_jane)
+4. mutant(spiderman) ^ mutant(wolverine)
+5. fan(wolverine, capt_picard)
+6. forall(X): person(X) ^ has_powers(X) -> mutant(X)
+7. forall(X): person(X) ^ ~cheats(X) -> good(X)
+8. exists(X): mutant(X) ^ ~x-man(X)
+9. forall(X): good(X) ^ ~x-man(X) -> love(mary_jane, X)
+10. forall(X): x-man(X) -> fan(X, capt_picard) ^ ~cheats(X)
+11. forall(X): x-man(X) -> mutant(X)
+12. forall(X): mutant(X) ^ fan(X, capt_picard) -> x-man(X)
+13. ~cheats(spiderman) ^ ~fan(spiderman, capt_picard)
+
+--------------------------------------
+
+Turn to clause form:
+1.	person(spiderman) ^ person(green_goblin) ^ person(wolverine) ^ person(mary_jane)
+	1a.	person(spiderman)
+	1b.	person(green_goblin)
+	1c.	person(wolverine)
+	1d.	person(mary_jane)
+
+2.	has_powers(green_goblin) ^ cheats(green_goblin)
+	2a.	has_powers(green_goblin)
+	2b.	cheats(green_goblin)
+
+4.	mutant(spiderman) ^ mutant(wolverine)
+	4a.	mutant(spiderman)
+	4b.	mutant(wolverine)
+
+6.	forall(X): person(X) ^ has_powers(X) -> mutant(X)
+	forall(X): ~(person(X) ^ has_powers(X)) v mutant(X)
+	forall(X): ~person(X) v ~has_powers(X) v mutant(X)
+	~person(X) v ~has_powers(X) v mutant(X)
+	~person(A) v ~has_powers(A) v mutant(A)
+
+7.	forall(X): person(X) ^ ~cheats(X) -> good(X)
+	forall(X): ~(person(X) ^ ~cheats(X)) v good(X)
+	forall(X): ~person(X) v cheats(X) v good(X)
+	~person(X) v cheats(X) v good(X)
+	~person(B) v cheats(B) v good(B)
+	
+8.	exists(X): mutant(X) ^ ~x-man(X)
+		Skolem constant: raphael
+	mutant(raphael) ^ ~x-man(raphael)
+	8a.	mutant(raphael)
+	8b.	~x-man(raphael)
+
+9.	forall(X): good(X) ^ ~x-man(X) -> love(mary_jane, X)
+	forall(X): ~(good(X) ^ ~x-man(X)) v love(mary_jane, X)
+	forall(X): ~good(X) v x-man(X) v love(mary_jane, X)
+	~good(X) v x-man(X) v love(mary_jane, X)
+	~good(C) v x-man(C) v love(mary_jane, C)
+
+10.	forall(X): x-man(X) -> fan(X, capt_picard) ^ ~cheats(X)
+	forall(X): ~x-man(X) v (fan(X, capt_picard) ^ ~cheats(X))
+	~x-man(X) v (fan(X, capt_picard) ^ ~cheats(X))
+	(~x-man(X) v fan(X, capt_picard) ^ (~x-man(X) v ~cheats(X))
+	10a.	~x-man(X) v fan(X, capt_picard)
+		~x-man(D) v fan(D, capt_picard)
+	10b.	~x-man(X) v ~cheats(X)
+		~x-man(E) v ~cheats(E)
+
+11.	forall(X): x-man(X) -> mutant(X)
+	forall(X): ~x-man(X) v mutant(X)
+	~x-man(X) v mutant(X)
+	~x-man(F) v mutant(F)
+
+12.	forall(X): mutant(X) ^ fan(X, capt_picard) -> x-man(X)
+	forall(X): ~(mutant(X) ^ fan(X, capt_picard)) v x-man(X)
+	forall(X): ~mutant(X) v ~fan(X, capt_picard) v x-man(X)
+	~mutant(X) v ~fan(X, capt_picard) v x-man(X)
+	~mutant(G) v ~fan(G, capt_picard) v x-man(G)
+
+13.	~cheats(spiderman) ^ ~fan(spiderman, capt_picard)
+	13a.	~cheats(spiderman)
+	13b.	~fan(spiderman, capt_picard)
+
+Which leaves us with (finally):
+
+1a. person(spiderman) (from 1)
+1b. person(green_goblin) (from 1)
+1c. person(wolverine) (from 1)
+1d. person(mary_jane) (from 1)
+2a. has_powers(green_goblin) (from 2)
+2b. cheats(green_goblin) (from 2)
+3. ~fan(green_goblin, mary_jane)
+4a. mutant(spiderman) (from 4)
+4b. mutant(wolverine) (from 4)
+5. fan(wolverine, capt_picard)
+6. ~person(A) v ~has_powers(A) v mutant(A) (from 6)
+7. ~person(B) v cheats(B) v good(B) (from 7)
+8a. mutant(raphael) (from 8)
+8b. ~x-man(raphael) (from 8)
+9. ~good(C) v x-man(C) v love(mary_jane, C) (from 9)
+10a. ~x-man(D) v fan(D, capt_picard) (from 10)
+10b. ~x-man(E) v ~cheats(E) (from 10)
+11. ~x-man(F) v mutant(F) (from 11)
+12. ~mutant(G) v ~fan(G, capt_picard) v x-man(G) (from 12)
+13a. ~cheats(spiderman) (from 13)
+13b. ~fan(spiderman, capt_picard) (from 13)
+
+--------------------------------------
+
+i) Prove: Mary Jane loves Spiderman
+ie, love(mary_jane, spiderman)
+
+So, introduce the converse to the system:
+14. ~love(mary_jane, spiderman)
+
+Now resolve.
+
+Resolve 9 and 14:
+	15. ~good(spiderman) v x-man(spiderman)
+	with the substitution {spiderman/C}
+
+Resolve 7 and 15:
+	16. ~person(spiderman) v cheats(spiderman) v x-man(spiderman)
+	with the substitution {spiderman/B}
+	
+Resolve 1 and 16:
+	17. cheats(spiderman) v x-man(spiderman)
+
+Resolve 13a and 17:
+	18. x-man(spiderman)
+	
+Resolve 10a and 18:
+	19. fan(spiderman, capt_picard)
+	with the substitution {spiderman/D}
+	
+Resolving 13b and 19 leaves us with nil, which means we have reached a contradiction; thus, our original hypothesis must be true!  So, Mary Jane loves Spiderman.
+
+
+ii) Prove: Wolverine does not cheat
+ie, ~cheats(wolverine)
+
+So, introduce the converse to the system:
+14. cheats(wolverine)
+
+Now resolve.
+
+Resolve 10b and 14:
+	15. ~x-man(wolverine)
+	with the substitution {wolverine/E}
+	
+Resolve 5 and 12:
+	16. ~mutant(wolverine) v x-man(wolverine)
+	with the substitution {wolverine/G}
+
+Resolve 15 and 16:
+	17. ~mutant(wolverine)
+
+Resolving 4b and 17 leaves us with nil, which means we have reached a contradiction; thus, our original hypothesis must be true!  So, Wolverine does not cheat.
+
+
+
+Question 3:
+
+Ricky Gervais, Stephen Merchant and Karl Pilkington are British.
+Some british people are on podcasts.
+British people on podcasts are either geniuses or mentals.
+A mental is someone who knows nothing, but is good at talking.
+Ricky Gervais has a podcast.
+Stephen Merchant and Karl Pilkington are Ricky Gervais's friends.
+Friends of Ricky Gervais are on his podcast.
+Karl Pilkington is not good at talking.
+Karl Pilkington would eat a knob at night.
+
+Prove that Karl Pilkington is a genius.
+
+--------------------------------------
+
+1. brit(gervais) ^ brit(merchant) ^ brit(pilkington)
+2. exists(X): brit(X) ^ podcast(X)
+3. forall(X): brit(X) ^ podcast(X) -> genius(X) v mental(X)
+4. forall(X): mental(X) -> know_nothing(X) ^ good_talker(X)
+5. podcast(gervais)
+6. friend(gervais, merchant) ^ friend(gervais, pilkington)
+7. forall(X): friend(gervais, X) -> podcast(X)
+8. ~good_talker(pilkington)
+9. knob_eater(pilkington)
+
+--------------------------------------
+
+Turn to cluase form:
+1.	brit(gervais) ^ brit(merchant) ^ brit(pilkington)
+	1a.	brit(gervais)
+	1b.	brit(merchant)
+	1c.	brit(pilkington)
+
+2.	exists(X): brit(X) ^ podcast(X)
+		Skolem constant: charles
+	brit(charles) ^ podcast(charles)
+	2a.	brit(charles)
+	2b.	podcast(charles)
+
+3.	forall(X): brit(X) ^ podcast(X) -> genius(X) v mental(X)
+	forall(X): ~(brit(X) ^ podcast(X)) v (genius(X) v mental(X))
+	forall(X): ~brit(X) v ~podcast(X) v genius(X) v mental(X)
+	~brit(X) v ~podcast(X) v genius(X) v mental(X)
+	~brit(A) v ~podcast(A) v genius(A) v mental(A)
+	
+4.	forall(X): mental(X) -> know_nothing(X) ^ good_talker(X)
+	forall(X): ~mental(X) v (know_nothing(X) ^ good_talker(X))
+	~mental(X) v (know_nothing(X) ^ good_talker(X))
+	(~mental(X) v know_nothing(X)) ^ (~mental(X) v good_talker(X))
+	4a.	~mental(X) v know_nothing(X)
+		~mental(B) v know_nothing(B)
+	4b.	~mental(X) v good_talker(X)
+		~mental(C) v good_talker(C)
+
+6.	friend(gervais, merchant) ^ friend(gervais, pilkington)
+	6a.	friend(gervais, merchant)
+	6b.	friend(gervais, pilkington)
+	
+7.	forall(X): friend(gervais, X) -> podcast(X)
+	forall(X): ~friend(gervais, X) v podcast(X)
+	~friend(gervais, X) v podcast(X)
+	~friend(gervais, D) v podcast (D)
+	
+Which leaves us with:
+
+1a. brit(gervais) (from 1)
+1b. brit(merchant) (from 1)
+1c. brit(pilkington) (from 1)
+2a. brit(charles) (from 2)
+2b. podcast(charles) (from 2)
+3. ~brit(A) v ~podcast(A) v genius(A) v mental(A) (from 3)
+4a. ~mental(B) v know_nothing(B) (from 4)
+4b. ~mental(C) v good_talker(C) (from 4)
+5. podcast(gervais)
+6a. friend(gervais, merchant) (from 6)
+6b. friend(gervais, pilkington) (from 6)
+7. ~friend(gervais, D) v podcast (D) (from 7)
+8. ~good_talker(pilkington)
+9. knob_eater(pilkington)
+
+--------------------------------------
+
+i) Prove: Karl Pilkington is a genius
+ie, genius(pilkington)
+
+So, introduce the converse to the system:
+10. ~genius(pilkington)
+
+Now resolve.
+
+Resolve 3 and 10:
+	11. ~brit(pilkington) v ~podcast(pilkington) v mental(pilkington)
+	with the substitution {pilkington/A}
+	
+Resolve 1c and 11:
+	12. ~podcast(pilkington) v mental(pilkington)
+	
+Resolve 4b and 12:
+	13. ~podcast(pilkington) v good_talker(pilkington)
+	with the substitution {pilkington/C}
+	
+Resolve 8 and 13:
+	14. ~podcast(pilkington)
+	
+Resolve 7 and 14:
+	15. ~friend(gervais, pilkington)
+	with the substitution {pilkington/D}
+	
+Resolving 6b and 15 leaves us with nil, which means we have reached a contradiction; thus, our original hypothesis must be true!  So, amazingly, Karl Pilkington is a genius!

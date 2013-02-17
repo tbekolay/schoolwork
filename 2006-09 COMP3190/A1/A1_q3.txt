@@ -1,0 +1,108 @@
+Ricky Gervais, Stephen Merchant and Karl Pilkington are British.
+Some british people are on podcasts.
+British people on podcasts are either geniuses or mentals.
+A mental is someone who knows nothing, but is good at talking.
+Ricky Gervais has a podcast.
+Stephen Merchant and Karl Pilkington are Ricky Gervais's friends.
+Friends of Ricky Gervais are on his podcast.
+Karl Pilkington is not good at talking.
+Karl Pilkington would eat a knob at night.
+
+Prove that Karl Pilkington is a genius.
+
+--------------------------------------
+
+1. brit(gervais) ^ brit(merchant) ^ brit(pilkington)
+2. exists(X): brit(X) ^ podcast(X)
+3. forall(X): brit(X) ^ podcast(X) -> genius(X) v mental(X)
+4. forall(X): mental(X) -> know_nothing(X) ^ good_talker(X)
+5. podcast(gervais)
+6. friend(gervais, merchant) ^ friend(gervais, pilkington)
+7. forall(X): friend(gervais, X) -> podcast(X)
+8. ~good_talker(pilkington)
+9. knob_eater(pilkington)
+
+--------------------------------------
+
+Turn to cluase form:
+1.	brit(gervais) ^ brit(merchant) ^ brit(pilkington)
+	1a.	brit(gervais)
+	1b.	brit(merchant)
+	1c.	brit(pilkington)
+
+2.	exists(X): brit(X) ^ podcast(X)
+		Skolem constant: charles
+	brit(charles) ^ podcast(charles)
+	2a.	brit(charles)
+	2b.	podcast(charles)
+
+3.	forall(X): brit(X) ^ podcast(X) -> genius(X) v mental(X)
+	forall(X): ~(brit(X) ^ podcast(X)) v (genius(X) v mental(X))
+	forall(X): ~brit(X) v ~podcast(X) v genius(X) v mental(X)
+	~brit(X) v ~podcast(X) v genius(X) v mental(X)
+	~brit(A) v ~podcast(A) v genius(A) v mental(A)
+	
+4.	forall(X): mental(X) -> know_nothing(X) ^ good_talker(X)
+	forall(X): ~mental(X) v (know_nothing(X) ^ good_talker(X))
+	~mental(X) v (know_nothing(X) ^ good_talker(X))
+	(~mental(X) v know_nothing(X)) ^ (~mental(X) v good_talker(X))
+	4a.	~mental(X) v know_nothing(X)
+		~mental(B) v know_nothing(B)
+	4b.	~mental(X) v good_talker(X)
+		~mental(C) v good_talker(C)
+
+6.	friend(gervais, merchant) ^ friend(gervais, pilkington)
+	6a.	friend(gervais, merchant)
+	6b.	friend(gervais, pilkington)
+	
+7.	forall(X): friend(gervais, X) -> podcast(X)
+	forall(X): ~friend(gervais, X) v podcast(X)
+	~friend(gervais, X) v podcast(X)
+	~friend(gervais, D) v podcast (D)
+	
+Which leaves us with:
+
+1a. brit(gervais) (from 1)
+1b. brit(merchant) (from 1)
+1c. brit(pilkington) (from 1)
+2a. brit(charles) (from 2)
+2b. podcast(charles) (from 2)
+3. ~brit(A) v ~podcast(A) v genius(A) v mental(A) (from 3)
+4a. ~mental(B) v know_nothing(B) (from 4)
+4b. ~mental(C) v good_talker(C) (from 4)
+5. podcast(gervais)
+6a. friend(gervais, merchant) (from 6)
+6b. friend(gervais, pilkington) (from 6)
+7. ~friend(gervais, D) v podcast (D) (from 7)
+8. ~good_talker(pilkington)
+9. knob_eater(pilkington)
+
+--------------------------------------
+
+i) Prove: Karl Pilkington is a genius
+ie, genius(pilkington)
+
+So, introduce the converse to the system:
+10. ~genius(pilkington)
+
+Now resolve.
+
+Resolve 3 and 10:
+	11. ~brit(pilkington) v ~podcast(pilkington) v mental(pilkington)
+	with the substitution {pilkington/A}
+	
+Resolve 1c and 11:
+	12. ~podcast(pilkington) v mental(pilkington)
+	
+Resolve 4b and 12:
+	13. ~podcast(pilkington) v good_talker(pilkington)
+	with the substitution {pilkington/C}
+	
+Resolve 8 and 13:
+	14. ~podcast(pilkington)
+	
+Resolve 7 and 14:
+	15. ~friend(gervais, pilkington)
+	with the substitution {pilkington/D}
+	
+Resolving 6b and 15 leaves us with nil, which means we have reached a contradiction; thus, our original hypothesis must be true!  So, amazingly, Karl Pilkington is a genius!

@@ -1,0 +1,283 @@
+Aunt-Uncle rules (note that there is some duplication, as we have multiple methods of determining certain relationships):
+
+?- consult('E:\\University\\CompSci\\COMP3190\\A2\\family.pro')
+yes
+
+?- aunt-uncle(X,Y).
+
+X = agatha
+Y = bernard ;
+
+X = benedict
+Y = cinderella ;
+
+X = benedict
+Y = clarissa ;
+
+X = benedict
+Y = cleatus ;
+
+X = barbie
+Y = collice ;
+
+X = barbie
+Y = clifton ;
+
+X = beatrix
+Y = chip ;
+
+X = beatrix
+Y = chyna ;
+
+X = beatrix
+Y = chuck ;
+
+X = butthead
+Y = cordelia ;
+
+X = cinderella
+Y = derex ;
+
+X = cinderella
+Y = denver ;
+
+X = chip
+Y = delta ;
+
+X = chip
+Y = demetrius ;
+
+X = chyna
+Y = dakota ;
+
+X = chyna
+Y = daisy ;
+
+X = chyna
+Y = dylan ;
+
+X = chyna
+Y = delta ;
+
+X = chyna
+Y = demetrius ;
+
+X = chuck
+Y = dakota ;
+
+X = chuck
+Y = daisy ;
+
+X = chuck
+Y = dylan ;
+
+X = clarissa
+Y = dakota ;
+
+X = clarissa
+Y = daisy ;
+
+X = clarissa
+Y = dylan ;
+
+X = cleatus
+Y = dakota ;
+
+X = cleatus
+Y = daisy ;
+
+X = cleatus
+Y = dylan ;
+
+X = cleatus
+Y = derex ;
+
+X = cleatus
+Y = denver ;
+
+X = barbie
+Y = collice ;
+
+X = barbie
+Y = clifton ;
+
+X = beatrix
+Y = chip ;
+
+X = beatrix
+Y = chyna ;
+
+X = beatrix
+Y = chuck ;
+
+X = butthead
+Y = cordelia ;
+
+X = cinderella
+Y = derex ;
+
+X = cinderella
+Y = denver ;
+
+X = chip
+Y = delta ;
+
+X = chip
+Y = demetrius ;
+
+X = chyna
+Y = dakota ;
+
+X = chyna
+Y = daisy ;
+
+X = chyna
+Y = dylan ;
+
+X = chyna
+Y = delta ;
+
+X = chyna
+Y = demetrius ;
+
+X = chuck
+Y = dakota ;
+
+X = chuck
+Y = daisy ;
+
+X = chuck
+Y = dylan ;
+
+X = clarissa
+Y = dakota ;
+
+X = clarissa
+Y = daisy ;
+
+X = clarissa
+Y = dylan ;
+
+X = cleatus
+Y = dakota ;
+
+X = cleatus
+Y = daisy ;
+
+X = cleatus
+Y = dylan ;
+
+X = cleatus
+Y = derex ;
+
+X = cleatus
+Y = denver ;
+no
+
+?- uncle(chip, Name).
+
+Name = delta ;
+
+Name = demetrius ;
+
+Name = delta ;
+
+Name = demetrius ;
+no
+
+?- aunt(X,Y).
+
+X = agatha
+Y = bernard ;
+
+X = barbie
+Y = collice ;
+
+X = barbie
+Y = clifton ;
+
+X = barbie
+Y = collice ;
+
+X = barbie
+Y = clifton ;
+
+X = beatrix
+Y = chip ;
+
+X = beatrix
+Y = chyna ;
+
+X = beatrix
+Y = chuck ;
+
+X = beatrix
+Y = chip ;
+
+X = beatrix
+Y = chyna ;
+
+X = beatrix
+Y = chuck ;
+
+X = cinderella
+Y = derex ;
+
+X = cinderella
+Y = denver ;
+
+X = cinderella
+Y = derex ;
+
+X = cinderella
+Y = denver ;
+
+X = chyna
+Y = dakota ;
+
+X = chyna
+Y = daisy ;
+
+X = chyna
+Y = dylan ;
+
+X = chyna
+Y = delta ;
+
+X = chyna
+Y = demetrius ;
+
+X = chyna
+Y = dakota ;
+
+X = chyna
+Y = daisy ;
+
+X = chyna
+Y = dylan ;
+
+X = chyna
+Y = delta ;
+
+X = chyna
+Y = demetrius ;
+
+X = clarissa
+Y = dakota ;
+
+X = clarissa
+Y = daisy ;
+
+X = clarissa
+Y = dylan ;
+
+X = clarissa
+Y = dakota ;
+
+X = clarissa
+Y = daisy ;
+
+X = clarissa
+Y = dylan ;
+no
+

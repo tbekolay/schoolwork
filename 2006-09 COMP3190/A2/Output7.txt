@@ -1,0 +1,61 @@
+Ancestor Rules:
+
+?- consult('E:\\University\\CompSci\\COMP3190\\A2\\family.pro')
+yes
+
+?- ancestor(Name, dakota).
+
+Name = cinderella ;
+
+Name = chip ;
+
+Name = abigail ;
+
+Name = ainslie ;
+
+Name = alaska ;
+
+Name = adelaide ;
+
+Name = becky ;
+
+Name = barbie ;
+
+Name = abbot ;
+
+Name = ajax ;
+
+Name = alastair ;
+
+Name = adolf ;
+
+Name = beck ;
+
+Name = bernard ;
+no
+?- ancestor(ajax, Name).
+
+Name = barbie ;
+
+Name = beatrix ;
+
+Name = chip ;
+
+Name = chyna ;
+
+Name = chuck ;
+
+Name = dakota ;
+
+Name = daisy ;
+
+Name = dylan ;
+
+Name = delta ;
+
+Name = demetrius ;
+
+Name = collice ;
+
+Name = clifton ;
+no

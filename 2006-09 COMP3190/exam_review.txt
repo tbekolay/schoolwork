@@ -1,0 +1,353 @@
+Intelligence:
+
+Turing Test, Chinese Room
+History:
+	1840: Ada Byron, first computer program
+	1940: Turing, turing machines
+	1950's: Idealism, perceptrons, LISP
+	Early 1960's: Newell/Simon, Physical Symbol System Hypothesis, General Problem Solver
+	Late 60's early 70's: Move from general weak techniques to specialized
+	70's to 80's: Knowledge-based systems
+	90's to 00's: More specialized, agent-based systems, machine learning
+
+!Problem solving ("thinking") vs. pattern recognition! (Symbolic vs. Subsymbolic)
+Subsymbolic = <100ms in human cognition
+Physical Symbol Systems
+	-Consists of a collection of symbols and a set of operations on them (or wetware (human nervous system)
+	-e.g., Prolog, Lisp
+	-PSS Hypothesis: PSS is necessary and sufficient for general intelligent action
+Subsymbolic = "Connectionism" (e.g. Neural networks)
+Humans: Symbolic system implemented subsymbolically
+Despite PSS hypothesis, subsymbolic techniques essential; many complicated problems use both (e.g. robotic control)
+AI attempts to be rational, not intelligent
+Rationality = doing the right thing in a situation
+To measure Rationality, use 4 dependencies:
+	1: Performance measure used
+	2: What the agent can perceive (including memory); percept sequence
+	3: Non-immediate knowledge of the world (not related to the situation)
+	4: Repertoire of actions we have available
+
+Principles of Symbolic AI:
+
+Involves three things: objects (data), operations, control strategy (decides which operations to perform on which objects, and in what order)
+AI deals with problems that have no algorithms; use a declarative computing model
+	-ie, you declare the objects and operators, and it will develop the control strategy
+	-SEARCH - generate possibilities and search for good ones
+	-intelligence is avoiding search
+Conventional vs. Declarative approaches
+	-Conventional faster, but that's if an algorithm exists
+Some things cannot be searched by experience: planning problems
+Scaling problem: Weak techniques (that work on toy problems) don't work as problems get more complex
+Principles of Symbolic AI:
+	-Representing a problem in symbolic form
+	-Search through a space of possible solutions
+	-Avoid search through application of symbolic knowledge
+
+Knowledge Representation: Text pp.34-41, 50, chapt.13-2, 2.3.2
+
+Need to represent: knowledge of the domain, and knowledge of the specific problem
+Must allow new knowledge to be inferred from facts and rules, allow for meta-reasoning
+Propositional calculus: good base, but not sufficient
+First Order Predicate Calculus/Logic: Allows quantification over sentences
+Implications: one way; a -> b := ~a v b
+Atomic sentence: predicate applied to one or more objects or predicates (ie, making a statement about objects)
+Compund sentence: set of atomic sentences joined by connectives
+Well-formed formula: a valid sentence
+Axiom: WFF that is true in a logical system
+Logical system: a collection of axioms representing a real or hypothetical situation
+Existential and Universal quantifiers (can't be used on predicates or functions)
+	With implication, you can use Universal quantifier on a subset of all objects and it will still be true
+	Universal: [0, all] Existential: [1, ?]
+Models: Real or imaginary worlds, simplified, no contradictions
+WFF's that can be generated from axioms are theorems
+	-Modus Ponens: a, a->b, thus b
+	-Modus Tollens: ~b, a->b, thus ~a
+	-Universal Instantiation: a, forall(X):P(X), thus P(a)
+	-Hypothetical Syllogism: a->b, b->c, thus a->c
+Also
+	-~(A^B) = ~Av~B
+	-~(AvB) = ~A^~B
+	-A->B = ~AvB
+	-forall(X):P(X) = ~exists(X):~P(X)
+	-exists(X):P(X) = ~forall(X):~P(X)
+Lots of possibilities, searching difficult... Solutions:
+	-Decrease number of states
+	-Decrease number of operators
+Use only one operator: resolution
+Requires clause form (conjunctive normal form)
+Rules:
+	1 - Convert implications
+	2 - Move negations in
+	3 - Standardize variables (when more that one used in a sentence)
+	4 - Move all quantifiers left
+	5 - Eliminate existential quantifiers with skolem constants
+	6 - Eliminate universal quantifiers
+	7 - Get a conjunction of disjuncts (ie, or statements connected with ands)
+	8 - Split conjuncts into separate clauses
+	9 - Standardize variables apart
+Resolution and Unification
+
+Prolog:
+
+Predicates are analogous to relations in a relational database system
+To quit: halt (or quit in Amzi)
+Monotonic: facts only added, not removed
+Bagof or setof: person_list(List) :- bagof/setof(Name, person(Name), List)
+	-Find everything that can be bound to Name, add it to the list List
+	-Can only have one unbound variable (the first parameter)
+Modified bagof: bagof(Name,Child^parent(Name,Child),List)
+	-locates all Name that participate in a parent relationship with some child, but ignores the child
+print_list([]). %Terminate on 'null' (empty list)
+print_list([H|T]):- ... %Do something to the Head and Tail
+Keep declarative knowledge and procedural knowledge separate
+Insist on the correct use of predicates
+nonvar(X) is true is X is X is bound, or not a variable
+var(X) is true is not bound
+
+Search:
+
+An agent perceives its environment and acts on those perceptions
+Reactive agents: Do no plan, can't remember or learn (like insects)
+Physical search vs. Graph search: mostly the same; some issues like guaranteed state transitions, and multiple state problems
+Weak Techniques:
+State Space Problem Solving: creating problem states and searching them all (uninformed)
+	-Depth-first search
+		+ Low memory requirement, good if several paths to goal
+		- Need to worry about infinite loops, must backtrack on dead end
+	-Breadth-first search
+		+ Finds shallowest solution, good if few paths to goal state
+		- High memory and time requirement
+	-Iterative deepening
+		-d = current depth (starts at 0), b = branching factor, # nodes = b^d
+		-storing b*d; the path to a node, unexpanded nodes for each node on that path
+Problem reduction problem solving:
+	-Break a problem down into smaller subproblems that can be solved individually
+	-AND-OR graphs (State space is all OR graphs)
+	-Nodes are not complete descriptions of the problem anymore
+Direction is independent of problem solving type
+Backwards search often decreases the number of choices at each node
+Start with a well-defined goal and put together a plan to achieve it
+Doesn't work for all domains, operations must be reversible; e.g., water jugs
+Bidirectional search as well; again, requires that operators work backwards
+Heuristic: a technique (using domain-specific knowledge) to identify plausible from implausible problem states
+Satisficing: not caring about optimality, just 'good enough'
+	-Again, intelligence is avoiding search
+Hill-Climbing Search (an Iterative Improvement Algorithm)
+	-Expand a state's children, generate h (heuristic) values
+	-Select the successor with the best h value
+	-Problem: Local Minima/maxima
+		-Solutions:
+			-Try elsewhere (Random Restart Hill Climbing)
+			-Step down occasionally (Simulated Annealing; have some likelihood of going down at each point, the likelihood decreases with time)
+Beam Search
+	-Expand a state's children, generate h values
+	-Create a list with the best m nodes at the current level, and expand them (kind of like iterative broadening)
+	-Keep going until you hit a goal state, or not (if not, restart with >m value)
+Best-First Search
+	-Expand a state's children, generate h values
+	-Select the node with the best h value in the -entire tree-
+	-Greedy search!
+	-If there's a tie, go for the shallower node; or, take the work into account
+Two-part Heuristic
+	-f(n) = g(n) + h(n) (g = cost to get to node n (ACTUAL), h = estimate of getting from here to goal)
+	-This plus best-first search = A
+Admissible heuristic: never overestimates the cost to a goal (optimistic!)
+A + admissible H = A*
+	-A* is guaranteed to find the optimal solution
+	-For each node, determine the cost to get to that node, then the h value (straight-line distance), choose lowest (or highest depending on domain)
+Control Knowledge - meta-knowledge; no obvious H, so use knowledge based on the situation (e.g., first 10 moves = opening-moves, after that middle-moves, <10 pieces = closing-moves)
+Minimax
+	-Generate tree of moves
+	-Apply utilities of terminal states to determine utility of noces one level higher; min will minimize the goodness, max will maximize
+	-Complexity is O(#legal moves ^ depth)
+	-Usually have a depth or time bound, then a heuristic evaluation of the nodes at the lowest level (H could involve #pieces left, board positions, known strats etc)
+	-Creates the Horizon Problem (bad stuff could be one level further)
+	-Look for quiescent state (unlikely to vary much)
+		-Expand nonquiescent states until it's reached
+Alpha-Beta pruning
+	-At node N: If we have a better choice M at the parent of N or anywhere further up the tree, N will never be chosen
+		-Alpha = Best choice for max (highest value)
+		-Beta = Best choice for min (lowest value)
+	-Update alpha and beta as we go, prune any subtree worse than current alpha or beta
+	-Becomes O(branch factor ^ (d/2)); ie, branching factor = sqrt(b)
+
+Expert Systems:
+
+Rules are prefereable to FOL because it preserves semantics of a statement, easier to work with computationally
+Rules are also called productions, rule-based systems called production systems
+Production Systems made up of 3 things:
+	-A set of rules (productions)
+	-Working memory to store deduced facts
+	-Control strategy (inference engine) to cycle through rules and deduce
+Can work forwards or backwards
+Forwards:
+	-May require >1 pass as earlier rules may rely on facts deduced later
+	-When a rule could be used, it is Triggered
+	-Set of Triggered rules is called a Conflict set
+	-Choose one to be triggered and Fire it
+	-Firing order matters; may retract another rule
+	-Can use meta-knowledge to choose which to fire
+The choice is called Conflict Resolution
+Most methods are domain specific; weak methods include:
+	-Refraction (rules that are fired can't be re-fired on same date)
+	-Recency (choose rules involving recently added data)
+	-Specificity (choose rules with >n premises)
+Backwards:
+	-Makes more sense; goal driven
+Knowledge-based systems:
+	-Primary focus is on knowledge, seperate from problem-solving algorithm
+Expert system = knowledge-bases system that can perform at a level comparable to that of an expert in a narrow domain
+Advantages:
+	-Problems may be solved faster
+	-Permanent
+	-Distributable
+	-Consistent
+	-May eventually be useful in machine learning
+	-Cost effective:
+		-Increase production
+		-Reduce misakes
+		-Reduce liability
+	-Forces experts to understand deeper
+	-Combines to form complex systems
+Consists of:
+	-Knowledge base
+	-Inference engine (not necessarily rule-based)
+	-User interface
+Shells can be used to package it all up, provide different control strategies
+Knowledge Engineering: most difficult part of developing an expert system
+	-Experts find it hard to verbalize
+	-Engineer must become a pseudo-expert
+	-Must extract knowledge, formalize, represent, then test (repeat)
+Verification and Validation - check for consistency and omissions
+Explanation - helps create confidence, and debug, can be used to teach
+Brittleness: ES's preform well in narrow areas, but that's all
+Robust: ES that doesn't suffer from brittleness as much
+Surface Reasoning: Without taking into account complex details, reasoning on shallow information. Quick, and works, but sometimes oversimplified.
+	-Often rule-based
+Deep Reasoning: Much slower, layered, requires lots of info about the domain.
+	-Rules get too complicated, must have structure
+Examples
+	Mycin: blood infections expert system (certaintly factors)
+	Xcon: computer configuration expert system
+	Polygram: CD image printing expert system (saves about $10mil/year)
+
+Uncertainty:
+
+Reasoning with incomplete knowledge
+	-Exceptions to every rule
+	-Qualitifcation problem: needs to know all that isn't true to determine what is true
+	-Closed World Assumption = Negation as Failure (prolog)
+		-Use a rule to set a default
+		-Usually: g(X) :- p(X), not ab(X)
+			-if p(X) is true and it can't be proved that X is ab(X), then g(X) is true
+		-Defeasibly reasoning (reasoning in uncertainty, but convincing)
+		-Negation as failure makes the system non-monotonic
+Reasoning with imprecise knowledge
+	-Certainty factors: measure of belief that something is true
+		-if Ax then Cy => CF is x*y
+		-if Ax ^ By then... => CF is min(x,y)
+		-if Ax v By then... => CF is max(x,y
+		-if Ax then C; if By then C => CF is x+y +- (x*y) or (x+y)/(1-min(|x|,|y|)
+	-Probabilities: more formal, 0=false 1=true
+		-prior vs. posterior/conditional probability
+		-Prior: P(x) given no particular evidence
+		-Conditional: P(x|y) with y, no longer have no info
+		-P(AvB) = P(A)+P(B)-P(A^B)
+		Product rule:
+		-P(A|B) = P(A^B)/P(B) or P(A^B) = P(A|B)*P(B)
+		-Joint probability distribution: 4 entry table of probabilities
+			-Can add up a row or col to get prior probabilities
+	-Bayesian Reasoning
+		-Bayes' rule:
+			-P(B|A) = ( P(A|B)*P(B) ) / P(A)
+Qualitative Concepts (Fuzzy Logic)
+	-Set theory, except an element has degrees of membership in a set
+	-T(A) = the degree to which A participates in relationship T [0,1]
+	-T(A^B) = min( T(A), T(B) )
+	-T(AvB) = max( T(A), T(B) )
+	-T(~A) = 1-T(A)
+	-Behaviours (Schemas) relate high-level and low-level control
+	-Must combine behaviours, as most are always on
+	-Fuzzy behaviours affect how strongly you perceive something, and how you combine the perceptions
+	-Must give precise (crisp) values as output; called defuzzification
+		-Can take centroid (weighted average of fuzzy values)
+		-Can modify that; ie, Saphira takes area under graph if no single centroid
+	-Local Perceptual Sapce - determine what parts of the environment are solid/changing
+	-Grounding/Anchoring: agent must continually adjust the world mdoel to reflect new perception
+
+Natural Language Understanding:
+
+Much harder than natural language text generation
+NLU vs. Speech understanding: Speech much harder (context, filling in gaps)
+Basic model:
+	-Morphological analysis (Determine the type of each word)
+	-Syntactic analysis (Determine the structure of the words)
+	-Semantic analysis (Determine the meaning of each phrase)
+	-Pragmatic analysis (Determine the meaning of all phrases together)
+Morphological analysis
+	-Determine moprhemes (primitive units) for each word and look up the meanings to determine type
+Syntactic analysis
+	-Surface reasoning, does not determine meanings
+	-Sometimes must be done to determine morphology (e.g., word can be noun or verb)
+	-Can use grammars (eg S -> NP VP, NP -> the ADJ N)
+	-Can parse backwards (start with S) or forwards (match words with terminal strings)
+	-At this point, still uncertain (many possibilities)
+Semantic analysis
+	-Deep reasoning, symbolic description of meanings
+	-Use Structured Representations to organize symbols
+	-Frames: is-a (instance relationship), a-kind-of (subclass relationship); dynamic, compared to OO
+	-Conceptual Dependency Theory
+		-Primitive acts: physical acts, state change acts, communication acts, mental acts
+		-Each act refers to an agent, object, source and destination
+		-Powerful, but still doesn't take into account many things
+Pragmatic Analysis
+	-Determines meaning (gestalt)
+	-Must take into account actors, situations, props, expectations, etc.
+	-Scripts: what is expected to happen in a domain (like eating), made up of lower-level acts, eventually the acts in Conceptual Dependency Theory
+	-Use scripts to fill in knowledge gaps from semantic analysis; still many ambiguous prhases
+NLU systems need lots of information in addition to this:
+	-Discourse knowledge (how people converse)
+	-Belief knowledge (what people believe)
+	-Common sense knowledge (the world and how the people and objects function)
+Opportunistic Approaches
+	-Cannot just work bottom-up or top-down; levels must communicate appropriately
+	-Blackboard approach: Knowledge sources alert an agenda manager when they can contribute, agenda ranks and re-ranks KS's, each KS alters the blackboard when it's their turn
+		-Analogous to rule-based systems (Condition-action components in KS's, BB = working memory, agenda manager = conflict resolution strategy)
+
+Machine Learning:
+
+Learning methods: by amount of supervisor involvement
+	-Rote learning (direct implantation of knowledge)
+	-Learning from instruction (transform external instruction into internal representation)
+	-Learning from example (extraction and refinement of knowledge from specific positive and negative cases)
+	-Learning by analogy (transferring a solution from one situation to a new one)
+	-Learning by discovery (gathering new knowledge from observation and experience)
+Feedback: performance level achieved so far
+	-Supervised learning: feedback is desired activity of learner
+	-Reinforcement learning: feedback is only some scalar reward
+	-Unsupervised learning: no feedback given
+Reasoning:
+	-Deductive reasoning: using axioms and logic to deduce new axioms
+	-Abduction: b, a->b, thus a (maybe); diagnostic reasoning
+	-Induction: a, b, thus a->b (maybe); concept association
+Subsymbolic learning: Neural networks
+	-Pattern matching systems
+	-Attempt to emulate biological neurons
+	-Trained by presenting stimulus-response patterns and adjusting weights on connections until desired response is generated
+	-Supervised learning
+	-Net input of a node = sum(inputs * weight)
+	-Net input is sent through activation/transfer function to generate output (response) for the node; threshold or sigmoid (binary vs. analog)
+	-Must be trained; run test, determine error (difference between value generated and value that should have been generated)
+	-Most have a hidden layer; Backpropogation networks most popular type (determine error, propogate it back through the hidden layer)
+Symbolic learning: Version space search
+	-Generalization and specialization
+	-Specific to general: maintain a set of candidate definitions, ensuring they are as specific as possible
+		-Covers all positive examples, no negative examples
+	-General to specific: assume everything is positive, then take away negative examples
+	-Together: Candidate elimination
+		-Maintain two sets of concepts; maximally general set and maximally specific set, keep going until they converge
+Reinforcement learning: Q-learning
+	-Table of goodness of state-action pairs
+	-Exploration vs. exploitation
+	-Credit assignment problem: delayed reinforcement, mutliple agents
+	-Puck-robot example in class: Conditions = states, behaviours = actions

@@ -1,0 +1,137 @@
+Grandaunt-uncle rules (again, duplication due to multiple definitions of rule):
+
+?- consult('E:\\University\\CompSci\\COMP3190\\A2\\family.pro')
+yes
+
+?- granduncle(Name, denver).
+
+Name = benedict ;
+
+Name = benedict ;
+no
+
+?- grandaunt-uncle(X,Y).
+
+X = agatha
+Y = chip ;
+
+X = agatha
+Y = chyna ;
+
+X = agatha
+Y = chuck ;
+
+X = benedict
+Y = dakota ;
+
+X = benedict
+Y = daisy ;
+
+X = benedict
+Y = dylan ;
+
+X = benedict
+Y = derex ;
+
+X = benedict
+Y = denver ;
+
+X = beatrix
+Y = dakota ;
+
+X = beatrix
+Y = daisy ;
+
+X = beatrix
+Y = dylan ;
+
+X = beatrix
+Y = delta ;
+
+X = beatrix
+Y = demetrius ;
+
+X = beatrix
+Y = dakota ;
+
+X = beatrix
+Y = daisy ;
+
+X = beatrix
+Y = dylan ;
+
+X = beatrix
+Y = delta ;
+
+X = beatrix
+Y = demetrius ;
+
+X = agatha
+Y = chip ;
+
+X = agatha
+Y = chyna ;
+
+X = agatha
+Y = chuck ;
+
+X = benedict
+Y = dakota ;
+
+X = benedict
+Y = daisy ;
+
+X = benedict
+Y = dylan ;
+
+X = benedict
+Y = derex ;
+
+X = benedict
+Y = denver ;
+
+X = beatrix
+Y = dakota ;
+
+X = beatrix
+Y = daisy ;
+
+X = beatrix
+Y = dylan ;
+
+X = beatrix
+Y = delta ;
+
+X = beatrix
+Y = demetrius ;
+
+X = beatrix
+Y = dakota ;
+
+X = beatrix
+Y = daisy ;
+
+X = beatrix
+Y = dylan ;
+
+X = beatrix
+Y = delta ;
+
+X = beatrix
+Y = demetrius ;
+no
+
+?- grandaunt(agatha, Name).
+
+Name = chip ;
+
+Name = chyna ;
+
+Name = chuck ;
+
+Name = chip ;
+
+Name = chyna ;
+
+Name = chuck ;
+no
