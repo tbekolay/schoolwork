@@ -1,0 +1,37 @@
+74.214 Assignment 3, November 2004
+Question 1: Maze traversal.
+(Student number 6796723, Section L02)
+
+11111
+1m1e1
+10011
+10101
+11111
+
+11111
+1.1e1
+10011
+10101
+11111
+
+11111
+1.1e1
+1.011
+10101
+11111
+
+11111
+1.1e1
+1..11
+10101
+11111
+
+11111
+1.1e1
+1..11
+1.101
+11111
+
+Unable to find the exit.  Mouse has died a terrible death.
+
+Tool completed successfully

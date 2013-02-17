@@ -1,0 +1,340 @@
+74.214 Assignment 5, December 2004
+Inserting into and searching a 2-3 tree.
+(Student number 6796723, Section L02)
+
+Inserting 2924 into a two-three tree.
+Inserting 3546 into a two-three tree.
+Inserting 1270 into a two-three tree.
+Inserting 889 into a two-three tree.
+Inserting 2536 into a two-three tree.
+Inserting 4091 into a two-three tree.
+Inserting 89 into a two-three tree.
+Inserting 1040 into a two-three tree.
+Inserting 1418 into a two-three tree.
+Inserting 1034 into a two-three tree.
+Inserting 628 into a two-three tree.
+Inserting 901 into a two-three tree.
+Inserting 4402 into a two-three tree.
+Inserting 1229 into a two-three tree.
+Inserting 4429 into a two-three tree.
+Inserting 4440 into a two-three tree.
+Inserting 1255 into a two-three tree.
+Inserting 4990 into a two-three tree.
+Inserting 3948 into a two-three tree.
+Inserting 4734 into a two-three tree.
+Inserting 1435 into a two-three tree.
+Inserting 4410 into a two-three tree.
+Inserting 1506 into a two-three tree.
+Inserting 2836 into a two-three tree.
+Inserting 4941 into a two-three tree.
+Inserting 200 into a two-three tree.
+Inserting 3477 into a two-three tree.
+Inserting 2839 into a two-three tree.
+Inserting 4807 into a two-three tree.
+Inserting 4940 into a two-three tree.
+Inserting 1120 into a two-three tree.
+Inserting 4195 into a two-three tree.
+Inserting 2821 into a two-three tree.
+Inserting 519 into a two-three tree.
+Inserting 597 into a two-three tree.
+Inserting 3905 into a two-three tree.
+Inserting 2582 into a two-three tree.
+Inserting 3986 into a two-three tree.
+Inserting 1608 into a two-three tree.
+Inserting 706 into a two-three tree.
+Inserting 928 into a two-three tree.
+Inserting 2150 into a two-three tree.
+Inserting 1565 into a two-three tree.
+Inserting 3921 into a two-three tree.
+Inserting 231 into a two-three tree.
+Inserting 3138 into a two-three tree.
+Inserting 1736 into a two-three tree.
+Inserting 222 into a two-three tree.
+Inserting 4833 into a two-three tree.
+Inserting 679 into a two-three tree.
+Inserting 4113 into a two-three tree.
+Inserting 1470 into a two-three tree.
+Inserting 73 into a two-three tree.
+Inserting 3024 into a two-three tree.
+Inserting 3898 into a two-three tree.
+Inserting 832 into a two-three tree.
+Inserting 1390 into a two-three tree.
+Inserting 3677 into a two-three tree.
+Inserting 1142 into a two-three tree.
+Inserting 147 into a two-three tree.
+Inserting 2943 into a two-three tree.
+Inserting 4511 into a two-three tree.
+Inserting 2383 into a two-three tree.
+Inserting 83 into a two-three tree.
+Inserting 4893 into a two-three tree.
+Inserting 3726 into a two-three tree.
+Inserting 3844 into a two-three tree.
+Inserting 66 into a two-three tree.
+Inserting 4325 into a two-three tree.
+Inserting 3973 into a two-three tree.
+Inserting 494 into a two-three tree.
+Inserting 1819 into a two-three tree.
+Inserting 4568 into a two-three tree.
+Inserting 3551 into a two-three tree.
+Inserting 2245 into a two-three tree.
+Inserting 1673 into a two-three tree.
+Inserting 3297 into a two-three tree.
+Inserting 1323 into a two-three tree.
+Inserting 1331 into a two-three tree.
+Inserting 2622 into a two-three tree.
+Inserting 1771 into a two-three tree.
+Inserting 3411 into a two-three tree.
+Inserting 1525 into a two-three tree.
+Inserting 4321 into a two-three tree.
+Inserting 2844 into a two-three tree.
+Inserting 899 into a two-three tree.
+Inserting 338 into a two-three tree.
+Inserting 982 into a two-three tree.
+Inserting 3098 into a two-three tree.
+Inserting 2708 into a two-three tree.
+Inserting 4041 into a two-three tree.
+Inserting 33 into a two-three tree.
+Inserting 425 into a two-three tree.
+Inserting 2512 into a two-three tree.
+Inserting 4035 into a two-three tree.
+Inserting 2861 into a two-three tree.
+Inserting 1502 into a two-three tree.
+Inserting 3208 into a two-three tree.
+Inserting 3690 into a two-three tree.
+Inserting 3455 into a two-three tree.
+Inserting 194 into a two-three tree.
+Inserting 1665 into a two-three tree.
+Inserting 4509 into a two-three tree.
+Inserting 1680 into a two-three tree.
+Inserting 3918 into a two-three tree.
+Inserting 4853 into a two-three tree.
+Inserting 3977 into a two-three tree.
+Inserting 3623 into a two-three tree.
+Inserting 2000 into a two-three tree.
+Inserting 1789 into a two-three tree.
+Inserting 301 into a two-three tree.
+Inserting 1212 into a two-three tree.
+Inserting 2680 into a two-three tree.
+Inserting 2220 into a two-three tree.
+Inserting 4010 into a two-three tree.
+Inserting 4289 into a two-three tree.
+Inserting 4193 into a two-three tree.
+Inserting 3759 into a two-three tree.
+Inserting 3885 into a two-three tree.
+Inserting 3148 into a two-three tree.
+Inserting 855 into a two-three tree.
+Inserting 1273 into a two-three tree.
+Inserting 4275 into a two-three tree.
+Inserting 4815 into a two-three tree.
+Inserting 369 into a two-three tree.
+Inserting 4931 into a two-three tree.
+Inserting 1363 into a two-three tree.
+Inserting 40 into a two-three tree.
+Inserting 1539 into a two-three tree.
+Inserting 1019 into a two-three tree.
+Inserting 1236 into a two-three tree.
+Inserting 3583 into a two-three tree.
+Inserting 953 into a two-three tree.
+Inserting 526 into a two-three tree.
+Inserting 2862 into a two-three tree.
+Inserting 2402 into a two-three tree.
+Inserting 69 into a two-three tree.
+Inserting 3213 into a two-three tree.
+Inserting 4391 into a two-three tree.
+Inserting 3955 into a two-three tree.
+Inserting 4604 into a two-three tree.
+Inserting 1411 into a two-three tree.
+Inserting 853 into a two-three tree.
+Inserting 2548 into a two-three tree.
+Inserting 4059 into a two-three tree.
+Inserting 3436 into a two-three tree.
+Inserting 1824 into a two-three tree.
+Inserting 2008 into a two-three tree.
+Inserting 27 into a two-three tree.
+Inserting 1047 into a two-three tree.
+Inserting 4863 into a two-three tree.
+Inserting 486 into a two-three tree.
+Inserting 4287 into a two-three tree.
+Inserting 2252 into a two-three tree.
+Inserting 444 into a two-three tree.
+Inserting 4537 into a two-three tree.
+Inserting 1814 into a two-three tree.
+Inserting 1450 into a two-three tree.
+Inserting 4204 into a two-three tree.
+Inserting 2075 into a two-three tree.
+Inserting 460 into a two-three tree.
+Inserting 4196 into a two-three tree.
+Inserting 604 into a two-three tree.
+Inserting 1624 into a two-three tree.
+Inserting 2392 into a two-three tree.
+Inserting 2396 into a two-three tree.
+Inserting 250 into a two-three tree.
+Inserting 4733 into a two-three tree.
+Inserting 2577 into a two-three tree.
+Inserting 3859 into a two-three tree.
+Inserting 2025 into a two-three tree.
+Inserting 132 into a two-three tree.
+Inserting 2753 into a two-three tree.
+Inserting 458 into a two-three tree.
+Inserting 3076 into a two-three tree.
+Inserting 3344 into a two-three tree.
+Inserting 2595 into a two-three tree.
+Inserting 1192 into a two-three tree.
+Inserting 2523 into a two-three tree.
+Inserting 4207 into a two-three tree.
+Inserting 2769 into a two-three tree.
+Inserting 2048 into a two-three tree.
+Inserting 4843 into a two-three tree.
+Inserting 4024 into a two-three tree.
+Inserting 3494 into a two-three tree.
+Inserting 1653 into a two-three tree.
+Inserting 4712 into a two-three tree.
+Inserting 1890 into a two-three tree.
+Inserting 2710 into a two-three tree.
+Inserting 703 into a two-three tree.
+Inserting 4589 into a two-three tree.
+Inserting 2080 into a two-three tree.
+Inserting 2637 into a two-three tree.
+Inserting 2556 into a two-three tree.
+Inserting 3724 into a two-three tree.
+Inserting 379 into a two-three tree.
+Inserting 4054 into a two-three tree.
+Inserting 1909 into a two-three tree.
+Inserting 4335 into a two-three tree.
+Inserting 739 into a two-three tree.
+Inserting 1714 into a two-three tree.
+Inserting 3752 into a two-three tree.
+Inserting 4023 into a two-three tree.
+Inserting 2091 into a two-three tree.
+Inserting 536 into a two-three tree.
+Inserting 662 into a two-three tree.
+Inserting 4577 into a two-three tree.
+Inserting 2059 into a two-three tree.
+Inserting 1693 into a two-three tree.
+Inserting 2394 into a two-three tree.
+Inserting 1708 into a two-three tree.
+Inserting 4049 into a two-three tree.
+Inserting 1332 into a two-three tree.
+Inserting 2817 into a two-three tree.
+Inserting 1041 into a two-three tree.
+Inserting 3450 into a two-three tree.
+Inserting 3585 into a two-three tree.
+Inserting 2228 into a two-three tree.
+Inserting 2482 into a two-three tree.
+Inserting 651 into a two-three tree.
+Inserting 1386 into a two-three tree.
+Inserting 2522 into a two-three tree.
+Inserting 316 into a two-three tree.
+Inserting 645 into a two-three tree.
+Inserting 3218 into a two-three tree.
+Inserting 2450 into a two-three tree.
+Inserting 4194 into a two-three tree.
+Inserting 3055 into a two-three tree.
+Inserting 3842 into a two-three tree.
+Inserting 1135 into a two-three tree.
+Inserting 287 into a two-three tree.
+Inserting 4462 into a two-three tree.
+Inserting 1854 into a two-three tree.
+Inserting 1044 into a two-three tree.
+Inserting 2568 into a two-three tree.
+Inserting 4079 into a two-three tree.
+Inserting 3618 into a two-three tree.
+Inserting 846 into a two-three tree.
+Inserting 3795 into a two-three tree.
+Inserting 1716 into a two-three tree.
+Inserting 3247 into a two-three tree.
+Inserting 4393 into a two-three tree.
+Inserting 2128 into a two-three tree.
+Inserting 2901 into a two-three tree.
+Inserting 1158 into a two-three tree.
+Inserting 3426 into a two-three tree.
+Inserting 1531 into a two-three tree.
+Inserting 1102 into a two-three tree.
+Inserting 3816 into a two-three tree.
+Inserting 2636 into a two-three tree.
+Inserting 2963 into a two-three tree.
+Inserting 2399 into a two-three tree.
+Inserting 1992 into a two-three tree.
+Inserting 1287 into a two-three tree.
+Inserting 2938 into a two-three tree.
+Inserting 1745 into a two-three tree.
+Inserting 1437 into a two-three tree.
+Inserting 2274 into a two-three tree.
+Inserting 1825 into a two-three tree.
+Inserting 635 into a two-three tree.
+Inserting 1719 into a two-three tree.
+Inserting 553 into a two-three tree.
+Inserting 3880 into a two-three tree.
+Inserting 1428 into a two-three tree.
+Inserting 1893 into a two-three tree.
+Inserting 1946 into a two-three tree.
+Inserting 647 into a two-three tree.
+Inserting 755 into a two-three tree.
+Inserting 1209 into a two-three tree.
+Inserting 3027 into a two-three tree.
+Inserting 4779 into a two-three tree.
+Inserting 1089 into a two-three tree.
+Inserting 1035 into a two-three tree.
+Inserting 1352 into a two-three tree.
+Inserting 3106 into a two-three tree.
+Inserting 2587 into a two-three tree.
+Inserting 879 into a two-three tree.
+Inserting 3392 into a two-three tree.
+Inserting 2601 into a two-three tree.
+Inserting 4748 into a two-three tree.
+Inserting 2016 into a two-three tree.
+Inserting 1109 into a two-three tree.
+Inserting 4373 into a two-three tree.
+Inserting 2741 into a two-three tree.
+Inserting 2376 into a two-three tree.
+Inserting 2097 into a two-three tree.
+Inserting 482 into a two-three tree.
+Inserting 2503 into a two-three tree.
+Inserting 1863 into a two-three tree.
+Inserting 2443 into a two-three tree.
+Inserting 136 into a two-three tree.
+
+Searching for 647...
+647 found!
+Searching for 1451...
+1451 could not be found.
+Searching for 147...
+147 found!
+Searching for 3218...
+3218 found!
+Searching for 3859...
+3859 found!
+Searching for 2566...
+2566 could not be found.
+Searching for 1863...
+1863 found!
+Searching for 3027...
+3027 found!
+Searching for 2568...
+2568 found!
+Searching for 256...
+256 could not be found.
+Searching for 132...
+132 found!
+Searching for 1824...
+1824 found!
+Searching for 548...
+548 could not be found.
+Searching for 1673...
+1673 found!
+Searching for 4410...
+4410 found!
+Searching for 1653...
+1653 found!
+Searching for 3247...
+3247 found!
+Searching for 77...
+77 could not be found.
+Searching for 3436...
+3436 found!
+Searching for 2523...
+2523 found!
+
+End of processing
+
+Tool completed successfully

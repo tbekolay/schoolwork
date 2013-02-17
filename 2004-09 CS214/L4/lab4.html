@@ -1,0 +1,54 @@
+<html><head><title>COMP 2140 Lab 4</title>
+
+	
+<style>
+body,td           { font-family: Verdana,Geneva,Arial,Sans-serif; 
+                    font-size: 12px; color: #000000; }
+a                 { color: #000000 }
+.pagetitle        { font-size: 14px; font-weight: bold; color: #000000; }
+.dateheader       { font-size: 12px; font-weight: bold; color: #336699; }
+</style></head><body>
+<span class="pagetitle">COMP 2140 Data Structures and Algorithms<br>Lab 4</span>
+<br>The week of March 9
+
+<p><b>Objectives</b>
+<br>
+</p><ul>
+  <li> To implement part of a binary search tree deletion method.</li>
+  <li> To implement a binary search tree print method.</li>
+</ul>
+<p>
+</p>
+<b>Exercise:
+</b><br>
+<a href="http://www.cs.umanitoba.ca/%7Ecomp2140/Labs/BST.java">BST.java</a> 
+contains an incomplete binary search tree implementation.
+<ul>
+  <li>The <tt>main</tt> method constructs a tree without the use of an
+insert algorithm --- it simply links nodes directly together. </li>
+<li> The <tt>main</tt> method calls a <tt>BST</tt> <tt>printInorder</tt>
+method multiple times. Implement this method using an in-order traversal of the tree.</li>
+  <li> The <tt>main</tt> method also calls a <tt>BST</tt> <tt>delete</tt>
+method multiple times. </li>
+    <li>The body of the <tt>delete</tt> method has been provided to
+you.&nbsp; We have provided the code to deal the cases where the
+node to be deleted has&nbsp; no children and one children.&nbsp; You
+will write the code that deals with deleting a node with two children,
+which is handled by the method <tt>deleteTwoChildren</tt>.<br>
+  </li>
+</ul>
+Write the <tt>deleteTwoChildren </tt>method body, using the algorithm
+described
+in class
+(to delete a node with two children, replace the node with its inorder
+successor).
+That is, your code will first find the inorder successor of the node to
+be deleted, copy its data into the node to be delete and then delete
+the inorder successor node.&nbsp; To aid you, we have provided comments
+on what you need to do in the method.&nbsp; Refer to your class notes
+if you have any questions. <br>
+<br>
+You should change <b>nothing else</b> in the <tt>BST.java</tt>
+file --- you should only add the <tt>deleteTwoChildren</tt> and <tt>printInorder</tt> method bodies.
+
+</body></html>

@@ -1,0 +1,16 @@
+74.214 Assignment 1.  September 2004.
+Sorting with insertion sort, merge sort and quick sort.
+(Student number 6796723, Section L02)
+
+Time for insertion sort: 109 milliseconds.
+Insertion sort successfully sorted 9051 elements.
+
+Time for merge sort: 359 milliseconds.
+Merge sort successfully sorted 9051 elements.
+
+Time for quick sort: 15 milliseconds.
+Quick sort successfully sorted 9051 elements.
+
+Program completed normally.
+
+Tool completed successfully
