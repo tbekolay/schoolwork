@@ -1,0 +1,162 @@
+Number of bits per entry: 1     Number of entries: 4
+        Initialized to: taken
+Correct predictions: 327        Incorrect predictions: 60
+Prediction rate: 84.496124%
+
+Number of bits per entry: 1     Number of entries: 4
+        Initialized to: not taken
+Correct predictions: 329        Incorrect predictions: 58
+Prediction rate: 85.012920%
+
+Number of bits per entry: 1     Number of entries: 8
+        Initialized to: taken
+Correct predictions: 327        Incorrect predictions: 60
+Prediction rate: 84.496124%
+
+Number of bits per entry: 1     Number of entries: 8
+        Initialized to: not taken
+Correct predictions: 327        Incorrect predictions: 60
+Prediction rate: 84.496124%
+
+Number of bits per entry: 1     Number of entries: 16
+        Initialized to: taken
+Correct predictions: 327        Incorrect predictions: 60
+Prediction rate: 84.496124%
+
+Number of bits per entry: 1     Number of entries: 16
+        Initialized to: not taken
+Correct predictions: 323        Incorrect predictions: 64
+Prediction rate: 83.462532%
+
+Number of bits per entry: 1     Number of entries: 32
+        Initialized to: taken
+Correct predictions: 326        Incorrect predictions: 61
+Prediction rate: 84.237726%
+
+Number of bits per entry: 1     Number of entries: 32
+        Initialized to: not taken
+Correct predictions: 321        Incorrect predictions: 66
+Prediction rate: 82.945736%
+
+
+Number of bits per entry: 2     Number of entries: 4
+        Initialized to: taken
+Correct predictions: 322        Incorrect predictions: 65
+Prediction rate: 83.204134%
+
+Number of bits per entry: 2     Number of entries: 4
+        Initialized to: not taken
+Correct predictions: 323        Incorrect predictions: 64
+Prediction rate: 83.462532%
+
+Number of bits per entry: 2     Number of entries: 8
+        Initialized to: taken
+Correct predictions: 322        Incorrect predictions: 65
+Prediction rate: 83.204134%
+
+Number of bits per entry: 2     Number of entries: 8
+        Initialized to: not taken
+Correct predictions: 319        Incorrect predictions: 68
+Prediction rate: 82.428941%
+
+Number of bits per entry: 2     Number of entries: 16
+        Initialized to: taken
+Correct predictions: 323        Incorrect predictions: 64
+Prediction rate: 83.462532%
+
+Number of bits per entry: 2     Number of entries: 16
+        Initialized to: not taken
+Correct predictions: 313        Incorrect predictions: 74
+Prediction rate: 80.878553%
+
+Number of bits per entry: 2     Number of entries: 32
+        Initialized to: taken
+Correct predictions: 328        Incorrect predictions: 59
+Prediction rate: 84.754522%
+
+Number of bits per entry: 2     Number of entries: 32
+        Initialized to: not taken
+Correct predictions: 314        Incorrect predictions: 73
+Prediction rate: 81.136951%
+
+
+Number of bits per entry: 3     Number of entries: 4
+        Initialized to: taken
+Correct predictions: 332        Incorrect predictions: 55
+Prediction rate: 85.788114%
+
+Number of bits per entry: 3     Number of entries: 4
+        Initialized to: not taken
+Correct predictions: 332        Incorrect predictions: 55
+Prediction rate: 85.788114%
+
+Number of bits per entry: 3     Number of entries: 8
+        Initialized to: taken
+Correct predictions: 332        Incorrect predictions: 55
+Prediction rate: 85.788114%
+
+Number of bits per entry: 3     Number of entries: 8
+        Initialized to: not taken
+Correct predictions: 326        Incorrect predictions: 61
+Prediction rate: 84.237726%
+
+Number of bits per entry: 3     Number of entries: 16
+        Initialized to: taken
+Correct predictions: 330        Incorrect predictions: 57
+Prediction rate: 85.271318%
+
+Number of bits per entry: 3     Number of entries: 16
+        Initialized to: not taken
+Correct predictions: 315        Incorrect predictions: 72
+Prediction rate: 81.395349%
+
+Number of bits per entry: 3     Number of entries: 32
+        Initialized to: taken
+Correct predictions: 337        Incorrect predictions: 50
+Prediction rate: 87.080103%
+
+Number of bits per entry: 3     Number of entries: 32
+        Initialized to: not taken
+Correct predictions: 315        Incorrect predictions: 72
+Prediction rate: 81.395349%
+
+
+Number of bits per entry: 4     Number of entries: 4
+        Initialized to: taken
+Correct predictions: 332        Incorrect predictions: 55
+Prediction rate: 85.788114%
+
+Number of bits per entry: 4     Number of entries: 4
+        Initialized to: not taken
+Correct predictions: 331        Incorrect predictions: 56
+Prediction rate: 85.529716%
+
+Number of bits per entry: 4     Number of entries: 8
+        Initialized to: taken
+Correct predictions: 332        Incorrect predictions: 55
+Prediction rate: 85.788114%
+
+Number of bits per entry: 4     Number of entries: 8
+        Initialized to: not taken
+Correct predictions: 324        Incorrect predictions: 63
+Prediction rate: 83.720930%
+
+Number of bits per entry: 4     Number of entries: 16
+        Initialized to: taken
+Correct predictions: 330        Incorrect predictions: 57
+Prediction rate: 85.271318%
+
+Number of bits per entry: 4     Number of entries: 16
+        Initialized to: not taken
+Correct predictions: 311        Incorrect predictions: 76
+Prediction rate: 80.361757%
+
+Number of bits per entry: 4     Number of entries: 32
+        Initialized to: taken
+Correct predictions: 338        Incorrect predictions: 49
+Prediction rate: 87.338501%
+
+Number of bits per entry: 4     Number of entries: 32
+        Initialized to: not taken
+Correct predictions: 309        Incorrect predictions: 78
+Prediction rate: 79.844961%

@@ -1,0 +1,63 @@
+zinc.cs.umanitoba.ca 115% cache_sim 4 8192 COMP4690ExampleTrace
+Simulating ...
+
+Simulation complete.
+Line size: 4    Number of lines: 8192
+Hits: 7685184   Misses: 2314816
+Hit rate: 76.851840%
+
+zinc.cs.umanitoba.ca 116% cache_sim 8 4096 COMP4690ExampleTrace
+Simulating ...
+
+Simulation complete.
+Line size: 8    Number of lines: 4096
+Hits: 8149855   Misses: 1850145
+Hit rate: 81.498550%
+
+zinc.cs.umanitoba.ca 117% cache_sim 16 2048 COMP4690ExampleTrace
+Simulating ...
+
+Simulation complete.
+Line size: 16   Number of lines: 2048
+Hits: 8389321   Misses: 1610679
+Hit rate: 83.893210%
+
+zinc.cs.umanitoba.ca 118% cache_sim 32 1024 COMP4690ExampleTrace
+Simulating ...
+
+Simulation complete.
+Line size: 32   Number of lines: 1024
+Hits: 8518220   Misses: 1481780
+Hit rate: 85.182200%
+
+zinc.cs.umanitoba.ca 119% cache_sim 4 32768 COMP4690ExampleTrace
+Simulating ...
+
+Simulation complete.
+Line size: 4    Number of lines: 32768
+Hits: 7714061   Misses: 2285939
+Hit rate: 77.140610%
+
+zinc.cs.umanitoba.ca 120% cache_sim 8 16384 COMP4690ExampleTrace
+Simulating ...
+
+Simulation complete.
+Line size: 8    Number of lines: 16384
+Hits: 8168694   Misses: 1831306
+Hit rate: 81.686940%
+
+zinc.cs.umanitoba.ca 121% cache_sim 16 8192 COMP4690ExampleTrace
+Simulating ...
+
+Simulation complete.
+Line size: 16   Number of lines: 8192
+Hits: 8403263   Misses: 1596737
+Hit rate: 84.032630%
+
+zinc.cs.umanitoba.ca 122% cache_sim 32 4096 COMP4690ExampleTrace
+Simulating ...
+
+Simulation complete.
+Line size: 32   Number of lines: 4096
+Hits: 8530304   Misses: 1469696
+Hit rate: 85.303040%

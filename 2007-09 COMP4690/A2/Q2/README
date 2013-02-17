@@ -1,0 +1,13 @@
+Trevor Bekolay, 6796723, umbekol0
+
+My branch prediction simulator is written in C++.  To compile, use g++ as normal:
+  g++ branch_predict.cpp -o branch_predict
+
+The number of bits per branch history table entry and the number of entries are #defines in the .cpp file, so to test out different values, you will have to change those lines in branch_predict.cpp and recompile.
+
+To run, you must pass in the tracefile as command line arguments, as such:
+  branch_predict [trace file]
+For example, to run the branch predictor on the tracefile called branchTrace.txt the correct command is:
+  branch_predict branchTrace.txt
+
+Results.xls contains the output graphed to show trends, and some comments.  Output contains the output from all the various input test cases.

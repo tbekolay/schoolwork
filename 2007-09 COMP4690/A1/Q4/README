@@ -1,0 +1,13 @@
+Trevor Bekolay, 6796723, umbekol0
+
+My cache simulator is written in C++.  To compile, use g++ as normal:
+  g++ cache_sim.cpp -o cache_sim
+
+To run, you must pass in the cache line size, number of cache lines, and the tracefile as command line arguments, as such:
+  cache_sim [line size] [number of lines] [trace file]
+For example, to run the cache simulator for a 8192 cache lines of size 4 on the tracefile called COMP4690ExampleTrace, the correct command is:
+  cache_sim 4 8192 COMP4690ExampleTrace
+
+Please note that I have not included the trace file used to generate the output data (COMP4690ExampleTrace), as it is a very large file.
+
+Charts.xls contains the output graphed to show trends.

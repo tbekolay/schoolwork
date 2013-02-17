@@ -1,0 +1,159 @@
+- Intro
+  - Moore's Law: "processor speed will double rougly every 18 months"
+  - Use 5 stage pipeline from H+P
+    - Instruction Fetch (IF)
+    - Instruction Decode (ID)
+    - Operand Fetch (OF)
+    - Execute (EX)
+    - Writeback (WB)
+  - Stages in a pipeline must be independent
+  - Speed of a pipeline is tied to the speed of slowest stage
+  - Hazards:
+    - Structural (hardware restrictions)
+    - Data (dependencies)
+    - Control (branches and interrupts)
+  - Superscalar
+    - Multiple functional units
+  - Spatial Locality: New references typically close to the area of previous references.
+  - Temporal Locality: Program tend to refer to memory locations references in the recent past.
+  - Cache tradeoffs
+    - Cache size
+    - Mapping function (direct mapped vs. freely loadable vs. set associative)
+      - Direct mapped: Block # = address/block size % #blocks
+    - Replacement schemes (what do we get rid of for new data)
+    - Update policies (when do we update Mp)
+    - Fetch policies (on demand vs. predictive)
+  - Types of cache consistency (writethrough/writeback)
+  - Bus snooping
+    - Requires write through
+    - Multiple cache controllers check the bus for write operations
+  - Anticipatory pre-fetch
+  - Capacity miss: Due to limited space in cache (fixable)
+  - Compulsory miss: Due to empty cache or (only fixable with prefetching)
+
+- Advanced ILP (Big section!)
+  - Deeper pipelining (superpipelining!)
+    - Shove as many instructions as possible at the CPU
+    - Can subdivide stages: MEM and EX for example (D-Unit pipelining)
+      - FPADD pipelining
+        - Exponent comparison, mantissa adjustment, mantissa addition, result normalization
+      - Memory access
+        - Directory search, RAM access
+  - Loop unrolling (code bloat)
+      - Probably no leftovers, but likely have to unroll something
+  - Superscalar
+    - Forwarding (don't have to store/load results)
+    - Virtual functional units
+      - Enables out of order execution
+    - Tomasulo's Algorithm
+      - Non-centralized method for tracking data dependencies between instructions
+      - Uses a "result bus" and tagging scheme
+      - Units/reservation stations with dependencies wait for the right tag to show up on the "result bus"
+    - Scoreboarding
+      - Centralized method for tracking data dependencies between instructions
+      - Three tables are maintained: Instruction status, Function Unit status, Register Result status
+      - Tables are updated and checked at appropriate stages
+
+- Supporting ILP (Also big section, though not as big?)
+  - Branch prediction
+    - Static
+      - Done by compiler - have to add a BranchPredict bit to branch instructions
+    - Dynamic
+      - Done in hardware - Branch History Table or Branch Prediction Buffer
+    - BHT's
+      - Map branch addresses to BHT entries, like direct mapped cache
+      - 2-bit predictors (adding more doesn't add much)
+    - Correlated branching: (m,n) predictors
+      - m = #steps we consider, n = #bits we use
+      - Uses the last m branches to choose one of 2^m branch predictors
+      - e.g., Took last two branches = bht[11]
+    - Elastic history buffers - some branches care about more or less branches before it
+      - Requires some kind of profiling
+    - Branch target buffers, branch target cache (store more, save cycles)
+  - value prediction
+    - Predict the value of variables (especially in registers)
+    - Can aid branch prediction or other optimizations
+  - Speculative execution
+    - If we have nothing else to do, do operations that we'll probably have to do
+    - Should be cheap to undo in case we're wrong
+    - Trace scheduling
+      - Identify series of branches that occur frequently
+      - Reorder code, provide undo code in case we're wrong
+  - Dependencies
+    - True = read after write
+    - Anti = write after read
+    - Output = rewrite after write
+    - Register renaming
+    - Software pipelining (symbolic loop unrolling)
+      - Less instruction overhead than loop unrolling
+    - Very Long Instruction Word/EPIC
+      - Make instruction scheduling the compiler's job
+      - Lets the compiler make nice optimizations, leaving us more freedom for hardware
+
+- Alternatives to ILP
+  - Why execute one program really quickly when we normally have many running at the same time anyway?
+  - Hardware Multithreading
+    - Use a single-processor to run multiple threads concurrently
+    - Requires extra hardware: more registers, multiple program counters
+    - Simple: round robin (do one thread, then the next, repeat)
+    - Simple: go until one thread stalls (cache miss?), then switch
+    - Advanced: Simultaneous MultiThreading
+      - Grab instructions from any thread at any time, whenever hardware's available
+  - Multi-core
+    - No sharing of functional units
+    - Memory shared, L2 cache can be shared
+
+- Parallel architectures
+  - Common
+    - Shared memory multiprocessors
+      - Lots of processors, one shared memory
+      - Expensive, limited scalability, but simple to program
+    - Clusters (distributed memory)
+      - Many little computers, each with own memory
+      - Cheap, more scalable, but harder to program
+    - CLUMPs (shared and distributed memory)
+      - Hybrid approach (cluster with 'fat nodes')
+      - Reasonably scalable, though hard to program for
+  - Shared memory multiprocessors
+    - All processors share one memory
+    - UMA - Uniform Memory Access time
+    - Not scalable - not practical
+  - Distributed memory multiprocessors
+    - Each processor has own memory, but all are addressable
+    - NUMA - Non-Uniform Memory Access time
+    - More scalable, but more challenging
+  - Cache challenges (snooping, protocols, directories)
+    - Invalidate vs. update
+    - Snoopy cache controllers
+      - Increased traffic, but usable for up to 32 processors-ish
+      - Each cache line has a state machine: Read Only/Read Write/Invalid
+      - There are more approaches
+    - Directory based schemes
+      - Keeps track of what processors are caching what blocks
+      - Full map directory
+        - The directory has one entry for every line
+        - Each entry has a bit for each processor, and a bit for exclusive access
+        - Takes up a lot of room; nomrally only a small number of processors will ever have a cache line
+      - Limited directories
+        - Only some constant number of bits k << #processors is supported
+        - Directory size is bounded, but need to come up with eviction protocol
+      - Both full & limited are centralized; hard to keep up to date
+      - Chained directory
+        - Memory contains only a pointer to the first cache caching a block of shared memory
+        - That cache points to the next cache that has a copy (singly linked list)
+        - Drawback: have to follow chain to keep consistent
+  - CC-NUMA (Cache-Coherent Non-Uniform Memory Access)
+    - NUMA factor - The speed difference between local and remote memory access
+    - Strong consistency
+      - Any write to shared data is immediately available to other processors
+      - High 'messaging' overhead
+    - Weak consistency (We basically have to use this!)
+      - Use synchornization constructs to protect shared data (locks)
+      - Release consistency
+        - Update other processors' caches when a lock is released
+        - Bad: Does unnecessary updating (only one processor can access/update it next)
+      - Lazy release consistency
+        - Rather than push updates to caches at release, updates are pulled by next accessing processor
+      - Entry consistency similar to LRC
+    - Distribution of data is important to keep NUMA-ness relatively low
+      - Might select "home sites" for each line of shared data
