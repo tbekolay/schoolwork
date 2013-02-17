@@ -1,0 +1,23 @@
+4 Queens problem resulted in 2 solutions.
+4 Queens problem resulted in 4 dead ends.
+End of processing.
+
+5 Queens problem resulted in 10 solutions.
+5 Queens problem resulted in 4 dead ends.
+End of processing.
+
+6 Queens problem resulted in 4 solutions.
+6 Queens problem resulted in 46 dead ends.
+End of processing.
+
+7 Queens problem resulted in 40 solutions.
+7 Queens problem resulted in 154 dead ends.
+End of processing.
+
+8 Queens problem resulted in 92 solutions.
+8 Queens problem resulted in 644 dead ends.
+End of processing.
+
+9 Queens problem resulted in 352 solutions.
+9 Queens problem resulted in 2584 dead ends.
+End of processing.

@@ -1,0 +1,128 @@
+E:\University\CompSci\COMP3170\A1\Q4>java PQTest
+Building Binary Heap took 51160 operations.
+binaryHeap: i=0, min=5
+binaryHeap: i=100, min=991
+binaryHeap: i=200, min=2001
+binaryHeap: i=300, min=3006
+binaryHeap: i=400, min=4014
+binaryHeap: i=500, min=5105
+binaryHeap: i=600, min=6267
+binaryHeap: i=700, min=7233
+binaryHeap: i=800, min=8295
+binaryHeap: i=900, min=9287
+Binary Heap performed 116729 operations.
+Minimum operations: 52256       Maximum operations: 286256
+
+Building Ternary Heap took 38248 operations.
+ternaryHeap: i=0, min=5
+ternaryHeap: i=100, min=991
+ternaryHeap: i=200, min=2001
+ternaryHeap: i=300, min=3006
+ternaryHeap: i=400, min=4014
+ternaryHeap: i=500, min=5105
+ternaryHeap: i=600, min=6267
+ternaryHeap: i=700, min=7233
+ternaryHeap: i=800, min=8295
+ternaryHeap: i=900, min=9287
+Ternary Heap performed 98376 operations.
+Minimum operations: 58654       Maximum operations: 166541
+
+Building Quaternary Heap took 33052 operations.
+quaternaryHeap: i=0, min=5
+quaternaryHeap: i=100, min=991
+quaternaryHeap: i=200, min=2001
+quaternaryHeap: i=300, min=3006
+quaternaryHeap: i=400, min=4014
+quaternaryHeap: i=500, min=5105
+quaternaryHeap: i=600, min=6267
+quaternaryHeap: i=700, min=7233
+quaternaryHeap: i=800, min=8295
+quaternaryHeap: i=900, min=9287
+Quaternary Heap performed 96552 operations.
+Minimum operations: 65506       Maximum operations: 132006
+
+Building Quinary Heap took 30328 operations.
+quinaryHeap: i=0, min=5
+quinaryHeap: i=100, min=991
+quinaryHeap: i=200, min=2001
+quinaryHeap: i=300, min=3006
+quinaryHeap: i=400, min=4014
+quinaryHeap: i=500, min=5105
+quinaryHeap: i=600, min=6267
+quinaryHeap: i=700, min=7233
+quinaryHeap: i=800, min=8295
+quinaryHeap: i=900, min=9287
+Quinary Heap performed 97720 operations.
+Minimum operations: 71458       Maximum operations: 122320
+
+Building Senary Heap took 28523 operations.
+senaryHeap: i=0, min=5
+senaryHeap: i=100, min=991
+senaryHeap: i=200, min=2001
+senaryHeap: i=300, min=3006
+senaryHeap: i=400, min=4014
+senaryHeap: i=500, min=5105
+senaryHeap: i=600, min=6267
+senaryHeap: i=700, min=7233
+senaryHeap: i=800, min=8295
+senaryHeap: i=900, min=9287
+Senary Heap performed 98409 operations.
+Minimum operations: 75675       Maximum operations: 115680
+
+Building Septenary Heap took 27222 operations.
+septenaryHeap: i=0, min=5
+septenaryHeap: i=100, min=991
+septenaryHeap: i=200, min=2001
+septenaryHeap: i=300, min=3006
+septenaryHeap: i=400, min=4014
+septenaryHeap: i=500, min=5105
+septenaryHeap: i=600, min=6267
+septenaryHeap: i=700, min=7233
+septenaryHeap: i=800, min=8295
+septenaryHeap: i=900, min=9287
+Septenary Heap performed 103628 operations.
+Minimum operations: 82647       Maximum operations: 116653
+
+Building LB Tree took 206685 operations.
+lbTree: i=0, min=5
+lbTree: i=100, min=991
+lbTree: i=200, min=2001
+lbTree: i=300, min=3006
+lbTree: i=400, min=4014
+lbTree: i=500, min=5105
+lbTree: i=600, min=6267
+lbTree: i=700, min=7233
+lbTree: i=800, min=8295
+lbTree: i=900, min=9287
+LB Tree performed 405442 operations.
+Minimum operations: 247704      Maximum operations: 492408
+
+Building Skew Tree took 97896 operations.
+skewTree: i=0, min=5
+skewTree: i=100, min=991
+skewTree: i=200, min=2001
+skewTree: i=300, min=3006
+skewTree: i=400, min=4014
+skewTree: i=500, min=5105
+skewTree: i=600, min=6267
+skewTree: i=700, min=7233
+skewTree: i=800, min=8295
+skewTree: i=900, min=9287
+Skew Tree performed 188388 operations.
+Minimum operations: 188388      Maximum operations: 188388
+
+Building Binomial Queue took 150058 operations.
+binomQueue: i=0, min=5
+binomQueue: i=100, min=991
+binomQueue: i=200, min=2001
+binomQueue: i=300, min=3006
+binomQueue: i=400, min=4014
+binomQueue: i=500, min=5105
+binomQueue: i=600, min=6267
+binomQueue: i=700, min=7233
+binomQueue: i=800, min=8295
+binomQueue: i=900, min=9287
+Binomial Queue performed 378085 operations.
+Minimum operations: 277358      Maximum operations: 431656
+
+*** End of processing - written by Trevor Bekolay ***

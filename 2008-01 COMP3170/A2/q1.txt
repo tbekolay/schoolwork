@@ -1,0 +1,12 @@
+Output:
+Next random number is: 1.4332123E-5
+Next random number is: 0.24088
+Next random number is: 0.47004348
+Next random number is: 0.020606518
+Next random number is: 0.33376035
+Next random number is: 0.5100331
+Next random number is: 0.1258368
+Next random number is: 0.93919784
+Next random number is: 0.098255776
+Next random number is: 0.38477883
+**Program completed successfully.**

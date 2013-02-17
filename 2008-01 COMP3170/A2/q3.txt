@@ -1,0 +1,16 @@
+ The number of multiplications that power performs depends on two things:
+ - the number of bits required to represent m.
+ - the number of 1 bits in that representation.
+
+ If it takes a bits to represent m and there are b 1-bits in m, the number of multiplications is simply a + b.
+
+ We know that a is log2(m). b will depend on m, but we know that we can maximize b when all of m's bits are 1; this occurs for numbers of the form 2^k - 1, in which case a=b.
+
+ So, if we have 32 bits in which to represent m, and we are using unsigned ints:
+ - Maximum number of multiplications is 64 when m = 0xFFFFFFFF (2^32 - 1, or 4294967295)
+ If we are using signed ints:
+ - Maximum number of multiplications is 62 when m = 0x7FFFFFFF (2^31 - 1, or 2147483647)
+
+ The minimum number of multiplications should be 0, when m is 0. 0 bits would be required to store m, and the algorithm would simply return 1, which x is initialized to - the loop would not execute at all.
+
+ However, the algorithm as written would enter into an infinite loop because m would never be less than 0. Thus, the minimum number of multiplications would be 2, either when m = 1 or m = 2.

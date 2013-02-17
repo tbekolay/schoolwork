@@ -1,0 +1,54 @@
+2718 found at level 1!
+485 found at level 1!
+9074 found at level 1!
+314 found at level 1!
+101 found at level 6!
+
+Sentinel->Sentinel
+Sentinel->Sentinel
+Sentinel->Sentinel
+Sentinel->Sentinel
+Sentinel->101->Sentinel
+Sentinel->101->5000->Sentinel
+Sentinel->101->5000->Sentinel
+Sentinel->101->265->5000->Sentinel
+Sentinel->59->72->101->265->883->1024->5000->10221->Sentinel
+Sentinel->12->59->72->101->128->159->265->314->358->485->599->602->771->883->1024->2718->3023->5000->9074->10221->Sentinel
+**Program completed successfully.**
+
+602 found at level 1!
+12 found at level 5!
+12 found at level 5!
+9074 found at level 2!
+5000 found at level 1!
+
+Sentinel->Sentinel
+Sentinel->Sentinel
+Sentinel->Sentinel
+Sentinel->3023->Sentinel
+Sentinel->599->3023->Sentinel
+Sentinel->12->599->3023->Sentinel
+Sentinel->12->314->599->3023->Sentinel
+Sentinel->12->314->358->599->771->883->3023->Sentinel
+Sentinel->12->128->314->358->485->599->771->883->3023->9074->Sentinel
+Sentinel->12->59->72->101->128->159->265->314->358->485->599->602->771->883->1024->2718->3023->5000->9074->10221->Sentinel
+**Program completed successfully.**
+
+9074 found at level 2!
+159 found at level 1!
+3023 found at level 1!
+599 found at level 1!
+12 found at level 1!
+
+Sentinel->Sentinel
+Sentinel->Sentinel
+Sentinel->Sentinel
+Sentinel->265->Sentinel
+Sentinel->265->Sentinel
+Sentinel->265->Sentinel
+Sentinel->128->265->Sentinel
+Sentinel->128->265->358->Sentinel
+Sentinel->128->265->358->485->602->2718->5000->9074->Sentinel
+Sentinel->12->59->72->101->128->159->265->314->358->485->599->602->771->883->1024->2718->3023->5000->9074->10221->Sentinel
+**Program completed successfully.**
+

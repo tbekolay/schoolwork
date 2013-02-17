@@ -1,0 +1,40 @@
+ Output:
+ 
+ For N = 100
+
+ Sorting Algorithm      | Number of Array Accesses
+ -----------------------|-------------------------
+ QuickSort, cut-off 32  | 2199
+ QuickSort, cut-off 64  | 3584
+ ShellSort, Hibbard's   | 2835
+ QuickSort, Knuth's     | 2523
+ QuickSort, Sedgewick's | 2643
+ HeapSort, binary       | 3152
+ HeapSort, ternary      | 2942
+**Program completed successfully.**
+
+ For N = 1000
+
+ Sorting Algorithm      | Number of Array Accesses
+ -----------------------|-------------------------
+ QuickSort, cut-off 32  | 34269
+ QuickSort, cut-off 64  | 46774
+ ShellSort, Hibbard's   | 48696
+ QuickSort, Knuth's     | 45135
+ QuickSort, Sedgewick's | 47172
+ HeapSort, binary       | 47947
+ HeapSort, ternary      | 44311
+**Program completed successfully.**
+
+ For N = 10000
+
+ Sorting Algorithm      | Number of Array Accesses
+ -----------------------|-------------------------
+ QuickSort, cut-off 32  | 426208
+ QuickSort, cut-off 64  | 557456
+ ShellSort, Hibbard's   | 793443
+ QuickSort, Knuth's     | 799251
+ QuickSort, Sedgewick's | 652995
+ HeapSort, binary       | 647571
+ HeapSort, ternary      | 589382
+**Program completed successfully.**
