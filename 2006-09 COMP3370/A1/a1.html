@@ -1,0 +1,105 @@
+<html>
+<head>
+	<title>Comp 3370 Assignment 1</title>
+<style>
+body,td           { font-family: Verdana,Geneva,Arial,Sans-serif; 
+                    font-size: 12px; color: #000000; }
+a                 { color: #000000 }
+.pagetitle        { font-size: 14px; font-weight: bold; color: #000000; }
+.dateheader       { font-size: 12px; font-weight: bold; color: #336699; }
+</style>
+</head>
+<body>
+<span class=pagetitle>Comp 3370 Computer Organization<br>Assignment 1<br>Due Oct 6, 2006 at 11:59pm</span>
+<br><br>
+<p>
+		Consider the following ISA for a Harvard architecture
+		processor:
+		<ul>
+			<li>There are 16 general purpose registers, 16 bits each, named 
+				 R0..R15.
+			<li>There is a 16 bit Program Counter (PC) register. 
+			<li>There is a maximum of 1K (1024 words) of code space.
+			<li>There is a maximum of 1K (1024 words) of data space.
+      <li>Each word is 2 bytes (16 bits) in length.
+			<li>The processor has no stack.
+			<li>Instructions are <b>all</b> 16 bits long.
+			<li>All data are integer values. Both integer and
+			hexadecimal (e.g. 0xFFFF) literals are allowed.
+			<li>There are the following 2-operand integer arithmetic 			
+			instructions: ADD, SUB, AND, OR, XOR. The left operand must be a 			
+			register while the right operand can be a register or literal. The 			
+			result is placed in the left operand's register.
+			<li>There is a MOVE instruction for transferring data. It supports 			
+			the following address modes:
+				<ul>
+					<li><tt>MOVE Rx,{Literal,[Ry]}</tt>. Copy into Rx  
+					    a literal value, or the contents of 
+					    the memory whose address is contained in Ry.
+					<li><tt>MOVE [Rx],{Ry,Literal}</tt>. Copy into the memory 
+						 whose address is contained in Rx  
+					    the contents of Ry or a literal value.
+				</ul>
+			<li>There are the following 1-operand instructions:
+				<ul>
+					<li> <tt>SRL Rx</tt>. Shifts the contents of Rx one bit to the left, filling with a 0 bit on the right.
+					<li> <tt>SRR Rx</tt>. Shifts the contents of Rx one bit to the right, filling with a 0 bit on the left.
+					<li> <tt>JR Rx</tt>. Jumps to the address contained in Rx.
+				</ul>
+			<li>The following branch instructions compare the values in the 			
+			given register with the contents of R0 to determine if the branch 			
+			should occur. All branches take a PC-relative address for the jump 			
+			location. There will be reasonable jump ranges (i.e. the number of 			
+			bits required for the address location) given the current code space size 
+			and the potential for future extensions.
+					<ul>
+						<li><tt>BEQ Rx,location</tt>. Branch if equal to R0.
+						<li><tt>BNE Rx,location</tt>. Branch if not equal to R0.
+						<li><tt>BLT Rx,location</tt>. Branch if less than R0.
+						<li><tt>BGT Rx,location</tt>. Branch if greater than R0.
+						<li><tt>BLE Rx,location</tt>. Branch if less than or equal to 
+						R0.
+						<li><tt>BGE Rx,location</tt>. Branch if greater than or equal to R0.	
+					</ul>
+		</ul>
+<p>
+Here is an <a href=assembler.cpp>assembler</a> for this ISA and some sample <a href=TestData/>programs</a> (the .dat files are for loading memory). The assembler will generate <a href=machine_code.html>machine code</a> that can then be loaded into a processor that supports the defined ISA (for test.asm it will generate test.o as an object file and print the machine code in ASCII to standard output). Note that you <b>cannot</b> make any changes to the assembler or sample programs but you're free (and encouraged) to create your own test programs. Please send me any test programs you're proud of and I'll share them with the rest of the class.
+<p>
+<b>Question 1</b><br>
+		Implement a simulator for the ISA discussed above.
+		<p>
+The simulator will bootstrap by loading a passed object file into the code area and a passed file's contents into the data area. Your similator will accept two parameters, the first is the object file and the second is the data file. In addition to the characteristics above, you should take into account the following:
+			<ul>
+				<li>All registers are initialized to 0x0000 at startup.
+				<li>Make sure all negative values are correctly sign extended.
+				<li>The program counter (PC) is incremented after the execution of an instruction.
+				<li>Your simulator will always complete. To handle infinite loops, define some (large) maximum loop count. Clearly document this.
+				<li>All operations and data accesses are word aligned. Be careful since everything involves 2 bytes, not 1 (which leads to the next point...).
+      <li>All values (data, etc) are big endian. Note that this doesn't mean everything has to be big endian internally; you just have to make sure you deal with memory such that it's big endian (especially when displayed).
+      <li>Make sure you interpret the machine instructions carefully, the <a href=machine_code.html>bit ordering</a> is very important.
+				<li>Your data area should be initialized to contain all 0xFFs prior to loading the passed data file.
+				<li>The data file is an ASCII file of hex digits. You'll have to convert these values into binary before loading them into your data space.
+				<li>Your simulator <b>must</b> accurately reflect the instruction execution cycle and CPU structure (e.g. registers) discussed in 228. This does <b>not</b> imply the need to have explicit control points, implicit will do just fine.
+			</ul>
+			<p>
+			The simulation begins by executing the instruction found at location 0x0000. It will continue executing instructions until it reaches an invalid instruction (defined as not being contained in your machine language definition). Note that at the best way to do this is to initialize your code area to fully contain invalid instructions prior to loading the program.
+			<p>
+			Upon completion the simulator will print out the invalid instruction and its address (as an error indication -- in real systems you would get an illegal operation trap). If any other error is detected, an appropriate error message should be printed (e.g. possible infinite loop detection). Following this it will print the contents of the data area. Use the same formatting used in the assembler. For example:
+			<pre>
+Illegal instruction FFFF detected at address 00AC.
+
+0000 ABC3 6324 EEFF 5432 BB2E 34CA 87ED       the equivalent ASCII
+0000 ABC3 6324 EEFF 5432 BB2E 34CA 87ED       the equivalent ASCII
+0000 ABC3 6324 EEFF 5432 BB2E 34CA 87ED       the equivalent ASCII
+0000 ABC3 6324 EEFF 5432 BB2E 34CA 87ED       the equivalent ASCII
+...
+		</pre>
+			<p>
+			Test your simulator with <a href="TestData/">these</a> code and data files. These are the programs the marker will use to evaluate your simulator. I will <b>not</b> explain the programs to you or tell you what the output should be.
+			<p>
+To help in marking and verifying your design, hand in a 2 page document describing the design of your simulator. Describe the layout of your CPU, including all registers and how they communicate via a "datapath". In addition, include a finite state machine diagram that details the flow of instruction execution through your simulator (as a PDF). All of this must be reflected in your implementation.
+<p>
+Finally, include a 1 page document describing each test program. Include discussions of the error conditions that will (do) cause the programs to fail.
+
+</body>
+</html>

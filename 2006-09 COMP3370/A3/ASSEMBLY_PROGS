@@ -1,0 +1,17 @@
+Assembler Programs
+Trevor Bekolay, 6796723
+
+I have created two assembler files (and pre-compiled them for you, using Zapp's assembler.cpp code).
+
+test1.asm
+This is an 'encrypter'.  It will read in a .dat file, and 'encrypt' the values by adding a certain number (47) to them, then saving them to the hard drive.  The .dat files have the form:
+0000 0000 0000 [number of words] word1 word2 ... wordn
+
+So, you can encrypt a file of any size (up to 1024).  I have included 3 test .dat's, test1-1.dat test1-2.dat and test1-3.dat, all containing different amounts of words to show that it will work for all.
+
+test2.asm
+A 'decrypter.'  It loads the values from the hard drive, then subtracts that number (47).  So, assuming I have created everything correctly (and I have), the data in memory after running test2.asm will be the same values in the .dat file that you ran with test1.asm.  The output from test1.asm will clearly differ from the values in the .dat file, so you can be sure I'm not just saving and loading the values from the .dat file.  test2 must be run with test2.dat, which simply contains 0000 0000 0003, to zero out the status register, and pre-set the memory address location to 3.  If you don't load test2.dat, then it will immediately write over hard drive locations, which is not so great.
+
+These programs clearly show that my dma_sim works correctly, as it will alter values from a .dat and save it to the hard disk. The program will poll the memory mapped I/O locations to ensure it has finished all transferring before closing the program, regardless of the # of words to be saved.  The second program, again, proves that polling and cache snooping have been done correctly, as it ensures that values have been loaded before they are altered.  It is clear after running the program that the values in memory have been attained from the hard drive, as you use the same .dat file for each time you run test2, yet the values are the ones contained in test1-x.dat.
+
+Enjoy!

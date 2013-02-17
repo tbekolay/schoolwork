@@ -1,0 +1,6 @@
+README
+Trevor Bekolay, 6796723
+
+Included in the directory is just my edited simulator.cpp file, and this readme.  To compile the program is pretty simple, I recommed using g++.  For the sake of explicitness, "g++ simulator.cpp -o simulator" will give you an executable simulator file.
+The program accepts two command line arguments: "simulator [object file] [data file]" where the object file has a .o extension, and the data file (normally) has a .dat extension.
+The number of blocks in the cache and the number of words per block are hard-coded in the code as #defines, so if you wish to experiment with different cache sizes, you will have to edit the simulator.cpp file with your text editor of choice.  You can find these #defines on lines 51 and 52.

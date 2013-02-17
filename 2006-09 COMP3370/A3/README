@@ -1,0 +1,9 @@
+COMP 3370 Assignment 3 - DMA Sim
+Trevor Bekolay, 6796723
+
+The last assignment!  I hope you're enjoying marking these, they look like they take a long time.
+Anyway, I'll be brief about my assignment then!  My code is in dma_sim.cpp.  After you run the program once, a 'hard_drive' file
+will be created, containing the contents of the "hard drive". Do a simple g++ dma_sim.cpp to compile the code.  Then, to run the pre-assembled files, do:
+a.out (or whatever you named it) test1.o test1-x.dat
+a.out test2.o test2.dat
+This will show you what the programs do for various inputs.

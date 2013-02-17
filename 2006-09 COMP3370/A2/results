@@ -1,0 +1,190 @@
+Results:
+These are the results I received from running the program; they are copied directly from stdout (you will receive identical results if you run the test programs on my simulator) and are included for your convenience.
+
+As a capsule summary, the optimal cache dimensions for Test1 are 1 block with 8 block size, and for Test2, 33 blocks of 8 block size.
+
+
+
+Test Program 1 Output (the same regardless of cache dimensions):
+
+Illegal instruction ffff detected at address 0010
+
+0004 0005 2386 f4e4 2cab ff5d 0096 ffff ffff ffff ffff ffff ffff ffff ffff ffff         '....#...,..]....................'
+ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff         '................................'
+ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff         '................................'
+ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff         '................................'
+ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff         '................................'
+ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff         '................................'
+ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff         '................................'
+ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff         '................................'
+ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff         '................................'
+ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff         '................................'
+ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff         '................................'
+ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff         '................................'
+ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff         '................................'
+ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff         '................................'
+ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff         '................................'
+ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff         '................................'
+ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff         '................................'
+ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff         '................................'
+ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff         '................................'
+ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff         '................................'
+ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff         '................................'
+ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff         '................................'
+ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff         '................................'
+ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff         '................................'
+ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff         '................................'
+ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff         '................................'
+ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff         '................................'
+ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff         '................................'
+ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff         '................................'
+ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff         '................................'
+ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff         '................................'
+ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff         '................................'
+ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff         '................................'
+ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff         '................................'
+ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff         '................................'
+ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff         '................................'
+ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff         '................................'
+ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff         '................................'
+ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff         '................................'
+ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff         '................................'
+ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff         '................................'
+ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff         '................................'
+ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff         '................................'
+ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff         '................................'
+ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff         '................................'
+ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff         '................................'
+ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff         '................................'
+ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff         '................................'
+ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff         '................................'
+ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff         '................................'
+ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff         '................................'
+ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff         '................................'
+ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff         '................................'
+ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff         '................................'
+ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff         '................................'
+ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff         '................................'
+ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff         '................................'
+ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff         '................................'
+ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff         '................................'
+ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff         '................................'
+ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff         '................................'
+ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff         '................................'
+ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff         '................................'
+ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff         '................................'
+
+Test 1 Hit Rate Results:
+
+Cache details for fully associative cache with 8 block(s) of 1 word(s) each:
+Hits: 1 Misses: 7
+Overall hit rate: 12.50%
+
+Cache details for fully associative cache with 4 block(s) of 2 word(s) each:
+Hits: 4 Misses: 4
+Overall hit rate: 50.00%
+
+Cache details for fully associative cache with 2 block(s) of 4 word(s) each:
+Hits: 6 Misses: 2
+Overall hit rate: 75.00%
+
+Cache details for fully associative cache with 1 block(s) of 8 word(s) each:
+Hits: 7 Misses: 1
+Overall hit rate: 87.50%
+
+The results with 1 block of 8 words each is the optimal cache dimensions, as the only miss is a compulsory one.
+
+
+Test Program 2 Output (the same regardless of cache dimensions):
+
+Illegal address ffff detected with instruction a508 at address 0004
+
+2386 0005 2386 f4e4 2cab ff5d 0096 ffff ffff 0096 ff5d 2cab f4e4 2386 0005 0032         '#...#...,..].........],...#....2'
+0032 0005 2386 f4e4 2cab ff5d 0096 ffff ffff 0096 ff5d 2cab f4e4 2386 0005 0032         '.2..#...,..].........],...#....2'
+0032 0005 2386 f4e4 2cab ff5d 0096 ffff ffff 0096 ff5d 2cab f4e4 2386 0005 0032         '.2..#...,..].........],...#....2'
+0032 0005 2386 f4e4 2cab ff5d 0096 ffff ffff 0096 ff5d 2cab f4e4 2386 0005 0032         '.2..#...,..].........],...#....2'
+0032 0005 2386 f4e4 2cab ff5d 0096 ffff ffff 0096 ff5d 2cab f4e4 2386 0005 0032         '.2..#...,..].........],...#....2'
+0032 0005 2386 f4e4 2cab ff5d 0096 ffff ffff 0096 ff5d 2cab f4e4 2386 0005 0032         '.2..#...,..].........],...#....2'
+0032 0005 2386 f4e4 2cab ff5d 0096 ffff 0032 0005 2386 f4e4 2cab ff5d 0096 ffff         '.2..#...,..].....2..#...,..]....'
+ffff 0096 ff5d 2cab f4e4 2386 0005 0032 0032 0005 2386 f4e4 2cab ff5d 0096 ffff         '.....],...#....2.2..#...,..]....'
+ffff 0096 ff5d 2cab f4e4 2386 0005 0032 0032 0005 2386 f4e4 2cab ff5d 0096 ffff         '.....],...#....2.2..#...,..]....'
+ffff 0096 ff5d 2cab f4e4 2386 0005 0032 0032 0005 2386 f4e4 2cab ff5d 0096 ffff         '.....],...#....2.2..#...,..]....'
+ffff 0096 ff5d 2cab f4e4 2386 0005 0032 0032 0005 2386 f4e4 2cab ff5d 0096 ffff         '.....],...#....2.2..#...,..]....'
+ffff 0096 ff5d 2cab f4e4 2386 0005 0032 0032 0005 2386 f4e4 2cab ff5d 0096 ffff         '.....],...#....2.2..#...,..]....'
+ffff 0096 ff5d 2cab f4e4 2386 0005 0032 0032 0005 2386 f4e4 2cab ff5d 0096 ffff         '.....],...#....2.2..#...,..]....'
+0032 0005 2386 f4e4 2cab ff5d 0096 ffff ffff 0096 ff5d 2cab f4e4 2386 0005 0032         '.2..#...,..].........],...#....2'
+0032 0005 2386 f4e4 2cab ff5d 0096 ffff ffff 0096 ff5d 2cab f4e4 2386 0005 0032         '.2..#...,..].........],...#....2'
+0032 0005 2386 f4e4 2cab ff5d 0096 ffff ffff 0096 ff5d 2cab f4e4 2386 0005 0032         '.2..#...,..].........],...#....2'
+0032 0005 0101 f4e4 2cab ff5d 0096 ffff ffff 0096 ff5d 2cab f4e4 2386 0005 0032         '.2......,..].........],...#....2'
+0032 0005 2386 f4e4 2cab ff5d 0096 ffff ffff 0096 ff5d 2cab f4e4 2386 0005 0032         '.2..#...,..].........],...#....2'
+0032 0005 2386 f4e4 2cab ff5d 0096 ffff ffff 0096 ff5d 2cab f4e4 2386 0005 0032         '.2..#...,..].........],...#....2'
+0032 0005 2386 f4e4 2cab ff5d 0096 ffff 0032 0005 2386 f4e4 2cab ff5d 0096 ffff         '.2..#...,..].....2..#...,..]....'
+ffff 0096 ff5d 2cab f4e4 2386 0005 0032 0032 0005 2386 f4e4 2cab ff5d 0096 ffff         '.....],...#....2.2..#...,..]....'
+ffff 0096 ff5d 2cab f4e4 2386 0005 0032 0032 0005 2386 f4e4 2cab ff5d 0096 ffff         '.....],...#....2.2..#...,..]....'
+ffff 0096 ff5d 2cab f4e4 2386 0005 0032 0032 0005 2386 f4e4 2cab ff5d 0096 ffff         '.....],...#....2.2..#...,..]....'
+ffff 0096 ff5d 2cab f4e4 2386 0005 0032 0032 0005 2386 f4e4 2cab ff5d 0096 ffff         '.....],...#....2.2..#...,..]....'
+ffff 0096 ff5d 2cab f4e4 2386 0005 0032 0032 0005 2386 f4e4 2cab ff5d 0096 ffff         '.....],...#....2.2..#...,..]....'
+ffff 0096 ff5d 2cab f4e4 2386 0005 0032 0032 0005 2386 f4e4 2cab ff5d 0096 ffff         '.....],...#....2.2..#...,..]....'
+0032 0005 2386 f4e4 2cab ff5d 0096 ffff ffff 0096 ff5d 2cab f4e4 2386 0005 0032         '.2..#...,..].........],...#....2'
+0032 0005 2386 f4e4 2cab ff5d 0096 ffff ffff 0096 ff5d 2cab f4e4 2386 0005 0032         '.2..#...,..].........],...#....2'
+0032 0005 2386 f4e4 2cab ff5d 0096 ffff ffff 0096 ff5d 2cab f4e4 2386 0005 0032         '.2..#...,..].........],...#....2'
+0032 0005 2386 f4e4 2cab ff5d 0096 ffff ffff 0096 ff5d 2cab f4e4 2386 0005 0032         '.2..#...,..].........],...#....2'
+0032 0005 2386 f4e4 2cab ff5d 0096 ffff ffff 0096 ff5d 2cab f4e4 2386 0005 0032         '.2..#...,..].........],...#....2'
+0032 0005 2386 f4e4 2cab ff5d 0096 ffff ffff 0096 ff5d 2cab f4e4 2386 0005 0032         '.2..#...,..].........],...#....2'
+0032 0005 2386 f4e4 2cab ff5d 0096 ffff ffff ffff ffff ffff ffff ffff ffff ffff         '.2..#...,..]....................'
+ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff         '................................'
+ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff         '................................'
+ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff         '................................'
+ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff         '................................'
+ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff         '................................'
+ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff         '................................'
+ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff         '................................'
+ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff         '................................'
+ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff         '................................'
+ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff         '................................'
+ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff         '................................'
+ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff         '................................'
+ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff         '................................'
+ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff         '................................'
+ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff         '................................'
+ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff         '................................'
+ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff         '................................'
+ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff         '................................'
+ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff         '................................'
+ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff         '................................'
+ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff         '................................'
+ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff         '................................'
+ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff         '................................'
+ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff         '................................'
+ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff         '................................'
+ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff         '................................'
+ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff         '................................'
+ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff         '................................'
+ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff         '................................'
+ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff         '................................'
+ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff ffff         '................................'
+
+Test 2 Hit Rate Results:
+
+Cache details for fully associative cache with 8 block(s) of 1 word(s) each:
+Hits: 523       Misses: 511
+Overall hit rate: 50.58%
+
+Cache details for fully associative cache with 4 block(s) of 2 word(s) each:
+Hits: 779       Misses: 255
+Overall hit rate: 75.34%
+
+Cache details for fully associative cache with 2 block(s) of 4 word(s) each:
+Hits: 843       Misses: 191
+Overall hit rate: 81.53%
+
+Cache details for fully associative cache with 1 block(s) of 8 word(s) each:
+Hits: 491       Misses: 543
+Overall hit rate: 47.49%
+
+None of these gives us exceptionally good results.  The highest possible hit rate with max block size of 8 is:
+Cache details for fully associative cache with 33 block(s) of 8 word(s) each:
+Hits: 1001      Misses: 33
+Overall hit rate: 96.81%
+
+33 blocks of 8 words each.  We can clearly see that all 33 misses are compulsory misses.

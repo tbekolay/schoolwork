@@ -1,0 +1,76 @@
+<html>
+<head>
+	<title>Comp 3370 Assignment 1</title>
+<style>
+body,td           { font-family: Verdana,Geneva,Arial,Sans-serif; 
+                    font-size: 12px; color: #000000; }
+a                 { color: #000000 }
+.pagetitle        { font-size: 14px; font-weight: bold; color: #000000; }
+.dateheader       { font-size: 12px; font-weight: bold; color: #336699; }
+</style>
+</head>
+<body>
+<span class=pagetitle>Comp 3370 Computer Organization<br>Assignment 1<br>Machine Code Definitions</span>
+<br><br>
+		<p>
+			All opcodes are 6 bits, with the first 3 bits identifying the opcode family and the last 3 bits identifying the specific operation.
+			<p>
+			Registers are encoded in 4 bits, with R0 being 0000 and R15 being 1111 (and normal incrementing between them).
+			<p>
+			Standard format: [opcode][operand 1][operand 2]. Operand 1 is always 4 bits. Operand 2, when present, can be up to 6 bits in length (for literal values ranging from -31 to 31). Any unused bits will be filled with zeros (for either an unused operand or unused bits).
+			<h2>
+				Operations
+			</h2>
+			In all of the formats indicated below, the underscore "_" is used to identify a single bit. If there are 4 bits together then a register number is to be placed in the operand. If there are 6 bits then a literal value is to be place in the operand.
+			<p>
+			An "x" (or a grouping) is used to indicate a selection from the relevant list.
+			<h3>
+				Arithmetic
+			</h3>
+			The first 3 bits of the opcode identify the operation. The remaining 3 bits are used to indicate the addressing mode of the second operand: 000 indicates a literal while 001 indicates a register. Literals are a maximum of 6 bits.
+			<p>
+			<dl>
+				<dt>Each operation will have the following formats <dd>
+				<pre>xxx   000   _ _ _ _   _ _ _ _ _ _</pre>
+				<dd>
+				<pre>xxx   001   _ _ _ _   _ _ _ _   00</pre>
+			</dl>
+			<dl>
+				<dt>The 3 bit operation value assignments are <dd><tt>000</tt>: ADD <dd><tt>001</tt>: SUB <dd><tt>010</tt>: AND <dd><tt>011</tt>: OR <dd><tt>100</tt>: XOR
+			</dl>
+			<h3>
+				MOVE
+			</h3>
+			<tt>101</tt> indicates that the opcode if for a MOVE operation. The next 3 bits indicate the addressing mode (note that they are selected such that they can be grouped according to source and/or destination). The middle bit is set if any other combination is detected (i.e. memory to memory or register to register).
+			<dl>
+				<dd><tt>000</tt>: literal to register with format
+				<pre>101   000   _ _ _ _   _ _ _ _ _ _ </pre>
+				<dd><tt>001</tt>: memory to register with format
+				<pre>101   001   _ _ _ _   _ _ _ _   00</pre>
+				<dd><tt>100</tt>: literal to memory with format
+				<pre>101   100   _ _ _ _   _ _ _ _ _ _ </pre>
+				<dd><tt>101</tt>: register to memory with format
+				<pre>101   101   _ _ _ _   _ _ _ _   00</pre>
+			</dl>
+			<h3>
+				Shift
+			</h3>
+			<tt>110</tt> is used to identify a shift operation. The remaining 3 bits are used to identify direction, with <tt>000</tt> indicating right and <tt>001</tt> indicating left.
+			<dl>
+				<dt>The operation has the format <dd>
+				<pre>110   00x   _ _ _ _   000000</pre>
+			</dl>
+			<h3>
+				Branch
+			</h3>
+			<tt>111</tt> is used to identify branch operations (identified as changing the flow of execution). The remaining 3 bits are used to identify the type of branch. The remaining 6 bits of the branch operation store the offset and defines the maximum branch range as 31 bytes from the current instruction.
+			<dl>
+				<dt>Each operation will have the following format <dd>
+				<pre>111   xxx   _ _ _ _   _ _ _ _ _ _</pre>
+			</dl>
+			<dl>
+				<dt>The operation value assignments are <dd><tt>000</tt>: JR (note that operand 2 will contain all zeros) <dd><tt>001</tt>: BEQ <dd><tt>010</tt>: BNE <dd><tt>011</tt>: BLT <dd><tt>100</tt>: BGT <dd><tt>101</tt>: BLE <dd><tt>110</tt>: BGE
+			</dl>
+			<p>
+	</body>
+</html>

@@ -1,0 +1,6 @@
+COMP3370 Assignment 1
+Trevor Bekolay, 6796723, umbekol0@cc.umanitoba.ca
+
+To compile the program, use g++; the preferred syntax would be g++ -o harvard harvard.cpp, to create an executable named 'harvard'.
+
+Then, run the program with harvard [object file] [data file].  Note that the object file must have a .o extension.  The data file can have any extension.  The program will still run if a data file is not passed to it.
