@@ -1,0 +1,22 @@
+Assignment 3 - 074.215 L02
+
+My solution to this assignment is split into a number of .cpp and .h 
+files, and (luckily for you!) a makefile.  So, to compile the code is 
+pretty simple, just type "make" at the prompt.  Currently I have the CC 
+variable in makefile set to CC, the native C++ compiler. On the Solaris 
+machine, it gives a few warnings that g++ does not give when compiling; 
+however, CC actually works.  g++ gave me a segmentation fault, and upon 
+debugging it, it said that it could not find fstream.h, and so it didn't 
+write anything when decoding.  However, it works on a Windows maching using 
+djgpp, and works with the CC compiler (despite the odd warnings), so I would 
+be surprised if it does not work on a Linux maching with g++; so feel free 
+to change the makefile accordingly.  
+
+Upon running make, an excecutable "taz" will be produced.  To encode, pass 
+taz a filename as an argument: So, prompt:> taz larger_data.txt will 
+produce a compressed larger_data.txt.taz file.  To decode this file,use 
+the -u flag: So, prompt:. taz -u larger_data.txt.taz will produce an 
+uncompressed file larger_dataU.txt, which is exactly the same as 
+larger_data.txt (or so says diff!).
+
+~Trevor Bekolay, 6796723

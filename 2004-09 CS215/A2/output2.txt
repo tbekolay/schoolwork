@@ -1,0 +1,89 @@
+Assignment 2. 74.215 L02.  Trevor Bekolay, 6796723.
+
+Please enter input file name.
+Beginning simulation...
+
+
+Time 1: 28064212 (emergency) Priority 1 arrives.
+Time 1: 28064212 Priority 1 enters the waiting room.
+Time 1: 28064212 Priority 1 enters treatment room. (2 rooms still available)
+Time 2: 28064213 (emergency) Priority 1 arrives.
+Time 2: 28064213 Priority 1 enters the waiting room.
+Time 2: 28064213 Priority 1 enters treatment room. (1 rooms still available)
+Time 3: 28064214 (walk-in) arrives.
+Time 3: 28064214 Priority 3 begins assessment.
+Time 4: 28064215 (walk-in) arrives.
+Time 4: 28064216 (walk-in) arrives.
+Time 4: 28064217 (emergency) Priority 1 arrives.
+Time 4: 28064217 Priority 1 enters the waiting room.
+Time 4: 28064217 Priority 1 enters treatment room. (0 rooms still available)
+Time 5: 28064218 (walk-in) arrives.
+Time 6: 28064219 (walk-in) arrives.
+Time 7: 28064214 Priority 3 enters the waiting room.
+Time 7: 28064215 Priority 1 begins assessment.
+Time 7: 28064220 (walk-in) arrives.
+Time 8: 28064221 (emergency) Priority 1 arrives.
+Time 8: 28064221 Priority 1 enters the waiting room.
+Time 9: 28064222 (walk-in) arrives.
+Time 11: 28064215 Priority 1 enters the waiting room.
+Time 11: 28064216 Priority 2 begins assessment.
+Time 15: 28064216 Priority 2 enters the waiting room.
+Time 15: 28064218 Priority 5 begins assessment.
+Time 19: 28064218 Priority 5 enters the waiting room.
+Time 19: 28064219 Priority 3 begins assessment.
+Time 23: 28064219 Priority 3 enters the waiting room.
+Time 23: 28064220 Priority 5 begins assessment.
+Time 27: 28064220 Priority 5 enters the waiting room.
+Time 27: 28064222 Priority 2 begins assessment.
+Time 31: 28064222 Priority 2 enters the waiting room.
+Time 101: 28064212 Priority 1 treatment completed.
+Time 102: 28064212 Priority 1 is admitted to the hospital.
+Time 102: 28064213 Priority 1 treatment completed.
+Time 103: 28064213 Priority 1 is admitted to the hospital.
+Time 104: 28064217 Priority 1 treatment completed.
+Time 105: 28064212 Priority 1 departs. (1 rooms still available)
+Time 105: 28064217 Priority 1 is admitted to the hospital.
+Time 105: 28064221 Priority 1 enters treatment room. (0 rooms still available)
+Time 106: 28064213 Priority 1 departs. (1 rooms still available)
+Time 106: 28064215 Priority 1 enters treatment room. (0 rooms still available)
+Time 108: 28064217 Priority 1 departs. (1 rooms still available)
+Time 108: 28064222 Priority 2 enters treatment room. (0 rooms still available)
+Time 205: 28064221 Priority 1 treatment completed.
+Time 206: 28064215 Priority 1 treatment completed.
+Time 206: 28064221 Priority 1 is admitted to the hospital.
+Time 206: 28064215 Priority 1 is admitted to the hospital.
+Time 208: 28064222 Priority 2 treatment completed.
+Time 209: 28064215 Priority 1 departs. (1 rooms still available)
+Time 209: 28064216 Priority 2 enters treatment room. (0 rooms still available)
+Time 209: 28064221 Priority 1 departs. (1 rooms still available)
+Time 209: 28064219 Priority 3 enters treatment room. (0 rooms still available)
+Time 209: 28064222 Priority 2 departs. (1 rooms still available)
+Time 209: 28064214 Priority 3 enters treatment room. (0 rooms still available)
+Time 309: 28064214 Priority 3 treatment completed.
+Time 309: 28064216 Priority 2 treatment completed.
+Time 309: 28064219 Priority 3 treatment completed.
+Time 310: 28064214 Priority 3 departs. (1 rooms still available)
+Time 310: 28064216 Priority 2 departs. (2 rooms still available)
+Time 310: 28064218 Priority 5 enters treatment room. (1 rooms still available)
+Time 310: 28064219 Priority 3 departs. (2 rooms still available)
+Time 310: 28064220 Priority 5 enters treatment room. (1 rooms still available)
+Time 410: 28064218 Priority 5 treatment completed.
+Time 410: 28064220 Priority 5 treatment completed.
+Time 411: 28064218 Priority 5 departs. (2 rooms still available)
+Time 411: 28064220 Priority 5 departs. (3 rooms still available)
+
+28064222	Waited: 95
+28064221	Waited: 97
+28064220	Waited: 299
+28064219	Waited: 199
+28064218	Waited: 301
+28064217	Waited: 0
+28064216	Waited: 201
+28064215	Waited: 97
+28064214	Waited: 202
+28064213	Waited: 0
+28064212	Waited: 0
+
+Number of Patients: 11	Average wait per patient: 135.54545454545453
+
+Program completed normally!

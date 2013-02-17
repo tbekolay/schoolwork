@@ -1,0 +1,24 @@
+Assignment 1, Question 1.  074.215 LO2.  Trevor Bekolay,
+6796723.  Aries.
+
+Queue 1 created
+10 added.
+5 added.
+15 added.
+20 added.
+Leaving from Q1: 20
+15 added.
+Leaving from Q1: 15
+Queue 2 created
+100 added.
+50 added.
+Leaving from Q2: 100
+Leaving from Q2: 50
+Queue is empty.  Returning -1!
+Leaving from Q2: -1
+15 added.
+Leaving from Q1: 15
+Leaving from Q1: 10
+Leaving from Q1: 5
+
+Program completed successfully!

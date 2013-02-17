@@ -1,0 +1,149 @@
+Excerpt from Snow Crash
+
+Neal Stephenson
+
+Down inside the computer are three lasers - a red one, a green
+one, and a blue one. They are powerful enough to make a bright 
+light but not powerful enough to burn through the back of your
+eyeball and broil your brain, fry your frontals, lase your lobes.
+As everyone learned in elementary school, these three colors of
+light can be combined, with different intensities, to produce any
+color that Hiro's eye is capable of seeing.
+
+In this way, a narrow beam of any color can be shot out of the
+innards of the computer, up through that fisheye lens, in any
+direction. Through the use of electronic mirrors inside the
+computer, this beam is made to sweep back and forth across the
+lenses of Hiro's goggles, in much the same way as the electron
+beam in a television paints the inner surface of the eponymous
+Tube. The resulting image hangs in space in front of Hiro's view
+of Reality.
+
+By drawing a slightly different image in front of each eye, the
+image can be made three-dimensional. By changing the image
+seventy-two times a second, it can be made to move. By drawing
+the moving three-dimensional image at a resolution of 2K pixels
+on a side, it can be as sharp as the eye can perceive, and by
+pumping stereo digital sound through the little earphones, the
+moving 3-D pictures can have a perfectly realistic soundtrack.
+
+So Hiro's not actually here at all. He's in a computer-generated
+universe that his computer is drawing onto his goggles and
+pumping into his earphones. In the lingo, this imaginary place is
+known as the Metaverse. Hiro spends a lot of time in the
+Metaverse. It beats the #@#% out of the U-Stor-It.
+
+Hiro is approaching the Street. It is Broadway, the Champs
+Elysees of the Metaverse. It is the brilliantly lit boulevard
+that can be seen, miniaturized and backward, reflected in the
+lenses of his goggles. It does not really exist. But right now,
+millions of people are walking up and down it.
+The dimensions of the Street are fixed by a protocol, hammered
+out by the computer-graphics ninja overlords of the Association
+for Computing Machinery's Global Multimedia Protocol Group. The
+Street seems to be a grand boulevard going all the way around the
+equator of a black sphere with a radius of a bit more than ten
+thousand kilometers. That makes it 65,536 kilometers around,
+which is considerably bigger than Earth.
+
+The number 65,536 is an awkward figure to everyone except a
+hacker, who recognizes it more readily than his own mother's date
+of birth: It happens to be a power of 2 - 2^16 power to be exact
+and even the exponent 16 is equal to 2^4, and 4 is equal to 2^2.
+Along with 256; 32,768; and 2,147,483,648; 65,536 is one of the
+foundation stones of the hacker universe, in which 2 is the only
+really important number because that's how many digits a computer
+can recognize. One of those digits is 0, and the other is 1. Any
+number that can be created by fetishistically multiplying 2s by
+each other, and subtracting the occasional 1, will be instantly
+recognizable to a hacker.
+
+Like any place in Reality, the Street is subject to development.
+Developers can build their own small streets feeding off of the
+main one. They can build buildings, parks, signs, as well as
+things that do not exist in Reality, such as vast hovering
+overhead light shows, special neighborhoods where the rules of
+three-dimensional spacetime are ignored, and free-combat zones
+where people can go to hunt and kill each other.
+
+The only difference is that since the Street does not really
+exist - it's just a computer-graphics protocol written down on a
+piece of paper somewhere - none of these things is being
+physically built. They are, rather, pieces of software, made
+available to the public over the worldwide fiber-optics network.
+When Hiro goes into the Metaverse and looks down the Street and
+sees buildings and electric signs stretching off into the
+darkness, disappearing over the curve of the globe, he is
+actually staring at the graphic representations - the
+user interfaces - of a myriad different pieces of software that
+have been engineered by major corporations. In order to place
+these things on the Street, they have had to get approval from
+the Global Multimedia Protocol Group, have had to buy frontage on
+the Street, get zoning approval, obtain permits, bribe
+inspectors, the whole bit. The money these corporations pay to
+build things on the Street all goes into a trust fund owned and
+operated by the GMPG, which pays for developing and expanding the
+machinery that enables the Street to exist.
+
+Hiro has a house in a neighborhood just off the busiest part of
+the Street. it is a very old neighborhood by Street standards.
+About ten years ago, when the Street protocol was first written,
+Hiro and some of his buddies pooled their money and bought one of
+the first development licenses, created a little neighborhood of
+hackers. At the time, it was just a little patchwork of light
+amid a vast blackness. Back then, the Street was just a necklace
+of streetlights around a black ball in space.
+
+Since then, the neighborhood hasn't changed much, but the Street
+has. By getting in on it early, Hiro's buddies got a head start
+on the whole business. Some of them even got very rich off of it.
+That's why Hiro has a nice big house in the Metaverse but has to
+share a 20-by-30 in Reality. Real estate acumen does not always
+extend across universes.
+
+The sky and the ground are black, like a computer screen that
+hasn't had anything drawn into it yet; it is always nighttime in
+the Metaverse, and the Street is always garish and brilliant,
+like Las Vegas freed from constraints of physics and finance. But
+people in Hiro's neighborhood are very good programmers, so it's
+tasteful. The houses look like real houses, There are a couple of
+Frank Lloyd Wright reproductions and some fancy Victoriana.
+
+
+So it's always a shock to step out onto the Street, where
+everything seems to be a mile high. This is Downtown, the most
+heavily developed area. If you go a couple of hundred kilometers
+in either direction, the development will taper down to almost
+nothing, just a thin chain of streetlights casting white pools on
+the black velvet ground. But Downtown is a dozen Manhattans,
+embroidered with neon and stacked on top of each other.
+
+In the real world-planet Earth, Reality, there are somewhere
+between six and ten billion people. At any given time, most of 
+them are making mud bricks or field-stripping their AK-47s.
+Perhaps a billion of them have enough money to own a computer;
+these people have more money than all of the others put together.
+Of these billion potential computer owners, maybe a quarter of
+them actually bother to own computers, and a quarter of these
+have machines that are powerful enough to handle the Street
+protocol. That makes for about sixty million people who can be on
+the Street at any given time. Add in another sixty million or so
+who can't really afford it but go there anyway, by using public
+machines, or machines owned by their school or their employer,
+and at any given time the Street is occupied by twice the
+population of New York City.
+
+That's why the place is so overdeveloped. Put in a sign or a
+building on the Street and the hundred million richest, hippest,
+best-connected people on earth will see it every day of their
+lives.
+
+It is a hundred meters wide, with a narrow monorail track running
+down the middle. The monorail is a free piece of public utility
+software that enables users to change their location on the
+Street rapidly and smoothly. A lot of people just ride back and
+forth on it, looking at the sights. When Hiro first saw this
+place, ten years ago, the monorail hadn't been written yet; he
+and his buddies had to write car and motorcycle software in order
+to get around. They would take their software out and race it in
+the black desert of the electronic night.

@@ -1,0 +1,8 @@
+Assignment 4, 074.215
+Trevor Bekolay, 6796723
+
+Files description: All .java files are found in the main assignment directory.  BankServer.java contains the main method.  data.txt contains the test data found on the course website.
+Code complilation procedure: Simply running "javac BankServer.java" will compile all the necessary java files, but if you wish to be thorough, "javac *.java" will compile them all seperately.  I prefer the former.
+Code execution: To begin the program, run "java BankServer".  From there, one can manually type in requests, then "Q" when finished.  Redirected input makes this even easier, so to use the test data, simply type "java BankServer < data.txt".
+
+Alas, I was not able to book enough time to completely finish the GUI.  However, the server is set up so such that it would be easy to handle requests and return responses if I had found the time to set up the GUI.

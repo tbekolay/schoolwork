@@ -1,0 +1,61 @@
+Assignment 2. 74.215 L02.  Trevor Bekolay, 6796723.
+
+Please enter input file name.
+Beginning simulation...
+
+
+Time 18: 28064212 (emergency) Priority 1 arrives.
+Time 18: 28064212 Priority 1 enters the waiting room.
+Time 18: 28064212 Priority 1 enters treatment room. (2 rooms still available)
+Time 18: 28064213 (walk-in) arrives.
+Time 18: 28064213 Priority 3 begins assessment.
+Time 19: 28064214 (emergency) Priority 1 arrives.
+Time 19: 28064214 Priority 1 enters the waiting room.
+Time 19: 28064214 Priority 1 enters treatment room. (1 rooms still available)
+Time 20: 28064212 Priority 1 treatment completed.
+Time 20: 28064215 (walk-in) arrives.
+Time 20: 28064216 (emergency) Priority 1 arrives.
+Time 20: 28064216 Priority 1 enters the waiting room.
+Time 20: 28064216 Priority 1 enters treatment room. (0 rooms still available)
+Time 21: 28064212 Priority 1 is admitted to the hospital.
+Time 21: 28064217 (walk-in) arrives.
+Time 22: 28064213 Priority 3 enters the waiting room.
+Time 22: 28064215 Priority 1 begins assessment.
+Time 24: 28064212 Priority 1 departs. (1 rooms still available)
+Time 24: 28064213 Priority 3 enters treatment room. (0 rooms still available)
+Time 24: 28064218 (emergency) Priority 1 arrives.
+Time 24: 28064218 Priority 1 enters the waiting room.
+Time 26: 28064215 Priority 1 enters the waiting room.
+Time 26: 28064217 Priority 2 begins assessment.
+Time 27: 28064213 Priority 3 treatment completed.
+Time 28: 28064213 Priority 3 departs. (1 rooms still available)
+Time 28: 28064218 Priority 1 enters treatment room. (0 rooms still available)
+Time 30: 28064217 Priority 2 enters the waiting room.
+Time 38: 28064218 Priority 1 treatment completed.
+Time 39: 28064218 Priority 1 is admitted to the hospital.
+Time 42: 28064218 Priority 1 departs. (1 rooms still available)
+Time 42: 28064215 Priority 1 enters treatment room. (0 rooms still available)
+Time 47: 28064214 Priority 1 treatment completed.
+Time 48: 28064214 Priority 1 is admitted to the hospital.
+Time 51: 28064214 Priority 1 departs. (1 rooms still available)
+Time 51: 28064217 Priority 2 enters treatment room. (0 rooms still available)
+Time 52: 28064217 Priority 2 treatment completed.
+Time 53: 28064217 Priority 2 departs. (1 rooms still available)
+Time 56: 28064216 Priority 1 treatment completed.
+Time 57: 28064216 Priority 1 is admitted to the hospital.
+Time 60: 28064216 Priority 1 departs. (2 rooms still available)
+Time 61: 28064215 Priority 1 treatment completed.
+Time 62: 28064215 Priority 1 is admitted to the hospital.
+Time 65: 28064215 Priority 1 departs. (3 rooms still available)
+
+28064218	Waited: 4
+28064217	Waited: 26
+28064216	Waited: 0
+28064215	Waited: 18
+28064214	Waited: 0
+28064213	Waited: 2
+28064212	Waited: 0
+
+Number of Patients: 7	Average wait per patient: 7.142857142857143
+
+Program completed normally!

@@ -1,0 +1,46 @@
+Random notes:
+
+C++ class declarations end with semicolons.
+
+Movie * ptr = Object and Pointer editable
+const Movie * ptr = Pointer editable, Object not
+Movie const * ptr = Pointer editable, Object not
+Movie * const ptr = Object editable, Pointer not
+const Movie * const ptr = Neither editable
+Movie const * const ptr = Neither editable
+
+Life Cycle:
+Requirements Gathering
+System Analysis - WHAT do we need
+System Design - HOW do we do it
+Implementation
+Integration
+Maintenance
+
+RG: Use case diagrams: Actors and their associated use cases.
+ALYS: Analysis Models, Object Collaboration Diagram
+DESGN: Design Model; More dynamic, formal.  CRC cards (Class/Responsibility/Collaborator)
+DESGN: Sequence Diagrams.  Lines and stuff; gay.
+
+Coupling:
+Subclass coupling b(^_^) - interaction between subclass/parent
+Parameter coupling - classes related and must pass parameters to implement relationship
+Component coupling - a class has another class as a data-field (one way!)
+Control coupling - performs things in a fixed order, determined externally
+Global data coupling - two or more classes bound together by a global data structure
+Internal data coupling (T_T) - one class allowed to alter another's data members directly
+
+Cohesion:
+Data cohesion b(^_^) - class has data members and methods to properly export the purpose
+Functional cohesion b(^_^) - all methods related to performing one overall function
+Sequential cohesion - does more than one thing, but in a sequential order
+Temporal cohesion - gather largely unrelated things because they have to be done at the same time
+Logical cohesion - logical grouping, but shares no data etc; ex: math class
+Coincidental cohesion (T_T) - elements have nothing to do with one another
+
+Testing:
+Black box: Don't know about code internals
+White box: Do know about code internals
+
+Design Patterns:
+Name, Synopsis, Forces (requirements), Solution, Counterforces (why not), Related Patterns
