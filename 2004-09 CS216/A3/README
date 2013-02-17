@@ -1,0 +1,6 @@
+Assignment 3
+
+.... To run the program, type "spell -f words.txt -s <preferred table size>".  The -f option denotes that
+the argument is the file to be loaded.  It is mandatory; the program will not
+run without an -f option.  The -s option denotes the table size to be used.  If this is not defined, 53 (DEFAULT_SIZE) will be used.  Extraneous options passed (IE -g, -r) will cause an error and program termination.  If -f and an argument is supplied, other
+non-option arguments will be ignored and the program will run as expected.

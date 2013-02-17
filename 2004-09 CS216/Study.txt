@@ -1,0 +1,94 @@
+Stuff to memorizize
+
+Pointers to Functions:
+	/* function returning pointer to int */
+	int *func(int a, int b);
+	
+	/* pointer to function returning int */
+	int (*func)(int a, int b);
+	
+	func = add;
+	func(1,2) = 3
+
+Command Line Arguments:
+	int main( int argc, char *argv[] )
+	
+	getopt( argc, argv, "a:bcd" )
+	Returns ? if character after - isn't abcd
+	Returns -1 if first character isn't - 
+	Returns : if no arg after -a (otherwise optarg = that arg)
+	
+	while(( choice = getopt( argc, argv, "a:bcd" )) != NONOPT )
+	{
+		switch(choice)
+		{
+			case 'a' :
+				...break;
+			case 'b' :
+				...break;
+			case 'c' :
+				...break;
+			case 'd' :
+				...break;
+			case ':' :
+				...break/return;
+			case '?' :
+				...break/return;
+		}
+	}
+	
+Creating Static Libraries:
+	ar lib<name>.a <files>.o
+	->creates lib<name>.a
+	ranlib lib<name>.a
+	->creates an index in the lib to speed things up
+	
+	to use the lib: gcc -L. -l<name>
+	
+Creating Dynamic Libraries:
+	gcc -fPIC -c <objects>.c
+	gcc -shared lib<name>.so <objects>.o
+	->creates lib<name>.so
+	
+	to use the lib: gcc -L. -l<name>
+	
+	must set LD_LIBRARY_PATH to (pwd)
+	
+	also, #include <dlfcn.h>
+	then can use dlopen()
+
+Makefiles:
+
+	CFLAGS = -Wall
+	CC = gcc
+
+	PROG = printTree
+	OBJS = tree.o
+
+	$(PROG) : $(OBJS)
+		$(CC) $(CFLAGS) printTree.c $(OBJS) -o $@
+
+	%.o : %.c
+		$(CC) $(CFLAGS) -c $<
+	
+	if using incdirs and srcdirs, make them then make
+	CFLAGS = -I$(INCDIR)
+	HEADERS = $(SRCDIR)/<header>.h
+	
+
+Cohesion and Coupling:
+	Cohesion = interaction within a module
+	Coupling = interaction between modules
+	Ideally: Low coupling, high cohesion
+
+Variable Argument Lists:
+	va_list arguments - stores the arguments
+	va_start(arguments, x) - where x is the arguments before the "..."
+	va_arg(arguments, int) - where int can be any variable type
+	va_end(arguments) - cleans up the list
+
+Declarations:
+	In order:
+	() = function returning
+	[] = array of
+	* = pointer to

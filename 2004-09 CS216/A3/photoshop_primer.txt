@@ -1,0 +1,139 @@
+From: http://www.luminous-landscape.com/instant_photoshop.htm
+
+Instant Photoshop
+
+A Fast-Start Introduction to Photoshop For Photographers
+
+This subject will be featured in a forthcoming issue of The Luminous Landscape Video Journal.
+
+When photographers switch from the traditional chemical darkroom to PC-based desktop image processing the hardest part of the learning curve is learning Photoshop. This program is one of the most sophisticated pieces of software ever designed and now with 10 years+ of revisions and enhancements presents a daunting challenge to the newcomer.
+
+The rapid expansion in popularity of digital SLRs such as the Nikon D1, Fuji S1 and Canon D30 mean as well that a lot of traditional camera users are making a direct leap to digital image processing. Many of these cameras come with Photoshop LE, though upgrading to Photoshop 6.0 should be seriously considered.
+
+There are numerous third-party books on Photoshop but most are filled with unnecessary and confusing information aimed at non-photographers. Several of the books designed specifically for photographers go into so much depth that figuring out where to begin can be a intimidating at best.
+
+This article is designed with you in mind. You want to take your scanned (or digital camera generated) images and be able to produce high quality prints on your ink-jet printer. You want to use all of the quality-enhancing tricks that you know are available to pros and people who've spent years studying Photoshop, but you don't want to waste time getting started.
+
+You've come to the right place. The following text details in a step-by-step manner how to take your raw scan or digital file and produce the highest quality print. While some explanations are provided of why certain actions are taken, the main thrust will be results rather than reasons.
+
+Photoshop
+
+I assume that you're using Photoshop 5.5 or later. (Photoshop LE will work as well but lacks Adjustment Layers and Lab Color). Why Photoshop? Simple. It's the gold standard. No program has the comprehensiveness of features, the global support of the graphic arts and photographic community, and the richness of resources available.
+
+The Screen
+
+It's vital that your system be calibrated so that what you see on-screen is what appears on paper. Have a look at my article entitled Monitor Profiling and Calibration for more information on this critical subject. In my opinion, if you are serious about your photography this step is a must, not an option.
+
+The Scan
+
+You need to have good scans to end up with good prints. A high quality scanner is much more important than a good enlarger or enlarging lens ever was. Much more. If you don't have a scanner you can have Photo CD or Photo CD Pro scans made for a reasonable price. The quality can be quite good but it is very dependant on the lab used.
+
+Ideally you want your own scanner. For 35mm work Polaroid, Microtek and Nikon make excellent models. High-end medium format scanners are much more expensive, but for people looking for quality work they are necessary, since low-end flat-bed scanners simply can't produce high quality work.
+
+RAW Files
+
+If you are working with files from a digital camera they should preferably be in RAW mode. JPG files have been degraded by the camera and the application by the camera of White Balance and Sharpening has done the same (though to a lesser extent). Apply controls once only in Photoshop for best results.
+
+Scanner Settings
+
+If you have Photo CD scans made then you'll end up working with what you get. If you do your own scans then the name of the game is to try and extract as much information (meaning - dynamic range) as possible from your transparencies or negatives. The rest is best done within Photoshop.
+
+Three Basic Steps to Achieving Great Prints in Photoshop
+
+There are two schools of thought. Once says, "sharpen in the scanning software", the other says, "don't sharpen until the end of image processing in Photoshop". I split the difference (for reasons that I'll explain shortly).
+
+1. Sharpening 
+
+Sharpening in digital image processing jargon is about increasing edge contrast and has nothing to do with focus. If a modest amount of Sharpening has been used in the scanning process then only a modest amount will be needed in Photoshop. Preferably have your scanner or camera apply NO sharpening and do it all in Photoshop.
+
+The trick to high quality Sharpening is to do it in LAB mode using just the luminance (Lightness) layer. This way you're only affecting the monochrome data not the colour data. This leads to higher quality images and prints.
+
+Go to Image / Mode / Lab Color and then Window / Show Channels. In the Channels palette select the Lightness channel. Now choose Filter / Sharpen / Unsharp Mask.
+
+I find that a setting of 125 / 1.5 / 1 in my scanning software and about the same again in Photoshop does the job nicely, but since this is a matter of both taste and equipment used you'll need to experiment with what works for you. You can use the Preview button to judge the effect. Click OK.
+
+Image / Mode / RGB Color will now take you back to your picture with the first step, Sharpening, completed.
+
+2. Brightness / Contrast and Colour Adjustments 
+
+You probably have noticed that there are a great number of tools available under Image / Adjust. You'll mainly be using Levels, but this is not the way to get to them. Instead we'll be using one of the most powerful tools in Photoshop, called Adjustment Layers.
+
+A Layer in Photoshop can best be visualized as a piece of clear film overlaying your image. That layer can contain another image or text and can be sized or positioned separately from your main picture. These layers can be turned on and off and merged with layers above and beneath them.
+
+What we'll be using are called Adjustment Layers. But, instead of holding images or text these layers contain adjustments to brightness, contrast and colour balance of the image laying beneath them.
+
+One of the realities of digital image processing is that every time you make a change to a digital image you slightly degrade it. There's no way, for example, to change the colour balance and then later change it again without image degradation. This is the reason for using Adjustment Layers.
+
+Any changes to the image made using an Adjustment Layer are not done to the image itself, but to an "overlay" which can be turned on and off, or deleted at any time.
+
+Levels
+
+This is likely the most useful tool in Photoshop because it allows you to alter not only brightness and contrast but colour balance as well, all in one step. Use Layer / New / Adjustment Layer and select Levels. The histogram of the image will be displayed along with several tools. The histogram shows the distribution of light values in your image with a range of 256 values - from darkest to lightest, with the vertical axis showing the amount.
+
+The three tools that you'll be using are the left, right and centre input level triangular sliders. You see that the one on the left makes the image darker and the one on the right makes it lighter. Move them both inwards and you're increasing the contrast. The centre slider allows you to make overall changes to the general brightness of the image.
+
+(You won't use them as frequently, but the Output Level sliders at the bottom of the window allow you to decrease contrast.
+
+Once you've adjusted the sliders to achieve a pleasing tonality notice the selector window that says Channel. It shows RGB, but click on the arrow and you'll see that you can access the Red, Blue and Green channels independently.
+
+By working with each of these channels you can now change the colour balance of the image, the dynamic range of each channel and the image's overall colour tonality. (I told you that this was the most important tool in Photoshop).
+
+You'll primarily use the centre slider for each colour channel. Using the shadow and highlight sliders can create unexpected and difficult to control colour shifts until you know what you're doing.
+
+You'll see that the Red channel centre slider moves the colours on the red - cyan axis; the Green on the green - magenta axis and the Blue on the blue - yellow axis.
+
+One you've adjusted each of these to your taste (usually only one or at most two of the channels will need any adjustment) go back and adjust the RGB channel to make any final overall corrections to the images brightness and contrast.
+
+Use the Preview button to see the difference between what you started with and what you've accomplished and when you're satisfied click OK.
+
+If you now look at Window / Show Layers you'll see that a new layer has been created called Levels. This layer contains the changes that you just made. You can turn the layer (and therefore the changes) off at any time by clicking the eye-icon located next to it. You can delete the layer by dragging it to the garbage can icon or right clicking and then selecting Delete Layer.
+
+Most importantly you can recall the histogram and tools at any time by double clicking on the Levels layer in the palette selector. With the Levels Histogram displayed again you can make further changes. You can also create another new Levels layer and make additional changes to it. This can be convenient when you want to see what such changes will do without disturbing what you've already done in the previous Levels adjustment layer. Pretty cool, huh?
+
+Opacity
+
+As if all of this control wasn't enough, there's more. Notice the slider on the Layers palette called Opacity. This allow you to reduce the effect of the adjustment layer created from 100% down to 0. Very effective for subtle adjustments, and far exceeding any type of controls ever available in a chemical darkroom.
+
+Have a look as well at the options under the box currently showing Normal. You can use a duplicate of your background layer in Multiply mode to add density to a thin image, and lots more. (This is where the better Photoshop books start to come in handy).
+
+Other Tools
+
+You'll have noticed that there are a number of other Adjust Layer tools available, including Curves. This is an even more sophisticated tool than Levels, and some pros prefer it. I typically use it when there is a problem image and I need very precise control over just a part of the brightness range - such as extracting shadow detail.
+
+Since this article first appeared several readers commented that a tutorial on how to use Curves would be welcome. Contributor Miles Hecker has kindly done so in an excellent tutorial called A Photoshop Curves Command Primer.
+
+Flattening Layers
+
+Layers consume a great deal of RAM and disk space. A 50MB file can quickly become 100MB or even bigger with just a couple of layers.
+
+The solution is to use Layer / Flatten Image. This permanently merges the original image and any adjustment layers that were created. The good news is that your file is now back to its basic size but the bad news is that you're no longer able to make corrections to the separate layers.
+
+For this reason I live with the large file sizes. When a file is saved in Photoshop's native .PSD format all layers are saved. At any future time you can come back to the file and make layer changes without disturbing the underlying image. The extra disk storage space is a small price to pay for this increased flexibility.
+
+Sharpening Last
+
+One of the things that you'll discover about the use of Adjustment Layers is that Unsharp Masking is one of the few vital tools that can''t be done on a layer. It must be done to the original image. This problem is compounded by the fact that Sharpening cannot be done on the Luminance Channel alone in Lab Color - the preferred method - when adjustment layers are used.
+
+For this reason some workers save their files without Unsharp Mask applied. Then, when they're ready to print they flatten the file and apply the Unsharp Mask in Lab Color. The advantage of this approach is that your raw scan is never touched and you are always able to add, change or delete Adjustment Layers at any time in the future. (Remember to save your files in Photoshop format to preserve all layers. To send a file to a lab for printing, Resize as required, Flatten, Sharpen then save as TIFF format.)
+
+Remember - if you sharpen first you can then use Adjustment Layers, but you lose the ability to fine-tune sharpening later using the least intrusive method - Lab Color. You'll have sharpened on the main image directly.
+
+If you want to have ultimate sharpening control, create your adjustment layers, save the file and then flatten and sharpen each time you print.
+
+For a test report on a Photoshop plugin program that can solve many of the problems associated with Unsharp Masking, check here.
+
+3. Image Sizing 
+
+The file that you've been working on will likely still be at the size of the original scan or imported camera file; 2700 - 4000 dpi at about 24X36mm (assuming that you're working with 35mm film; larger of course with medium format and depending on the scanning resolution.)
+
+Be sure that you don't change the image resolution by Resizing when you change the image size for printing - particularly before you save the file. Always save the file in its original scanned resolution. You can then, of course, change the resolution to match the size of your print. Almost all ink-jet printers want a file of at least 240 dpi. If you're making smaller files for the web or for small prints then go ahead and change the resolution - just be sure to save an archival version first.
+
+For a tutorial on Resolution and Image Sizing click here.
+
+Learning Photoshop is a never-ending process. I've been at it almost daily for several years, own half a dozen books, and constantly read articles in magazines for hints and tips. But, the truth is that for 90% of the image processing that I do the steps detailed above are all that's needed to produce top-quality work.
+
+Oh yes, you need one more thing. A LOT of practice.
+
+Good Luck!
+
+This subject will be featured in a forthcoming issue of The Luminous Landscape Video Journal.

@@ -1,0 +1,15 @@
+Assignment 2, 074.216 L01
+Trevor Bekolay, 6796723
+
+Question 1:
+Relatively straightforward, compile normally with "gcc palindrome.c" (with 
+specified output if you're adventurous).  The main "driver" class just 
+tests some palindromes I made up all by myself, and covers most of the 
+weird cases, though there aren't many to check.  If the palindrome class 
+is working correctly, you won't see any "Error!" messages.
+
+Question 2:
+Again, straightforward to compile, just "gcc thecount.c".  The program 
+will accept input from stdin, echo it, give a message about the number of 
+"the"s on every line of input, as well as a total number of "the"s once 
+the EOF is reached (or ^D is typed if inputting text manually).

@@ -1,0 +1,36 @@
+Notes
+
+    * Please follow the programming standards; not doing so will result in a loss of marks.
+    * Remember to include an Honesty Declaration.
+    * Submit printed copies of the program and its required output (as required in the handin instructions).
+    * Electronic handin should include:
+          o Makefile (here is a very good tutorial and another) . There is also a brief note with an example here.
+          o README file
+          o Performance report (see below)
+          o Your modular solution (several program and header files as needed)
+
+Question 1
+
+Most spell checkers use hashing to determine if a given word in a document is correct (that's why they can check your spelling as you type). Implement a spell checker as follows:
+
+   1. Read in the file words.txt which contains one word per line and create your dictionary. Use a command line option to specify the dictionary file to load.
+   2. Insert each word into a Table ADT. The Table will hash (first by creating the hash code using polynomial accumulation with Horner's method) the data using user selectible two methods: (1) Compression Map using division and (2) Compression map using MAD method.  In case of collisions, you may use any method for conflict resolution.
+   3. Read in a document file (photoshop_primer.txt) from standard input.
+   4. Perform a Table search for each word in each line of the file. If a word isn't present then it is a spelling error.
+   5. Your program will indicate the spell errors by outputting each word that's incorrect once. With each word include the line numbers that the word appears on (in the order they appear). It's up to you to determine the most effective way of storing and managing this information such that it is displayed correctly. You will be marked based on your design decisions.
+   6. The hash table must be created dynamically, using malloc() function. Don't forget to free any dynamically allocated memory when not needed. 
+
+You should submit an ASCII (i.e. text) file in which you describe the performance of two solutions and elaborate on the execution times you get with the above mentioned input file answerig the following questions:
+
+    * Which method is better (i.e. runs faster)? Why?
+    * What are the weaknesses and strengths of each method?
+    * Can you identify some input data with which one approach overperforms another?
+    * How large the hash table is when there is no upper limit with the sample input?
+    * What is the size of your hash table with each method?
+    * How many collusions you'll get with each method when the table size is 50? 100?
+
+You should consider the following when implementing your solution:
+
+    * The text file you will read has punctuation that must be handled. You must ensure that no word is seen as error because it has punctuation attached to it (note that an apostrophe is a valid part of a word and should not be considered punctuation).
+    * You must split this program into logical modules.
+    * Hashing "A" and "a" produce different values. To manage this, convert all text (including the dictionary) to all lower case when processing. This simplifies things and makes the spell checker more reliable.
