@@ -1,0 +1,73 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+  <title>Lab 4</title>
+</head>
+  <body>
+                       
+<h3 align="center">74.222 - Assembly Language Programming - Winter 04<br>
+                      </h3>
+                      
+<h1> 
+<center>Lab 4</center>
+                      </h1>
+                      
+<hr width="100%" size="2"> 
+<h3>Week of 8-12 March 04</h3>
+                       
+
+          
+<p> 
+    In this lab, we will use two algorithms to count the number of one bits 
+ in a 32-bit word. The first algorithm tests each of the 32 bits with different
+  mask. It does not use a loop. The second algorithm uses properties of the
+  sign bit and a shift instruction in a loop that executes 32 times; it does 
+ not use any masks.  Note the programs have missing code that you the
+student must fill in.<br>
+    
+<h3>Task 1: Counting bits without a loop </h3>
+          
+<ol>
+            <li>Create a directory called <tt>Lab4</tt> for the following 
+programs.<br>
+     </li>
+     <li>You can use masks such as <tt>0x00000001</tt>, <tt>0x00000002</tt>,
+      <tt>0x00000004</tt>, ..., <tt>0x4000000</tt>, <tt>0x80000000</tt> to
+ test the 32 bits of a number.     </li>
+            <li>Complete and run the progam <tt><a
+ href="L4SparcNoLoop.s">L4SparcNoLoop.s</a></tt>            on the <tt>SPARC</tt>
+that  uses such masks and counts the one bits in a given input number.</li>
+      <li>Use the inputs <tt>0xABCD1234,</tt><tt>0xFFFFFFFF,</tt><tt>0x00000000</tt>
+as examples.        </li>
+            <li>Complete and run the program <tt><a href="L468kNoLoop.s">L468kNoLoop.s</a></tt> 
+on the 68000 simulator that uses masks and counts the one bits in a given 
+input number.</li>
+     <li>Use the inputs <tt>0xABCD1234</tt><tt>,0xFFFFFFFF,</tt><tt>0x00000000</tt>
+as examples.     </li>
+          
+</ol>
+Run your programs <tt>L4SparcNoLoop.s</tt> and&nbsp;<tt>L468kNoLoop.s</tt>
+for the demonstrator so you can be checked   off for task 1. You need not
+print the sources as they will be quite large.<br>
+         
+<h3>Task 2: Counting bits with a loop</h3>
+           
+<ol>
+            <li>Complete and run the program <tt><a href="L4SparcLoop.s">L4SparcLoop.s</a></tt> 
+in <tt>SPARC</tt> that tests just the sign bit each time through a loop. It
+uses a left shift to move other bits into the sign bit position. </li>
+           <li value="3">Use the inputs <tt>0xABCD1234</tt><tt>,0xFFFFFFFF,</tt><tt>0x00000000</tt>
+as examples. Print the source program.  </li>
+   <li>Complete and run the program <tt><a href="L468kLoop.s">L468kLoop.s</a></tt> 
+in 68000 that tests just the sign bit each time through a loop. It uses a 
+left shift to move other bits into the sign bit position. In the 68000, shift
+ sets the condition code.        </li>
+            <li>Use the inputs <tt>0xABCD1234</tt><tt>,0xFFFFFFFF,</tt><tt>0x00000000</tt>
+as examples. Print the source program.  </li>
+            
+</ol>
+             Show your programs&nbsp;<tt>L4SparcLoop.s</tt> and&nbsp;<tt>L468kLoop.s</tt>
+to  the demonstrator and run them for the demonstrator so you can be checked
+  off  for task 2.<br>
+</body>
+</html>

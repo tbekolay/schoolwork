@@ -1,0 +1,241 @@
+
+<html>
+<head>
+	<title>74.222 Midterm Test March 6, 2003</title>
+</head>
+<body>
+<center><h3>74.222 Midterm Test March 6, 2003</h3></center>
+<pre>
+Name_______________________________    ID_____________________________
+</pre>
+
+<strong>Instructions:</strong>
+<ul>
+	<li>Answer all questions on exam paper.
+	<li>Last page is scrap.
+	<li>Do not rip pages apart.
+	<li>No aids or calculators are allowed.
+	<li>Time: 90 minutes, Total marks: 60 
+</ul>
+<ol>
+<h3>  General Section </h3>
+
+<li>[6] Fill in the following table with the 4-bit representations for the 
+        signed decimal integers in the left column.  Give your answers as a 
+        single hex digit.  You only need one correct answer per cell.
+
+	<table border=2 cellpadding=6>
+	<tr><th>Value</th><th>Signed magnitude</th><th>Excess-8</th><th>1's complement</th><th>2's complement</th></tr>
+	<tr><th>7</th><td>7</td><td>f</td><td>7</td><td>7</td></tr>
+	<tr><th>1</th><td>1</td><td>9</td><td>1</td><td>1</td></tr>
+	<tr><th>-5</th><td>d</td><td>3</td><td>a</td><td>b</td></tr>
+	</table>
+
+<li>[4] Explain why two's complement is the "proper choice" of integer
+representation for general purposes in a computer.
+<Pre>
+1.Best addition algorithm working for all signed and unsigned integers  
+2.Best zero representation, both unique and natural
+3.Fairly natural counting sequence
+4.Easy extension of sign
+5.Self-inverting
+</pre>
+<li>[4] How is 16.5 stored in single precision using the IBM mainframe standard.
+Write your answer as hex digits.
+<pre>
+16.5(10)=10.8(hex)=0.108*16**(2)
+sign is 0 and exponent is 64+2=66=1000010(base 2)  which together is 
+0100 0010 = 42.
+Final answer is 42108000. 
+</pre>
+<p>
+
+<li> [2] Describe the action of subcc %i0,%i1,%i2 .
+<pre>
+the contents of register %i1 is subtracted from the contents of %i0 and
+the result put in %i2.  Also the cc flags are set.
+</pre>
+<p>
+<li> [3] Write the following synthetic instructions using basic 3-operand
+instructions.<br><br>
+<pre>
+a) CMP  %L1,3	   subcc  %L1,3,%g0
+<br><BR>
+
+<li> [2] Re-write (to the side) the following code without using a "nop".
+<pre>
+Loop:				Loop:	
+   ....			          .... 		   
+   add 		%L1,%L2,%L1	  subcc %L3,1,%L3	   
+   subcc 	%L3,1,%L3         be    Loop		   
+   be 		Loop	          add   %L1,%L2,%L1
+   nop			 	Afterloop:	  
+Afterloop:				
+</pre>
+
+<li> [2] Why is it impossible for a "set" command to successfully fill the
+delay slot?
+<pre>
+It is two commands and will not fit in a one command delay slot
+</pre>
+
+<li> [1] What do the initials CISC stand for? 
+Complex Instruction Set Computer
+ 
+<li> [1] What does an assembler do?
+<pre>
+It translates assembly language code to machine language code
+</pre>
+
+<li> [3] There are three standard ways of associating characters to binary
+sequences (i.e. collating sequences).  List all three.
+<pre>
+ASCII  EBCDIC UNICODE
+</pre>
+<li> [3] Write code in 68k and Sparc to change the character '3' stored in
+register d1 or %L1 to the integer decimal 3.
+<pre>
+subi.b  #'0',d1           sub  %L1,'0',%L1
+</pre>
+<LI> [2] Change the sign of the following decimal integer stored in two's
+complement as 00FF1000<sub>16</sub>.
+<pre>
+00FF1000 -> FF00EFFF + 1 -> FF00F000
+<LI> [2] Is it better to leave data in memory or try to store them, if
+possible, in registers?  Why?
+<pre> 
+It is better to leave them in registers as it takes extra time to obtain
+the data from memory which must happen if they are involved in
+calculations.
+</pre>
+
+<h3> Programming </h3>
+<p> In the next two programming question, do not include an ID banner or
+a normal
+termination section. Do not initalize the stack pointer, use the org
+command, or initialize the DUART.   Inline comments are not required. You
+do not need to optimize delay slots but do include the Sparc prologue and
+Sparc epilogue.  You must include a register dictionary. Use good form
+unless otherwise indicated.  You may assume that the 68kIO.s will be
+included or you may assume that MASlib.c will be used with your program.
+<p>
+<li>[13] Write a 68k simulator program to prompt for and read in a lead
+value, n, from the keyboard and then (without further prompting) read in n
+positive integers from the keyboard.  Your program should check to see if
+these integers are valid pin numbers and print out to the creen whether
+the number is  "valid" or "not valid" underneath them.  Use blank lines
+appropriately.  A number is a valid pin number if its last digit is a five.
+<pre>
+*read a lead value, n, and n integers.  Print out if valid or non-valid
+*below it. A number is valid if its last digit is 5
+*a0,d0 for IO
+*d1 counter starting at n
+*d2 holds integer
+
+main:
+	lea 	prompt,a0
+	jsr 	strout
+	jsr	decin
+	move.w  d0,d1
+	bra 	checklp
+loop:
+	lea	title,a0
+	jsr	strout
+	jsr	decin
+	move.l	d0,d2	
+	divu	#10,d2
+	swap	d2
+	cmpi.w	#5,d2
+	beq	valid
+notvalid:
+	lea	head1,a0
+	jsr	strout
+valid:
+	lea	head2,a0
+	jsr	strout
+	jsr	newline
+	jsr	newline
+checklp:
+	dbra	d1,loop
+	break
+prompt: dc.b	'How many integers are there, and please type them in',lf,cr,null
+title:	dc.b	'The Integers',cr,lf,null
+head1:  dc.b	'NOT ',null
+head2:  dc.b    'VALID',null		
+
+        include   68kIO.s             Input/Output routines
+        end
+
+
+</pre>
+
+<li> [13] Write a SPARC assembly language program to do the same as the
+above question except that the input comes from a file and the
+output goes to a different file.  You do not have to give any UNIX
+commands.
+<pre>
+!========== Standard prologue for code ===================
+        .section    ".text"
+        .global     main
+        .align      4
+main:   save        %sp,-96,%sp !allocate min 96 bytes
+!=========================================================
+!This program reads a lead value n (n >= 1) and n data values.
+!It calculates if the datum is valid or not.  It is valid if
+!the last digit is a 5.  It reads from a file and prints to a file
+!_____________________________________________________________
+!Register Dictionary
+! %o0 used for IO
+! %L0 holds number
+! %L5 is a counter contolling loop sarting with the lead value
+! %L1 holds rightmost digit
+!___________________________________________________________________
+!Prompt and read lead value
+	call	decin		!get n
+	nop
+	mov     %o0,%L5		!set up counter with lead value
+	set 	heading, %o0
+	call 	strout
+	nop
+	ba	chkdata		!branch to input loop
+	nop
+!Input loop - read a value, check it print validity
+inloop:
+       	call	decin		!read value
+	nop
+	call	decout
+	nop
+	call	newline
+	nop
+	mov     %o0,%L0		!save value
+	sra	%L0,31,%g1
+	mov 	%g1,%y
+	udiv	%L0,10,%g1
+	umul	%g1,10,%g2
+	sub	%L0,%g2,%L1
+	cmp	%L1,5
+	beq	valid
+	nop
+notvalid:
+	set	head1,%o0
+	call	strout
+	nop
+valid:
+	set	head2,%o0
+	call	strout
+	nop
+chkdata:
+        deccc   %L5		!decrement counter
+	bge	inloop		!if not get another value
+	nop
+!========== Standard epilogue for code ===================
+        ret                     !Return to the OS.
+        restore                 !Actually done before "ret".
+!=========================================================
+
+! The data section
+
+         .section   ".data"
+heading: .asciz	"The integers\n"
+head1:	 .asciz	"NOT "
+head2:   .asciz "VALID\n\n"

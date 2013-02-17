@@ -1,0 +1,170 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="Author" content="John van Rees">
+   <meta name="GENERATOR" content="Mozilla/4.6 [en] (Win95; I) [Netscape]">
+   <title>.html</title>
+</head>
+<body>
+
+<center>
+<h2>
+Addressing Modes</h2></center>
+There are 12 modes in 68000 and 18 modes in 68020-68040.
+<br>&nbsp;
+<h3>
+1) Absolute Long</h3>
+It specifies a 24/32 bit address directly.&nbsp; The data is read or written
+to that address.
+<br>Eg.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; MOVE.W&nbsp;
+&nbsp;&nbsp;$A56C20, D3&nbsp;&nbsp;&nbsp; copies contents of address
+A56C20, A56C21 to D3.W
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;MOVE.W&nbsp;&nbsp;&nbsp;&nbsp; JUNK,D3&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;copies contents of address JUNK to D3.W
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;MOVE.W&nbsp;&nbsp;&nbsp;&nbsp; JUNK+2,D3&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;copies contents of address JUNK+2 and address JUNK+3 i.e. the
+same thing can be done with:
+<pre>
+       MOVE.W  OTHER,D3
+</pre>
+<br>JUNK:&nbsp;&nbsp;&nbsp; DS.W&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;1
+<br>OTHER: DS.W&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;1
+<p>The last two examples are quite common with programmers but real
+assemblers always translate "absolute long" to a PC-relative mode.
+(relocability problems).
+
+<h3>
+2) Absolute Short</h3>
+It specifies a 16 bit address, sign extended to 24/32 bits.&nbsp; This
+gives addresses in 0000-7FFF lowest 32K&nbsp; memory and
+<br>FFFF8000-FFFFFFFF highest 32K memory.&nbsp; These areas often contain
+special system data which the operating system does not want wiped
+out.&nbsp; Do <b><u>NOT</u></b> use.
+<br>Eg. MOVE.W&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$2F3C.W,D2
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; MOVE.W&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+JUNK.W, D2
+<br>W refers to size of data&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+W refers to size of address
+<br>If JUNK had address 0001A800 the effective address is FFFFA800.
+<br>&nbsp;
+
+<h3>3) Data Register Direct</h3>
+It specifies a data register (i.e. D).  Syntax Di
+<BR><pre>Eg.  MOVE.W	 D3,D4    copies register D3 into register
+D4</pre>
+   
+<h3>4) Address Register Direct</h3>
+It specifies an address(A) register.
+<PRE>Eg.	MOVE.L 	A3,D4 </pre>   
+copies A3 into D4.  Does not access memory.
+
+<h3>5) Immediate</h3>
+It specifies data that is embedded in the instruction.  Syntax #value.
+<pre>
+Eg.
+MOVE.L 		#$A56C20,D3   copies $00A56C20 into D3
+whereas
+MOVE.L 		$A56C20,D3    copies contents of memory at A56C20 into D3
+
+MOVE.W 		JUNK,D3       copies contents of memory at JUNK into D3
+whereas
+MOVE.W 		#JUNK,D3      copies address JUNK into D3
+</pre>
+In a real system the last instruction would not be allowed due to
+relocatibility problems.  It works fine on the Simulator but use 
+<pre>
+LEA             JUNK,D3  
+</pre>
+
+<h3>6) 7) 8) Address Register Indirect (with postincrement/predecrement)</h3>
+It specifies the contents of memory at an address contained in an A
+register. Syntax <pre> (Ai)  or  (Ai)+  or   -(Ai)</pre>
+(Ai)+  increments Ai by the size of DATA after using the address<br>
+-(Ai)  decrements Ai by the size of DATA before using the address
+<br><br>
+Useful for stacks and arrays.  You can get easy sequential access to data
+items in consecutive memory locations.
+<BR><BR>
+<pre>
+Eg.
+Suppose A5 contains 00ABCDE0
+Suppose memory is address   content
+                  ABCDDE    0000
+                  ABCDE0    1234
+                  ABCDE2    5678
+then
+MOVE.W	(A5),D3   	moves 1234 into D3.W
+MOVE.W  (A5)+,D4	moves 1234 into D4.W, then increments A5 by 2
+MOVE.W  (A5)+,D6        moves 5678 into D6.W, then increments A5 by 2
+MOVE.W  -(A5),D3	decrements A5 by 2, then moves 5678 into D3
+MOVE.W  -(A5),D4	decrements A5 by 2, then moves 1234 into D4
+MOVE.W  -(A5),D2        decrements A5 by 2, then moves 0000 into D2
+</pre><br>
+
+<h3>9)Address Register Indirect with Displacement</h3>
+It refers to contents of memory at address formed by adding a displacement
+to contents of An.  Syntax: disp(An) or modern assemblers accept (disp,Ai).
+The displacement is a 16 bit 2's complement signed integer constant that is 
+embedded in the instruction.
+<pre>
+Eg.
+If A3 contains $00ABC000 then
+MOVE.W  $0F3(A3),D3   will copy the word at address $00ABC0F3 into
+D3.W
+MOVE.L  -1(A3),D1     will copy the long at address $00ABBFFF into D1.L
+</pre>
+It is used for many data structures like structures and records.  It
+is used for accessing portions of any block of memory whose location
+(first byte) is stored in a register.  It is used a lot.
+
+<h3>10) Address Register indirect with Index</h3>
+disp(An,Rn) accesses the memory at (An+disp+Rn).  Rn is the index and may
+be D or A register.  Although complicated it is useful.
+
+<h3>11) & 12) Program Counter Addressing Modes.</h3>  
+Not really used much by programmers but necessary for relocatability.  
+More later. 
+<p>Note that this gives access to memory  + or - 32K from an
+address in An.  This is the reason for many 32K byte limits on blocks of
+data.  Eg. local variables in THINK Pascal.
+
+
+<H3>Allowable modes</H3>
+
+<UL>
+  <LI>Every instruction (opcode) will separately specify the addressing mode(s)
+  which are allowed for its operands.
+  <LI>Most instructions will accept most combinations of reasonable modes,
+  but there are exceptions. (Example: for the &quot;add&quot; instruction
+  one operand must be a D register, and the destination cannot be an A register.)
+  <LI>An important point:
+</UL>
+
+<BLOCKQUOTE>
+  <P><B>Only the above modes are allowed. All operands must have a syntax
+  which EXACTLY matches one of these modes. The &quot;Ai&quot;, &quot;Di&quot;,
+  and &quot;const&quot; values must be exactly that. They are not general-purpose
+  &quot;expressions&quot; as used in high-level languages.</B></P>
+  <PRE>move.w 47(A3),D4 ;OK
+move.w 47(D3),D3 ;no such mode - invalid
+move.w D3(A3),D2 ;no such mode - invalid
+move.w (A4+3),D1 ;no such mode - invalid
+move.w 3+2(A4),D0 ;OK because &quot;3+2&quot; is still a &quot;constant&quot;</PRE>
+</BLOCKQUOTE>
+
+</BODY>
+</HTML>
+                        
+
+

@@ -1,0 +1,837 @@
+00000000                                     1  *****************************************************************
+00000000                                     2  * NAME              Trevor Bekolay
+00000000                                     3  * STUDENT NUMBER    6796723
+00000000                                     4  * COURSE            74.222
+00000000                                     5  * INSTRUCTOR        Van Rees
+00000000                                     6  * ASSIGNMENT        3
+00000000                                     7  * QUESTION          1
+00000000                                     8  *****************************************************************
+00000000                                     9  *setup low memory
+00000000                                    10            org       $0
+00000000  00100000                          11            dc.l      $100000     stack pointer after reset
+00000004  00001000                          12            dc.l      start       program counter after reset
+00000008  000017BA                          13            dc.l      zzBusErr    bus error (e.g. address out of address space)
+0000000C  000017F8                          14            dc.l      zzAddErr    address error (e.g. odd address when even is needed)
+00000010  0000183A                          15            dc.l      zzIllIns    illegal instruction error
+00000014  0000187E                          16            dc.l      zzDivZer    divide by zero error
+00001000                                    17            org       $1000
+00001000                                    18  *****************************************************************
+00001000                                    19  *equ symbols
+00001000  =00000000                         20  null:     equ       $00          null string terminator
+00001000  =0000000A                         21  lf        equ       $0A          linefeed
+00001000  =0000000D                         22  cr        equ       $0D          carriage return
+00001000                                    23  *****************************************************************
+00001000                                    24  *  for (i = 0; i < array_size-1; i++)
+00001000                                    25  *  {
+00001000                                    26  *    min = i;
+00001000                                    27  *    for (j = i+1; j < array_size; j++)
+00001000                                    28  *    {
+00001000                                    29  *      if (numbers[j] < numbers[min])
+00001000                                    30  *        min = j;
+00001000                                    31  *    }
+00001000                                    32  *    temp = numbers[i];
+00001000                                    33  *    numbers[i] = numbers[min];
+00001000                                    34  *    numbers[min] = temp;
+00001000                                    35  *  }
+00001000                                    36  *
+00001000                                    37  *****************************************************************
+00001000                                    38  
+00001000  4EB9 00001262                     39  start     jsr       initIO              initialize I/O
+00001006                                    40  *Print Identification
+00001006  41F9 000010DE                     41            lea       IDBanner,a0         address of IDBanner
+0000100C  4EB9 000012A4                     42            jsr       strout 
+00001012                                    43  
+00001012                                    44  *Print unsorted array
+00001012                                    45  * d1 = counter
+00001012                                    46  
+00001012  41F9 00001172                     47  	  lea	    unsPrompt,a0
+00001018  4EB9 000012A4                     48  	  jsr       strout
+0000101E                                    49  
+0000101E  47F9 000018C6                     50            lea	    data,a3
+00001024  4241                              51  	  clr       d1
+00001026  6000 001C                         52  	  bra       unsCheck
+0000102A                                    53  
+0000102A                                    54  unsLoop:
+0000102A  2013                              55  	  move.l    (a3),d0
+0000102C  4EB9 000011E2                     56  	  jsr       decout
+00001032  103C 0020                         57  	  move.b    #' ',d0
+00001036  4EB9 000011B0                     58  	  jsr       charout
+0000103C                                    59  	  
+0000103C  D7FC 00000004                     60  	  adda.l    #4,a3
+00001042  5281                              61  	  addi.l    #1,d1
+00001044                                    62  	  
+00001044                                    63  unsCheck:
+00001044  B2B9 000018CA                     64  	  cmp.l     numData,d1
+0000104A  66DE                              65  	  bne       unsLoop
+0000104C                                    66  	  
+0000104C  4EB9 00001288                     67  	  jsr	    newline
+00001052                                    68  
+00001052                                    69  *Sort array
+00001052                                    70  *d1 - data[j]
+00001052                                    71  *d2 - temporary register
+00001052                                    72  *d3 - temporary register
+00001052                                    73  *a1 - inner loop counter
+00001052                                    74  *a2 - points to current outer loop counter
+00001052                                    75  *a3 - points to last data element
+00001052                                    76  *a5 - points to second to last data element
+00001052                                    77  *a6 - points to current min in inner loop
+00001052                                    78  
+00001052                                    79  
+00001052                                    80  *  for (i = 0; i < array_size-1; i++)
+00001052                                    81  *  {
+00001052                                    82  *    min = i;
+00001052                                    83  *    for (j = i+1; j < array_size; j++)
+00001052                                    84  *    {
+00001052                                    85  *      if (numbers[j] < numbers[min])
+00001052                                    86  *        min = j;
+00001052                                    87  *    }
+00001052                                    88  *    temp = numbers[i];
+00001052                                    89  *    numbers[i] = numbers[min];
+00001052                                    90  *    numbers[min] = temp;
+00001052                                    91  *  }
+00001052                                    92  
+00001052                                    93  startsort:
+00001052  97FC 00000004                     94  	  suba.l    #4,a3
+00001058  45F9 000018C6                     95  	  lea	    data,a2
+0000105E  2A4B                              96  	  movea.l   a3,a5
+00001060  9BFC 00000004                     97  	  suba.l    #4,a5
+00001066                                    98  
+00001066                                    99  *This implements the outer for loop
+00001066  6000 0002                        100     	  bra  	    outerlooptest        test if past end of the array
+0000106A                                   101  
+0000106A                                   102  outerLoop:
+0000106A  2C4A                             103  	 movea.l    a2,a6
+0000106C  224A                             104  	 movea.l    a2,a1
+0000106E                                   105  	  
+0000106E                                   106  *This implements the (inner) while loop
+0000106E                                   107  innerLoop:
+0000106E  B7C9                             108  	 cmpa.l     a1,a3
+00001070  D3FC 00000004                    109  	 adda.l	    #4,a1
+00001076  6F00 000E                        110  	 ble	    doneIter
+0000107A  2211                             111  	 move.l     (a1),d1
+0000107C  2416                             112  	 move.l     (a6),d2
+0000107E  B481                             113  	 cmp.l      d1,d2		if data[min] <= data[j]
+00001080  6FEC                             114  	 ble        innerLoop     	exit inner while loop
+00001082                                   115  
+00001082  2C49                             116  	 movea.l    a1,a6
+00001084  60E8                             117  	 bra        innerLoop
+00001086                                   118  
+00001086                                   119  doneIter:
+00001086  2412                             120  	 move.l     (a2),d2
+00001088  2616                             121  	 move.l	    (a6),d3	 
+0000108A                                   122  	 
+0000108A  2C82                             123  	 move.l     d2,(a6)
+0000108C  2483                             124  	 move.l     d3,(a2)
+0000108E                                   125  
+0000108E  D5FC 00000004                    126  	 adda.l     #4,a2		i = i + 1
+00001094                                   127  outlooptest:
+00001094  B5CD                             128  	 cmpa.l	    a5,a2
+00001096  6FD2                             129           ble	    outerLoop	  
+00001098                                   130  
+00001098                                   131  
+00001098                                   132  *Print sorted array
+00001098                                   133  
+00001098  41F9 00001183                    134  	  lea	    sortPrompt,a0
+0000109E  4EB9 000012A4                    135  	  jsr       strout
+000010A4                                   136  
+000010A4  47F9 000018C6                    137            lea	    data,a3
+000010AA  4241                             138  	  clr       d1
+000010AC  6000 0016                        139  	  bra       sortCheck
+000010B0                                   140  
+000010B0                                   141  sortLoop:
+000010B0  201B                             142  	  move.l    (a3)+,d0
+000010B2  4EB9 000011E2                    143  	  jsr       decout
+000010B8  103C 0020                        144  	  move.b    #' ',d0
+000010BC  4EB9 000011B0                    145  	  jsr       charout
+000010C2                                   146  	  
+000010C2  5281                             147  	  addi.l    #1,d1
+000010C4                                   148  	  
+000010C4                                   149  sortCheck:
+000010C4  B2B9 000018CA                    150  	  cmp.l     numData,d1
+000010CA  66E4                             151  	  bne       sortLoop
+000010CC                                   152  
+000010CC                                   153  
+000010CC                                   154  
+000010CC                                   155  
+000010CC                                   156  
+000010CC                                   157  * end of processing
+000010CC  41F9 00001192                    158            lea       EOP,a0              address of message
+000010D2  4EB9 000012A4                    159            jsr       strout
+000010D8  4EB9 0000120A                    160            jsr       finish              end of execution
+000010DE                                   161  *****************************************************************
+000010DE                                   162  * your data section        
+000010DE                                   163  *****************************************************************
+000010DE  4E 41 4D 45 20 20 20 20 20 ...   164  IDBanner: dc.b      'NAME               Trevor Bekolay',cr,lf
+00001101  53 54 55 44 45 4E 54 20 4E ...   165            dc.b      'STUDENT NUMBER     6796723',cr,lf
+0000111D  43 4F 55 52 53 45 20 20 20 ...   166            dc.b      'COURSE             74.222',cr,lf
+00001138  49 4E 53 54 52 55 43 54 4F ...   167            dc.b      'INSTRUCTOR         Van Rees',cr,lf
+00001155  41 53 53 49 47 4E 4D 45 4E ...   168            dc.b      'ASSIGNMENT 3',cr,lf
+00001163  51 55 45 53 54 49 4F 4E 20 ...   169            dc.b      'QUESTION 1',cr,lf,cr,lf
+00001171  00                               170            dc.b      null                Banner string terminator
+00001172  55 6E 73 6F 72 74 65 64 20 ...   171  unsPrompt:dc.b      'Unsorted Array: ',null
+00001183  53 6F 72 74 65 64 20 41 72 ...   172  sortPromtp:dc.b     'Sorted Array: ',null
+00001192  0D 0A 45 6E 64 20 6F 66 20 ...   173  EOP       dc.b      cr,lf,'End of Processing',cr,lf,null
+000011A8                                   174  *****************************************************************
+000011A8                                   175  ******************************************************************
+000011A8                                   176  *Start of 68kIO.s file     D. Meek  22 Apr 03
+000011A8                                   177  ******************************************************************
+000011A8                                   178  *Recent changes
+000011A8                                   179  *  13 Jun 03: added charin and charout
+000011A8                                   180  *  22 Apr 03: added initIO, finish, zzBusErr, zzAddErr, zzIllIns, zzDivZer
+000011A8                                   181  *  11 May 02: changed and.b to and.l in zzstr2dec routine
+000011A8                                   182  *   1 Mar 02: changed the format of name and alignment on routines
+000011A8                                   183  *  20 Feb 02: on input, go the the next line on <return>
+000011A8                                   184  *  20 Feb 02: allow strings of length 400 on input
+000011A8                                   185  *********************************************************************
+000011A8                                   186  *
+000011A8                                   187  * I/O routines plus initIO, finish, and interrupt routines
+000011A8                                   188  *
+000011A8                                   189  * The following are the routines you are most likely to use
+000011A8                                   190  *
+000011A8                                   191  *charin: ascii character input from keyboard into d0.
+000011A8                                   192  *
+000011A8                                   193  *charout: ascii character output to screen from d0
+000011A8                                   194  *
+000011A8                                   195  *decin: signed long decimal input from keyboard into d0.
+000011A8                                   196  *   Input terminated by a <return> key press
+000011A8                                   197  *
+000011A8                                   198  *decout: signed long decimal output to screen from d0 using 11 spaces.
+000011A8                                   199  *   Stays on the same line after output.
+000011A8                                   200  *
+000011A8                                   201  *finish: terminate execution
+000011A8                                   202  *
+000011A8                                   203  *hexin: (up to) 8-digit long hex number from keyboard into d0.
+000011A8                                   204  *   Input terminated by a <return> key press
+000011A8                                   205  *
+000011A8                                   206  *hexout: 8-digit long hex output to screen from d0. Stays on same line
+000011A8                                   207  *   after output.
+000011A8                                   208  *
+000011A8                                   209  *initIO: initialize bytes for Input/Output
+000011A8                                   210  *
+000011A8                                   211  *newline: output a newline command to the screen (carriage return, linefeed)
+000011A8                                   212  *
+000011A8                                   213  *strin: any length (up to 400 characters) string of valid characters
+000011A8                                   214  *   ($20 to $7E inclusive) input from keyboard to area pointed at by a0.
+000011A8                                   215  *   Input terminated by a <return> key press.
+000011A8                                   216  *
+000011A8                                   217  *strout: any length (up to 400 characters) string output to screen.
+000011A8                                   218  *   Stays on same line after output.
+000011A8                                   219  *
+000011A8                                   220  * The routines starting with zz are internal, but can be used if you wish
+000011A8                                   221  *
+000011A8                                   222  * zzputbyte: output one byte
+000011A8                                   223  * zzgetbyte: input one byte
+000011A8                                   224  * zzputstr: output a string
+000011A8                                   225  * zzgetstr: input a string (<return> terminates the string)
+000011A8                                   226  * zzdec2str: convert 32-bit integer to string (decimal)
+000011A8                                   227  * zzhex2str: convert 32-bit long to string (hexadecimal)
+000011A8                                   228  * zzstr2dec: convert decimal string to 32-bit integer
+000011A8                                   229  * zzstr2hex: convert hex string to 32-bit integer
+000011A8                                   230  * zzputeol: output an end-of-line
+000011A8                                   231  * zzbell: sound the bell
+000011A8                                   232  * zzBusErr: bus error interrupt (e.g. address out of address space)
+000011A8                                   233  * zzAddErr: address error interrupt (e.g. odd address when an even one is required)
+000011A8                                   234  * zzIllIns: illegal instruction interrupt (e.g. use of the illegal instruction)
+000011A8                                   235  * zzDivZer: divide by zero interrupt (attempt to divide by zero)
+000011A8                                   236  *
+000011A8                                   237  * All routine names and labels start with zz so they are easily
+000011A8                                   238  *   distinguished from other labels.
+000011A8                                   239  *
+000011A8                                   240  * equates for special characters
+000011A8                                   241  *
+000011A8  =00000000                        242  zznull    equ       $00       null (for terminating strings)
+000011A8  =00000007                        243  zzbe      equ       $07       bell
+000011A8  =00000008                        244  zzbs      equ       $08       backspace
+000011A8  =0000000A                        245  zzlf      equ       $0A       linefeed (new line \n)
+000011A8  =0000000D                        246  zzcr      equ       $0D       carriage return (\r)
+000011A8                                   247  *
+000011A8                                   248  * equate for string length on output
+000011A8  =00000190                        249  zzmaxstrlen   equ   400       maximum string length
+000011A8                                   250  *
+000011A8                                   251  *********************************************************************
+000011A8                                   252  *charin
+000011A8                                   253  *Purpose: get an ascii character from keyboard
+000011A8                                   254  *Input: from keyboard
+000011A8                                   255  *Output: character code in lowest byte of d0
+000011A8                                   256            ds.w      0                   align on word boundary
+000011A8  4EB9 000012B4                    257  charin    jsr zzgetbyte
+000011AE  4E75                             258            rts
+000011B0                                   259  *********************************************************************
+000011B0                                   260  *charout
+000011B0                                   261  *Purpose: put an ascii character to the screen
+000011B0                                   262  *Input: lowest byte of d0
+000011B0                                   263  *Output: character displayed on screen
+000011B0                                   264            ds.w      0                   align on word boundary
+000011B0  4EB9 000012C6                    265  charout   jsr zzputbyte
+000011B6  4E75                             266            rts
+000011B8                                   267  *********************************************************************
+000011B8                                   268  *decin
+000011B8                                   269  *Purpose: get a signed decimal integer from keyboard
+000011B8                                   270  *Input: from keyboard
+000011B8                                   271  *Output: number in binary in d0
+000011B8                                   272            ds.w      0                   align on word boundary
+000011B8  48E7 7FFE                        273  decin     movem.l   a0-a6/d1-d7,-(a7)   save registers
+000011BC  41F9 000011D6                    274            lea       zzdinum,a0          input string
+000011C2  700C                             275            move.l    #12,d0              max length of string
+000011C4  4EB9 0000134C                    276            jsr       zzgetstr
+000011CA  4EB9 00001560                    277            jsr       zzstr2dec
+000011D0  4CDF 7FFE                        278            movem.l   (a7)+,a0-a6/d1-d7   restore registers
+000011D4  4E75                             279            rts
+000011D6                                   280  *
+000011D6                                   281  zzdinum   dcb.b     12,zznull           input string
+000011E2                                   282  *
+000011E2                                   283  *********************************************************************
+000011E2                                   284  *decout
+000011E2                                   285  *Purpose: output d0 in decimal, stay on same line
+000011E2                                   286  *Input: d0
+000011E2                                   287  *Output: the value in d0 converted to decimal
+000011E2                                   288            ds.w      0                   align on word boundary
+000011E2  48E7 FFFE                        289  decout    movem.l   a0-a6/d0-d7,-(a7)   save all registers
+000011E6  41F9 000011FE                    290            lea       zzdonum,a0          output string
+000011EC  4EB9 00001436                    291            jsr       zzdec2str
+000011F2  4EB9 000012D8                    292            jsr       zzputstr
+000011F8  4CDF 7FFF                        293            movem.l   (a7)+,a0-a6/d0-d7   restore all registers
+000011FC  4E75                             294            rts
+000011FE                                   295  *
+000011FE                                   296  zzdonum   dcb.b    12,zznull
+0000120A                                   297  *
+0000120A                                   298  *********************************************************************
+0000120A                                   299  *finish
+0000120A                                   300  *Purpose: flush the output buffer and stop a program
+0000120A                                   301  *Input: none
+0000120A                                   302  *Output: none
+0000120A                                   303            ds.w      0                   align on word boundary
+0000120A  4EB9 00001288                    304  finish    jsr       newline             flush output buffer
+00001210  4848                             305            break
+00001212                                   306  *********************************************************************
+00001212                                   307  *hexin
+00001212                                   308  *Purpose: get a hex integer from keyboard
+00001212                                   309  *Input: from keyboard
+00001212                                   310  *Output: number in binary in d0
+00001212                                   311            ds.w      0                   align on word boundary
+00001212  48E7 7FFE                        312  hexin     movem.l   a0-a6/d1-d7,-(a7)   save registers
+00001216  41F9 00001230                    313            lea       zzhinum,a0          input string
+0000121C  7009                             314            move.l    #9,d0               max length of string
+0000121E  4EB9 0000134C                    315            jsr       zzgetstr
+00001224  4EB9 00001672                    316            jsr       zzstr2hex
+0000122A  4CDF 7FFE                        317            movem.l   (a7)+,a0-a6/d1-d7   restore registers
+0000122E  4E75                             318            rts
+00001230                                   319  *
+00001230                                   320  zzhinum   dcb.b     9,zznull            input string
+00001239                                   321  *********************************************************************
+00001239                                   322  *hexout
+00001239                                   323  *Purpose: output d0 in hexadecimal, stay on same line
+00001239                                   324  *Input: d0
+00001239                                   325  *Output: the value in d0 in hexadecimal
+0000123A                                   326            ds.w      0                   align on word boundary
+0000123A  48E7 FFFE                        327  hexout    movem.l   a0-a6/d0-d7,-(a7)   save all registers
+0000123E  41F9 00001256                    328            lea       zzhonum,a0          output string
+00001244  4EB9 000014C0                    329            jsr       zzhex2str
+0000124A  4EB9 000012D8                    330            jsr       zzputstr
+00001250  4CDF 7FFF                        331            movem.l   (a7)+,a0-a6/d0-d7   restore all registers
+00001254  4E75                             332            rts
+00001256                                   333  *
+00001256                                   334  zzhonum   dcb.b    12,zznull
+00001262                                   335  *
+00001262                                   336  *********************************************************************
+00001262                                   337  *initIO
+00001262                                   338  *Purpose: initialize Input/Output
+00001262                                   339  *Input: none
+00001262                                   340  *Output: sets some flags 
+00001262                                   341            ds.w      0                   align on word boundary
+00001262  43F9 00EFFC01                    342  initIO    lea       zzduart,a1
+00001268  137C 0010 0004                   343            move.b    #%00010000,zzcra(a1)     Reset MR?A pointer
+0000126E  137C 0023 0000                   344            move.b    #%00100011,zzmr1a(a1)    8 data bits
+00001274  137C 0017 0000                   345            move.b    #%00010111,zzmr2a(a1)    Normal Mode
+0000127A  137C 00BB 0002                   346            move.b    #%10111011,zzcsra(a1)    Set clock to 9600
+00001280  137C 0005 0004                   347            move.b    #%00000101,zzcra(a1)     Enable Rx and Tx
+00001286  4E75                             348            rts
+00001288                                   349  *
+00001288                                   350  *********************************************************************
+00001288                                   351  *newline
+00001288                                   352  *Purpose: go to a new line
+00001288                                   353  *Input: none
+00001288                                   354  *Output: move the cursor to the left end of the next line 
+00001288                                   355            ds.w      0                   align on word boundary
+00001288  4EB9 00001796                    356  newline   jsr       zzputeol
+0000128E  4E75                             357            rts
+00001290                                   358  *
+00001290                                   359  *********************************************************************
+00001290                                   360  *strin
+00001290                                   361  *Purpose: get a string from keyboard
+00001290                                   362  *Input: from keyboard
+00001290                                   363  *Output: a null-terminated string starting at the address in a0
+00001290                                   364            ds.w      0                   align on word boundary
+00001290  48E7 FFFE                        365  strin     movem.l   a0-a6/d0-d7,-(a7)   save all registers
+00001294  303C 0190                        366            move.w    #zzmaxstrlen,d0     maximum string length
+00001298  4EB9 0000134C                    367            jsr       zzgetstr
+0000129E  4CDF 7FFF                        368            movem.l   (a7)+,a0-a6/d0-d7   restore all registers
+000012A2  4E75                             369            rts
+000012A4                                   370  *
+000012A4                                   371  *********************************************************************
+000012A4                                   372  *strout
+000012A4                                   373  *Purpose: output a null-terminated string, stays on the same line
+000012A4                                   374  *Input: a0 points to the start of the string
+000012A4                                   375  *Output: the stirng on the screen
+000012A4                                   376            ds.w      0                   align on word boundary
+000012A4  48E7 FFFE                        377  strout    movem.l   a0-a6/d0-d7,-(a7)   save all registers
+000012A8  4EB9 000012D8                    378            jsr       zzputstr
+000012AE  4CDF 7FFF                        379            movem.l   (a7)+,a0-a6/d0-d7   restore all registers
+000012B2  4E75                             380            rts
+000012B4                                   381  *
+000012B4                                   382  *********************************************************************
+000012B4  =00EFFC01                        383  zzduart   equ       $effc01
+000012B4  =00000000                        384  zzmr1a    equ       $00
+000012B4  =00000000                        385  zzmr2a    equ       $00
+000012B4  =00000002                        386  zzsra     equ       $02
+000012B4  =00000002                        387  zzcsra    equ       $02
+000012B4  =00000004                        388  zzcra     equ       $04
+000012B4  =00000006                        389  zztba     equ       $06       transmit byte
+000012B4  =00000006                        390  zzrba     equ       $06       receive byte
+000012B4                                   391  *
+000012B4                                   392  *********************************************************************
+000012B4                                   393  *zzgetbyte
+000012B4                                   394  *Purpose: get one byte from keyboard
+000012B4                                   395  *Input: from keyboard
+000012B4                                   396  *Output: byte in lower end of d0
+000012B4                                   397            ds.w      0                   align on word boundary
+000012B4  0839 0000 00EFFC03               398  zzgetbyte btst      #0,zzsra+zzduart    test if receive byte is ready
+000012BC  67F6                             399            beq       zzgetbyte           if not ready, keep polling
+000012BE  1039 00EFFC07                    400            move.b    zzrba+zzduart,d0    input byte
+000012C4  4E75                             401            rts
+000012C6                                   402  *
+000012C6                                   403  *********************************************************************
+000012C6                                   404  *zzputbyte
+000012C6                                   405  *Purpose: put one byte to the screen
+000012C6                                   406  *Input: byte in lower end of d0
+000012C6                                   407  *Output: byte on the screen
+000012C6                                   408            ds.w      0                   align on word boundary
+000012C6  0839 0002 00EFFC03               409  zzputbyte btst      #2,zzsra+zzduart    test if transmit byte is ready
+000012CE  67F6                             410            beq       zzputbyte           if not ready, keep polling
+000012D0  13C0 00EFFC07                    411            move.b    d0,zztba+zzduart    output byte
+000012D6  4E75                             412            rts
+000012D8                                   413  *
+000012D8                                   414  **********************************************************************
+000012D8                                   415  *zzputstr
+000012D8                                   416  *Purpose: output a null-terminated string to the screen
+000012D8                                   417  *Input: a0 points to beginning of string
+000012D8                                   418  *Output: a string on the screen (minus the terminating null byte)
+000012D8                                   419  *Note: the number of bytes in the string is limited to zzmaxstrlen bytes.
+000012D8                                   420  *   This will catch strings where the null terminator was forgotten
+000012D8                                   421            ds.w      0                   align on word boundary
+000012D8  48E7 FFFE                        422  zzputstr  movem.l   a0-a6/d0-d7,-(a7)   save all registers
+000012DC  323C 0190                        423            move.w    #zzmaxstrlen,d1     byte counter
+000012E0  1018                             424  zzputloop move.b    (a0)+,d0       
+000012E2  6700 000E                        425            beq       zzputend            stop at null byte
+000012E6  4EB8 12C6                        426            jsr       zzputbyte           output byte
+000012EA  5341                             427            sub.w     #1,d1
+000012EC  6F00 000A                        428            ble       zzputerr            too many bytes
+000012F0  60EE                             429            bra       zzputloop
+000012F2  4CDF 7FFF                        430  zzputend  movem.l   (a7)+,a0-a6/d0-d7   restore all registers
+000012F6  4E75                             431            rts
+000012F8                                   432  *         
+000012F8  4EB9 000017AC                    433  zzputerr  jsr       zzbell              error message
+000012FE  4EB9 00001796                    434            jsr       zzputeol
+00001304  41F9 00001316                    435            lea       zzputmess,a0  
+0000130A  4EB8 12D8                        436            jsr       zzputstr
+0000130E  4EB9 00001796                    437            jsr       zzputeol
+00001314  60DC                             438            bra       zzputend
+00001316  7A 7A 70 75 74 73 74 72 3A ...   439  zzputmess dc.b      'zzputstr: String is too long, check terminating null',zznull
+0000134B                                   440  *
+0000134B                                   441  **********************************************************************
+0000134B                                   442  *zzgetstr
+0000134B                                   443  *Purpose: input a string
+0000134B                                   444  *Input: a string terminated by a <return> from the keyboard
+0000134B                                   445  *    a0 points at the buffer receiving the string
+0000134B                                   446  *    lower word of d0 has the maximum length (including terminating null), 0 < d0 < zzmaxstrlen
+0000134B                                   447  *Output: a null-terminated string starting at address in a0
+0000134B                                   448  *Note: the input is checked for valid ascii bytes in range $20 to $7E inclusive
+0000134C                                   449            ds.w      0                   align on word boundary
+0000134C  48E7 FFFE                        450  zzgetstr  movem.l   a0-a6/d0-d7,-(a7)   save all registers
+00001350  B07C 0000                        451            cmp.w     #0,d0               0 < d0?
+00001354  6D00 0082                        452            blt       zzgeterr
+00001358  B07C 0190                        453            cmp.w     #zzmaxstrlen,d0     d0 < zzmaxstrlen?
+0000135C  6E00 007A                        454            bgt       zzgeterr
+00001360  323C 0000                        455            move.w    #0,d1               current string length in d1
+00001364  3400                             456            move.w    d0,d2               save max length in d2
+00001366  4EB8 12B4                        457  zzgetloop jsr       zzgetbyte           main input loop
+0000136A  B03C 0008                        458            cmp.b     #zzbs,d0            backspace?
+0000136E  6700 0034                        459            beq       zzgetbs   
+00001372  B03C 000D                        460            cmp.b     #zzcr,d0            carriage return? Use #zzlf for UNIX?
+00001376  6700 004E                        461            beq       zzgetend
+0000137A  B03C 0020                        462            cmp.b     #$20,d0             below $20?
+0000137E  6D00 001C                        463            blt       zzgetinv
+00001382  B03C 007E                        464            cmp.b     #$7E,d0             above $7E?
+00001386  6E00 0014                        465            bgt       zzgetinv
+0000138A  B242                             466            cmp.w     d2,d1               reached max length yet?
+0000138C  6C00 000E                        467            bge       zzgetinv
+00001390  1180 1000                        468            move.b    d0,0(a0,d1)         put byte in buffer
+00001394  5241                             469            add.w     #1,d1
+00001396  4EB8 12C6                        470            jsr       zzputbyte
+0000139A  60CA                             471            bra       zzgetloop 
+0000139C  4EB9 000017AC                    472  zzgetinv  jsr       zzbell              invalid input
+000013A2  60C2                             473            bra       zzgetloop
+000013A4  B27C 0000                        474  zzgetbs   cmp.w     #0,d1               backspace, is it possible?
+000013A8  6FF2                             475            ble       zzgetinv
+000013AA  103C 0008                        476            move.b    #zzbs,d0            do the backspace
+000013AE  4EB8 12C6                        477            jsr       zzputbyte
+000013B2  103C 0020                        478            move.b    #' ',d0
+000013B6  4EB8 12C6                        479            jsr       zzputbyte
+000013BA  103C 0008                        480            move.b    #zzbs,d0
+000013BE  4EB8 12C6                        481            jsr       zzputbyte
+000013C2  5341                             482            sub.w     #1,d1               decrease byte counter
+000013C4  60A0                             483            bra       zzgetloop
+000013C6  11BC 0000 1000                   484  zzgetend  move.b    #zznull,0(a0,d1)    string terminator
+000013CC  4EB9 00001796                    485            jsr       zzputeol
+000013D2  4CDF 7FFF                        486            movem.l   (a7)+,a0-a6/d0-d7   restore all registers
+000013D6  4E75                             487            rts
+000013D8                                   488            
+000013D8  4EB9 000017AC                    489  zzgeterr  jsr       zzbell              error message
+000013DE  4EB9 00001796                    490            jsr       zzputeol
+000013E4  41F9 000013F6                    491            lea       zzgetmes,a0
+000013EA  4EB8 12D8                        492            jsr       zzputstr
+000013EE  4EB9 00001796                    493            jsr       zzputeol
+000013F4  60D0                             494            bra       zzgetend
+000013F6                                   495  *
+000013F6  7A 7A 67 65 74 73 74 72 3A ...   496  zzgetmes  dc.b      'zzgetstr: Illegal max length of string, must be 1 to 400 bytes',zznull
+00001435                                   497  *
+00001435                                   498  ***********************************************************************
+00001435                                   499  *zzdec2str
+00001435                                   500  *Purpose: convert 32-bit integer to a decimal string
+00001435                                   501  *Input: 32-bit signed integer in d0
+00001435                                   502  *    a0 pointing to where result string should go in the callers program
+00001435                                   503  *Output: null-terminated string of up to 12 bytes pointed to by a0
+00001435                                   504  *    the string is left justified in the field of 12 bytes
+00001435                                   505  *Note: leave space for 12 bytes as that is the max length string
+00001435                                   506  *    (including terminating null)
+00001436                                   507            ds.w      0                   align on word boundary
+00001436  48E7 FFFE                        508  zzdec2str movem.l   a0-a6/d0-d7,-(a7)   save all registers
+0000143A  43F9 0000149E                    509            lea       zzdsbend,a1         right end of number field
+00001440  13FC 0000 000014A0               510            move.b    #0,zzdssgn
+00001448  B0BC 00000000                    511            cmp.l     #0,d0               is d0 positive?
+0000144E  6E00 0018                        512            bgt       zzdsloop            positive int
+00001452  6D00 000A                        513            blt       zzdsne              negative int
+00001456  133C 0030                        514            move.b    #'0',-(a1)          zero int
+0000145A  6000 002C                        515            bra       zzdscpy
+0000145E  13FC 0001 000014A0               516  zzdsne    move.b    #1,zzdssgn          indicate negative
+00001466  4480                             517            neg.l     d0
+00001468  4EB9 000014A2                    518  zzdsloop  jsr       zzdiv10             main loop, divide d0 by 10
+0000146E  0640 0030                        519            add.w     #'0',d0             convert remainder to character
+00001472  1300                             520            move.b    d0,-(a1)
+00001474  2001                             521            move.l    d1,d0               quotient to d0
+00001476  66F0                             522            bne       zzdsloop
+00001478  0C39 0000 000014A0               523            cmp.b     #0,zzdssgn
+00001480  6700 0006                        524            beq       zzdscpy
+00001484  133C 002D                        525            move.b    #'-',-(a1)
+00001488  10D9                             526  zzdscpy   move.b    (a1)+,(a0)+
+0000148A  66FC                             527            bne       zzdscpy             stop the copy after moving a null
+0000148C  4CDF 7FFF                        528  zzdsend   movem.l   (a7)+,a0-a6/d0-d7   restore all registers
+00001490  4E75                             529            rts
+00001492                                   530  *
+00001492                                   531  zzdsbuff  dcb.b     11,zznull           ascii version before copying to caller
+0000149E  0000                             532  zzdsbend  dc        zznull              terminating null
+000014A0                                   533  zzdssgn   ds.b      1                   sign, 0=positive, 1=negative
+000014A1                                   534  *
+000014A1                                   535  *zzdiv10
+000014A1                                   536  *Purpose: divide a positive 32-bit integer dividend by 10
+000014A1                                   537  *Input: dividend in d0
+000014A1                                   538  *Output: remainder in lower word of d0, quotient (32-bits) in d1
+000014A1                                   539  
+000014A1  =0000000A                        540  zzdivisor equ       10
+000014A2                                   541            ds.w      0                   align on word boundary
+000014A2  2200                             542  zzdiv10   move.l    d0,d1               copy dividend = n0 | n1
+000014A4  4240                             543            clr.w     d0                  d0 = n0 | 0
+000014A6  4840                             544            swap      d0                  d0 =  0 | n0
+000014A8  80FC 000A                        545            divu      #zzdivisor,d0       d0 = r0 | q0
+000014AC  4841                             546            swap      d1                  d1 = n1 | n0
+000014AE  3200                             547            move.w    d0,d1               d1 = n1 | q0
+000014B0  4841                             548            swap      d1                  d1 = q0 | n1
+000014B2  3001                             549            move.w    d1,d0               d0 = r0 | n1
+000014B4  80FC 000A                        550            divu      #zzdivisor,d0       d0 = r1 | q1
+000014B8  3200                             551            move.w    d0,d1               d1 = q0 | q1
+000014BA  4240                             552            clr.w     d0                  d0 = r1 | 0
+000014BC  4840                             553            swap      d0                  d0 =  0 | r1
+000014BE  4E75                             554            rts
+000014C0                                   555  *
+000014C0                                   556  ***********************************************************************
+000014C0                                   557  *zzhex2str
+000014C0                                   558  *Purpose: convert 32-bit long to a hexadecimal string
+000014C0                                   559  *Input: 32-bit value in d0
+000014C0                                   560  *    a0 pointing to where result string should go in the callers program
+000014C0                                   561  *Output: null-terminated string of 9 bytes pointed to by a0
+000014C0                                   562  *Note: leave space for 9 bytes as that is the length of the output string
+000014C0                                   563  *    (including terminating null)
+000014C0                                   564            ds.w      0                   align on word boundary
+000014C0  48E7 FFFE                        565  zzhex2str movem.l   a0-a6/d0-d7,-(a7)   save all registers
+000014C4  2248                             566            move.l    a0,a1               save pointer
+000014C6  D1FC 00000009                    567            adda.l    #9,a0
+000014CC  113C 0000                        568            move.b    #zznull,-(a0)       terminating null
+000014D0  2200                             569            move.l    d0,d1               save d0 in d1
+000014D2  B3C8                             570  zzhsloop  cmp.l     a0,a1
+000014D4  6C00 0024                        571            bge       zzhsend
+000014D8  C03C 000F                        572            and.b     #$0F,d0
+000014DC  4EB9 00001500                    573            jsr       zzhexdig
+000014E2  1100                             574            move.b    d0,-(a0)
+000014E4  2001                             575            move.l    d1,d0
+000014E6  C07C 00F0                        576            and.w     #$00F0,d0
+000014EA  E888                             577            lsr.l     #4,d0               remove lower hex digit
+000014EC  4EB9 00001500                    578            jsr       zzhexdig
+000014F2  1100                             579            move.b    d0,-(a0)
+000014F4  E089                             580            lsr.l     #8,d1               remove lower byte of d1
+000014F6  2001                             581            move.l    d1,d0               put back in d0
+000014F8  60D8                             582            bra       zzhsloop
+000014FA  4CDF 7FFF                        583  zzhsend   movem.l   (a7)+,a0-a6/d0-d7   restore all registers
+000014FE  4E75                             584            rts
+00001500                                   585  *
+00001500                                   586  *zzhexdig
+00001500                                   587  *Purpose: convert a hex digit to ascii equivalent
+00001500                                   588  *Input: a hex digit in the lower byte of d0
+00001500                                   589  *Output: the ascii equivalent in the lower byte of d0
+00001500                                   590            ds.w      0                   align on word boundary
+00001500  B03C 0000                        591  zzhexdig  cmp.b       #$00,d0           check size of hex digit
+00001504  6D00 001E                        592            blt         zzhderr
+00001508  B03C 000F                        593            cmp.b       #$0F,d0
+0000150C  6E00 0016                        594            bgt         zzhderr
+00001510  B03C 000A                        595            cmp.b       #$0A,d0           decimal digit or letter?
+00001514  6C00 0008                        596            bge         zzhdlet
+00001518  0600 0030                        597            add.b       #'0',d0           decimal digit
+0000151C  4E75                             598            rts
+0000151E  0600 0037                        599  zzhdlet   add.b       #('A'-$0A),d0     letter
+00001522  4E75                             600  zzhdend   rts
+00001524                                   601  *
+00001524  4EB9 000017AC                    602  zzhderr   jsr       zzbell              error message
+0000152A  4EB9 00001796                    603            jsr       zzputeol
+00001530  41F9 00001542                    604            lea       zzhdmes,a0
+00001536  4EB8 12D8                        605            jsr       zzputstr
+0000153A  4EB9 00001796                    606            jsr       zzputeol
+00001540  60E0                             607            bra       zzhdend
+00001542                                   608  *
+00001542  7A 7A 68 65 78 32 64 65 63 ...   609  zzhdmes   dc.b      'zzhex2dec: Illegal hex digit',zznull
+0000155F                                   610  *
+0000155F                                   611  ***************************************************************
+0000155F                                   612  *zzstr2dec
+0000155F                                   613  *Purpose: convert decimal string to 32-bit integer
+0000155F                                   614  *Input: a0 points to string
+0000155F                                   615  *Output: binary result in d0
+00001560                                   616            ds.w      0                   align on word boundary
+00001560  48E7 7FFE                        617  zzstr2dec movem.l   a0-a6/d1-d7,-(a7)   save registers
+00001564  7000                             618            move.l    #0,d0
+00001566  1218                             619            move.b    (a0)+,d1            get first byte
+00001568  6700 0066                        620            beq       zzsdend             nothing there
+0000156C  13FC 0000 00001670               621            move.b    #0,zzsdsgn
+00001574  B23C 002D                        622            cmp.b     #'-',d1             is number positive?
+00001578  6600 000C                        623            bne       zzsdloop            number is positive
+0000157C  13FC 0001 00001670               624            move.b    #1,zzsdsgn          number is negative
+00001584  1218                             625            move.b    (a0)+,d1
+00001586  B23C 0000                        626  zzsdloop  cmp.b     #zznull,d1          is byte null?
+0000158A  6700 0036                        627            beq       zzsdsn
+0000158E  B23C 0030                        628            cmp.b     #'0',d1             '0' <= byte?
+00001592  6D00 0042                        629            blt       zzsderr1
+00001596  B23C 0039                        630            cmp.b     #'9',d1             byte <= '9'?
+0000159A  6E00 003A                        631            bgt       zzsderr1
+0000159E  C2BC 0000000F                    632            and.l     #$0F,d1             zero upper bits (changed 11 June 2002 Ben Li)
+000015A4                                   633  * multiply by 10 to make room for new digit, do not use muls because it has 16-bit operands
+000015A4  2400                             634            move.l    d0,d2
+000015A6  E38A                             635            lsl.l     #1,d2
+000015A8  6500 004A                        636            bcs       zzsderr2            check for overflow
+000015AC  2002                             637            move.l    d2,d0               d0 <- 2*d0
+000015AE  E38A                             638            lsl.l     #1,d2
+000015B0  6500 0042                        639            bcs       zzsderr2            check for overflow
+000015B4  E38A                             640            lsl.l     #1,d2
+000015B6  6500 003C                        641            bcs       zzsderr2
+000015BA  D082                             642            add.l     d2,d0               d0 <- (8+2)*d0
+000015BC  D081                             643            add.l     d1,d0               add in new digit
+000015BE  1218                             644            move.b    (a0)+,d1            get digit
+000015C0  60C4                             645            bra       zzsdloop
+000015C2  0C39 0000 00001670               646  zzsdsn    cmp.b     #0,zzsdsgn          positive?
+000015CA  6700 0004                        647            beq       zzsdend
+000015CE  4480                             648            neg.l     d0
+000015D0  4CDF 7FFE                        649  zzsdend   movem.l   (a7)+,a0-a6/d1-d7   restore registers
+000015D4  4E75                             650            rts
+000015D6                                   651  *
+000015D6  4EB9 000017AC                    652  zzsderr1  jsr       zzbell              error message 1
+000015DC  4EB9 00001796                    653            jsr       zzputeol
+000015E2  41F9 00001612                    654            lea       zzsdmes1,a0
+000015E8  4EB8 12D8                        655            jsr       zzputstr
+000015EC  4EB9 00001796                    656            jsr       zzputeol
+000015F2  60DC                             657            bra       zzsdend
+000015F4  4EB9 000017AC                    658  zzsderr2  jsr       zzbell              error message 2
+000015FA  4EB9 00001796                    659            jsr       zzputeol
+00001600  41F9 00001641                    660            lea       zzsdmes2,a0
+00001606  4EB8 12D8                        661            jsr       zzputstr
+0000160A  4EB9 00001796                    662            jsr       zzputeol
+00001610  60BE                             663            bra       zzsdend
+00001612                                   664  *
+00001612  7A 7A 73 74 72 32 64 65 63 ...   665  zzsdmes1  dc.b      'zzstr2dec: Illegal character in decimal number',zznull
+00001641  7A 7A 73 74 72 32 64 65 63 ...   666  zzsdmes2  dc.b      'zzstr2dec: Number too large for 32-bit integer',zznull
+00001670                                   667  zzsdsgn   ds.b      1                   sign, 0=positive, 1=negative
+00001671                                   668  *
+00001671                                   669  ***************************************************************
+00001671                                   670  *zzstr2hex
+00001671                                   671  *Purpose: convert hex string to 32-bit integer
+00001671                                   672  *Input: a0 points to string
+00001671                                   673  *Output: binary result in d0
+00001672                                   674            ds.w      0                   align on word boundary
+00001672  48E7 7FFE                        675  zzstr2hex movem.l   a0-a6/d1-d7,-(a7)   save registers
+00001676  7000                             676            move.l    #0,d0               start with zero
+00001678  7200                             677            move.l    #0,d1               clear d1
+0000167A  1218                             678            move.b    (a0)+,d1            get first byte
+0000167C  6700 007C                        679            beq       zzshend             nothing there
+00001680  B23C 0000                        680  zzshloop  cmp.b     #zznull,d1          is byte null?
+00001684  6700 0074                        681            beq       zzshend
+00001688  B23C 0030                        682            cmp.b     #'0',d1             try between '0' and '9'
+0000168C  6D00 0072                        683            blt       zzsherr1
+00001690  B23C 0039                        684            cmp.b     #'9',d1
+00001694  6E00 000A                        685            bgt       zzshAF1
+00001698  C23C 000F                        686            and.b     #$0F,d1             digit in d1
+0000169C  6000 003E                        687            bra       zzshcont
+000016A0  B23C 0041                        688  zzshAF1   cmp.b     #'A',d1             try between 'A' and 'F'
+000016A4  6D00 005A                        689            blt       zzsherr1
+000016A8  B23C 0046                        690            cmp.b     #'F',d1
+000016AC  6E00 0012                        691            bgt       zzshaf2
+000016B0  0481 00000041                    692            sub.l     #'A',d1
+000016B6  0681 0000000A                    693            add.l     #10,d1              digit in d1
+000016BC  6000 001E                        694            bra       zzshcont
+000016C0  B23C 0061                        695  zzshaf2   cmp.b     #'a',d1             try between 'a' and 'f'
+000016C4  6D00 003A                        696            blt       zzsherr1
+000016C8  B23C 0066                        697            cmp.b     #'f',d1
+000016CC  6E00 0032                        698            bgt       zzsherr1
+000016D0  0481 00000061                    699            sub.l     #'a',d1
+000016D6  0681 0000000A                    700            add.l     #10,d1
+000016DC                                   701  * assume the digit is in d1   
+000016DC  E388                             702  zzshcont  lsl.l     #1,d0               make room for new digit
+000016DE  6500 003E                        703            bcs       zzsherr2            branch C set, shifted a 1 bit out
+000016E2  E388                             704            lsl.l     #1,d0
+000016E4  6500 0038                        705            bcs       zzsherr2
+000016E8  E388                             706            lsl.l     #1,d0
+000016EA  6500 0032                        707            bcs       zzsherr2
+000016EE  E388                             708            lsl.l     #1,d0
+000016F0  6500 002C                        709            bcs       zzsherr2
+000016F4  8081                             710            or.l      d1,d0               add in new digit
+000016F6  1218                             711            move.b    (a0)+,d1            get digit
+000016F8  6086                             712            bra       zzshloop
+000016FA  4CDF 7FFE                        713  zzshend   movem.l   (a7)+,a0-a6/d1-d7   restore registers
+000016FE  4E75                             714            rts
+00001700                                   715  *
+00001700  4EB9 000017AC                    716  zzsherr1  jsr       zzbell              error message 1
+00001706  4EB9 00001796                    717            jsr       zzputeol
+0000170C  41F9 0000173C                    718            lea       zzshmes1,a0
+00001712  4EB8 12D8                        719            jsr       zzputstr
+00001716  4EB9 00001796                    720            jsr       zzputeol
+0000171C  60DC                             721            bra       zzshend
+0000171E  4EB9 000017AC                    722  zzsherr2  jsr       zzbell              error message 2
+00001724  4EB9 00001796                    723            jsr       zzputeol
+0000172A  41F9 00001767                    724            lea       zzshmes2,a0
+00001730  4EB8 12D8                        725            jsr       zzputstr
+00001734  4EB9 00001796                    726            jsr       zzputeol
+0000173A  60BE                             727            bra       zzshend
+0000173C                                   728  *
+0000173C  7A 7A 73 74 72 32 68 65 78 ...   729  zzshmes1  dc.b      'zzstr2hex: Illegal character in hex number',zznull
+00001767  7A 7A 73 74 72 32 68 65 78 ...   730  zzshmes2  dc.b      'zzstr2hex: Number too large for 32-bit integer',zznull
+00001796                                   731  *
+00001796                                   732  **********************************************************************
+00001796                                   733  *zzputeol
+00001796                                   734  *Purpose: output an end-of-line
+00001796                                   735  *Input: none
+00001796                                   736  *Output: linefeed byte
+00001796                                   737            ds.w      0                   align on word boundary
+00001796  2F00                             738  zzputeol  move.l    d0,-(a7)            save d0
+00001798  103C 000D                        739            move.b    #zzcr,d0
+0000179C  4EB8 12C6                        740            jsr       zzputbyte
+000017A0  103C 000A                        741            move.b    #zzlf,d0
+000017A4  4EB8 12C6                        742            jsr       zzputbyte
+000017A8  201F                             743            move.l    (a7)+,d0            restore d0
+000017AA  4E75                             744            rts
+000017AC                                   745  *
+000017AC                                   746  **********************************************************************
+000017AC                                   747  *zzbell
+000017AC                                   748  *Purpose: sound the bell
+000017AC                                   749  *Input: none
+000017AC                                   750  *Output: bell sound
+000017AC                                   751            ds.w      0                   align on word boundary
+000017AC  2F00                             752  zzbell    move.l    d0,-(a7)            save d0
+000017AE  103C 0007                        753            move.b    #zzbe,d0
+000017B2  4EB8 12C6                        754            jsr       zzputbyte
+000017B6  201F                             755            move.l    (a7)+,d0            restore d0
+000017B8  4E75                             756            rts
+000017BA                                   757  *
+000017BA                                   758  **********************************************************************
+000017BA                                   759  *zzBusErr
+000017BA                                   760  *Purpose: report a bus error interrupt
+000017BA                                   761  *Input: none
+000017BA                                   762  *Output: address near instruction that caused it
+000017BA                                   763            ds.w      0                   align on word boundary
+000017BA                                   764  zzBusErr
+000017BA  41F9 000017D8                    765            lea       zzBEMess,a0
+000017C0  4EB8 12A4                        766            jsr       strout
+000017C4  302F 000A                        767            move.w    10(sp),d0
+000017C8  4840                             768            swap      d0
+000017CA  302F 000C                        769            move.w    12(sp),d0
+000017CE  4EB8 123A                        770            jsr       hexout
+000017D2  4EB8 1288                        771            jsr       newline
+000017D6  4848                             772            break
+000017D8  62 75 73 20 65 72 72 6F 72 ...   773  zzBEmess  dc.b      'bus error just before address ',null
+000017F7                                   774  *
+000017F7                                   775  **********************************************************************
+000017F7                                   776  *zzAddErr
+000017F7                                   777  *Purpose: report an address error interrupt
+000017F7                                   778  *Input: none
+000017F7                                   779  *Output: address near instruction that caused it
+000017F8                                   780            ds.w      0                   align on word boundary
+000017F8                                   781  zzAddErr
+000017F8  41F9 00001816                    782            lea       zzAEmess,a0
+000017FE  4EB8 12A4                        783            jsr       strout
+00001802  302F 000A                        784            move.w    10(sp),d0
+00001806  4840                             785            swap      d0
+00001808  302F 000C                        786            move.w    12(sp),d0
+0000180C  4EB8 123A                        787            jsr       hexout
+00001810  4EB8 1288                        788            jsr       newline
+00001814  4848                             789            break
+00001816  61 64 64 72 65 73 73 20 65 ...   790  zzAEmess  dc.b      'address error just before address ',null
+00001839                                   791  *
+00001839                                   792  **********************************************************************
+00001839                                   793  *zzIllIns
+00001839                                   794  *Purpose: report an illegal instruction interrupt
+00001839                                   795  *Input: none
+00001839                                   796  *Output: address near instruction that caused it
+0000183A                                   797            ds.w      0                   align on word boundary
+0000183A                                   798  zzIllIns
+0000183A  41F9 00001858                    799            lea       zzIImess,a0
+00001840  4EB8 12A4                        800            jsr       strout
+00001844  302F 0002                        801            move.w    2(sp),d0
+00001848  4840                             802            swap      d0
+0000184A  302F 0004                        803            move.w    4(sp),d0
+0000184E  4EB8 123A                        804            jsr       hexout
+00001852  4EB8 1288                        805            jsr       newline
+00001856  4848                             806            break
+00001858  69 6C 6C 65 67 61 6C 20 69 ...   807  zzIImess  dc.b      'illegal instruction error at address ',null
+0000187E                                   808  *
+0000187E                                   809  **********************************************************************
+0000187E                                   810  *zzDivZer
+0000187E                                   811  *Purpose: report a divide by zero interrupt
+0000187E                                   812  *Input: none
+0000187E                                   813  *Output: address near the instruction that caused it
+0000187E                                   814            ds.w      0                   align on word boundary
+0000187E                                   815  zzDivZer
+0000187E  41F9 0000189C                    816            lea       zzDZmess,a0
+00001884  4EB8 12A4                        817            jsr       strout
+00001888  302F 0002                        818            move.w    2(sp),d0
+0000188C  4840                             819            swap      d0
+0000188E  302F 0004                        820            move.w    4(sp),d0
+00001892  4EB8 123A                        821            jsr       hexout
+00001896  4EB8 1288                        822            jsr       newline
+0000189A  4848                             823            break
+0000189C  64 69 76 69 64 65 20 62 79 ...   824  zzDZmess  dc.b      'divide by zero error just before address ',null
+000018C6                                   825  *
+000018C6                                   826  ******************************************************************
+000018C6                                   827  *End of 68kIO.s file
+000018C6                                   828  ******************************************************************
+000018C6                                   829  	ds.w	0
+000018C6  00000001                         830  data	dc.l	1	
+000018CA  00000001                         831  numData dc.l	1
+000018CE                                   832  
+000018CE                                   833  *****************************************************************
+000018CE                                   834            end
+
+No errors detected
+No warnings generated

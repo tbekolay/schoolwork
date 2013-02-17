@@ -1,0 +1,4 @@
+instring  dc.b  'Here  is  a longer sentence.   Since data   is stored '
+          dc.b  'in   continguous memory, we   can have  several  dc.b'
+          dc.b  ' assembler   directives in   the same  string. '
+          dc.b  null

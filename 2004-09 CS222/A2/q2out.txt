@@ -1,0 +1,26 @@
+NAME             Trevor Bekolay
+STUDENT NUMBER   6796723
+COURSE           74.222
+INSTRUCTOR       John van Rees
+ASSIGNMENT	      2
+QUESTION	      1
+Please enter a number: 3
+The sum from 1 to 3 is 3
+
+Please enter a number: 6
+The sum from 1 to 6 is 15
+
+Please enter a number: 10
+The sum from 1 to 10 is 45
+
+Please enter a number: 7
+The sum from 1 to 7 is 21
+
+Please enter a number: 12
+The sum from 1 to 12 is 66
+
+Please enter a number: -1
+
+
+End of Processing
+

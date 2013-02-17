@@ -1,0 +1,5 @@
+	ds.w	0
+data	dc.l	5,-1,-10,45,3,99,100
+numData dc.l	7
+
+

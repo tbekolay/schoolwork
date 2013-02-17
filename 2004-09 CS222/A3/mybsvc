@@ -1,0 +1,3 @@
+#!/bin/csh
+rm 68kout.txt
+bsvc&

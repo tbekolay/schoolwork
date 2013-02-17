@@ -1,0 +1,5 @@
+instring  dc.b  ' Here  is  a longer sentence.   Since data   is stored',cr,lf
+          dc.b  ' in   continguous memory, we   can have  several  dc.b',cr,lf
+          dc.b  ' assembler  directives in  the same  string.  You  can',cr,lf
+          dc.b  ' also  have  cr and  lf.  '
+          dc.b  null

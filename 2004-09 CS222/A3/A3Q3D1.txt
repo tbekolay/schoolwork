@@ -1,0 +1,4 @@
+	ds.w 	0
+data	dc.l	8,2,1,5,17,9
+numData dc.l	6
+

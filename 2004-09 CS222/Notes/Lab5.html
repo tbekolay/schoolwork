@@ -1,0 +1,237 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+  <title>Lab 5</title>
+</head>
+  <body>
+                              
+<h3 align="center">74.222 - Assembly Language Programming - Winter 2004<br>
+                             </h3>
+                             
+<h1> 
+<center>Lab 5</center>
+                             </h1>
+                             
+<hr width="100%" size="2"> 
+<h3>Week of 23-25 March 2004</h3>
+                              
+<h3>     </h3>
+                 
+<p> </p>
+           
+<p>In this lab, we will modify programs that contain code to do a bubble sort
+of an array of byte values so that the bubble sort code is in a subroutine. 
+  Create a directory called Lab5 and download the two programs <a
+ href="SparcBubble.s">SparcBubble.s</a> and <a href="68kBubble.s">68kBubble.s</a>.<br>
+     </p>
+     
+<h3>Task 1: <tt>SPARC</tt> subroutine </h3>
+        
+<p> Our <tt>SPARC</tt> subprograms will use registers for passing arguments
+    and returning  results.  At any point in a program, the programmer has
+ access  to 32 registers.  The 8 <tt>global</tt> registers are truely globals;
+their contents  are accessible  to all subroutines. The  other 24 registers,
+the <tt>in</tt>,  <tt>local</tt><i>,</i> and <tt>out</tt> registers, are
+mapped into a larger <i>register set</i>,  typically consisting of 128 registers.
+ The <tt>save</tt> instruction changes  the register mapping so that a new
+ set of <tt>local</tt> and <tt>out</tt> registers are provided. The <tt>out</tt>
+registers before the <tt>save</tt> instruction become the <tt>in</tt> registers
+ after the <tt>save</tt> instruction.  We use these overlapping registers
+to pass parameters and return results.  Registers <tt>%o0</tt> to <tt>%o5</tt>
+can be used to pass up to 6 parameters  to a subroutine and to return up
+to  6 results. Register <tt>%o6</tt> is the stack pointer and register <tt>%o7</tt>
+is used to store the return address  from a  subroutine call.  </p>
+        
+<p> For example, look at the calls to the <tt>printarr</tt> subroutine in 
+  <tt>SparcBubble.s</tt>. Parameters   are placed in registers <tt>%o0</tt> 
+and <tt>%o1</tt> before the subroutine  call. Now look at the subroutine itself.
+The first instruction is the <tt>save</tt> instruction. This instruction is
+a special add instruction which, in addition  to changing the register mapping,
+allocates 96 bytes of space on the stack. After the <tt>save</tt> instruction,
+the <tt>out</tt> registers become the <tt>in</tt> registers, and we can get
+our input parameters from  registers <tt>%i0</tt> and <tt>%i1</tt>. The <tt>restore</tt>
+instruction at  the end of the subroutine restores the register mapping back
+to the original  register set. </p>
+         
+<p> The <tt>call</tt> and <tt>ret</tt> instructions provide the mechanism
+    for a call to a  subroutine to return to the correct location. Both are
+  branch  instructions, so they both have delay slots to keep in mind. Typically
+  the  delay slot of the <tt>ret</tt> instruction is filled with the <tt>restore</tt>
+instruction. The <tt>call</tt> instruction stores its own address in register
+    <tt>%o7</tt>. Of course, the correct location to continue execution after 
+    the return from the subroutine is the instruction after the delay slot. 
+   So, the <tt>ret</tt> instruction actually branches to the address <tt>%i7+8</tt>. 
+   </p>
+           
+<h3>Making a <tt>SPARC</tt> Subroutine</h3>
+          Change the bubble sort code in <tt>SparcBubble.s</tt>&nbsp;into 
+a  subroutine  by following the steps outlined below.         
+<ol>
+          <li> Add two instructions to place the input parameters for the 
+bubble    sort in registers <tt>%o0</tt> and <tt>%o1</tt>. The parameters 
+are the  same  as the ones for the <tt>printarr</tt>  subroutine. Place these 
+instructions    just before the code for the bubble sort. Add the instruction 
+    <tt>call bubble</tt> below these two lines. Don't forget about the delay 
+slot for the <tt>call</tt> instruction. </li>
+          <li> Use Cut and Paste to move the code for the bubble sort below 
+ the       <tt>printarr</tt> subroutine. Add a comment block at the beginning 
+ of   the bubble sort code.  </li>
+          <li> Note the <tt>.section ".text"</tt>, <tt>.global</tt>, and
+    <tt>.align</tt> pseudo-ops at the beginning  of the <tt>printarr</tt>
+subroutine. Add these   to your new subroutine, changing  the label of the
+ <tt>.global</tt> pseudo-op   to <tt>bubble</tt>, of course.  Add the <tt>save</tt>
+instruction after the  pseudo-ops. This should be the  first instruction
+executed in your subroutine,   so put the label <tt>bubble</tt> just before,
+or on, this instruction.   </li>
+          <li> Add the <tt>ret</tt> and <tt>restore</tt> instructions to
+the   end   of the subroutine. </li>
+          <li> Find the instructions that obtain the two input parameters 
+directly    and change them or replace them so that they obtain their values 
+from registers       <tt>%i0</tt> and <tt>%i1</tt>.</li>
+       <li>Put two calls in the main program so you now sort <tt>array1</tt>
+and     <tt>array2</tt>, and of course print each array before and after each
+call to sort. The original main program sorted only <tt>array1</tt>.<br>
+       </li>
+          <li> Assemble and run your program. </li>
+        
+</ol>
+                   Show the demonstrator your program and its output so you 
+ can  be checked    off for task 1.<br>
+                
+<h3>Task 2: 68000 subroutine&nbsp;</h3>
+See the document about 68000 Subroutine Linkage on the Documents page of
+the web site for more information about the conventions that we will be using.<br>
+        
+<ol>
+          <li>The subroutine convention for this course is that all parameter 
+  passing   will be done via the stack.  You will note that the subroutines 
+  in <tt>68kIO.s</tt> does not follow this convention.  That is because they 
+  were written to simulate  system routines that break all the rules.  We 
+will  obey the rules! </li>
+                <li> Look at the program <tt>68kBubble.s</tt>. This program 
+ has one subroutine already  implemented, which prints   the array elements. 
+  Let us examine how we invoke a subroutine.  Look at  the mainline to the
+  code under the comment "Print the unsorted array."  The  first two commands
+  print out a title.                                         
+    <pre>   lea     array1,a0<br>   move.l  a0,-(sp)<br></pre>
+         puts the address of the array on the stack; the address of the array
+is a parameter     needed by the subroutine.  Now the stack grows from high
+addresses to low    addresses and the stack pointer <tt>sp</tt> points to
+the last item put   on the stack so we must decrement the <tt>sp</tt> before
+placing stuff on   the stack.  The next command places the second parameter,
+the size of the   array, on the stack.  The command                     
+                   
+    <pre>   jsr    printarr<br></pre>
+         places its address on the stack, and cause <tt>printarr</tt>'s address 
+   to be placed  in the PC so that it will be the next instruction to be executed.
+    Eventually,                                         
+    <pre>   adda.l #6,sp <br></pre>
+         "pops" the parameters off the stack.  Actually it just points the
+ stack    pointer to where it was before and the parameters are left on the
+ stack.  There is another call to printarr after the bubble sort code and
+after the  comment "Print the sorted array". </li>
+          <li> Let us examine the subroutine <tt>printarr</tt> itself. The
+ name  of the subroutine  is simply a label which appears before the first
+ instruction  of the subroutine   code. The code itself is a simple: it uses
+ a "for loop"  to process all the  elements in the array. The only additional
+ instructions   are the     <tt>movem</tt> instruction, the <tt>rts</tt>
+instruction  and  the two instructions  involving the stack pointer<tt></tt>.
+  </li>
+          <li>The <tt>movem</tt> (move multiple) instruction is used to save
+  the  contents of registers on the stack and to restore the saved values
+from  the  stack to the registers. A subroutine will need to use registers
+as work  variables,  but it should not destroy the values those registers
+held when  the subroutine  is called. The <tt>movem</tt> instruction at the
+beginning  of the subroutine  pushes the register values onto the stack.
+ The <tt>movem</tt> instruction  near the end of the subroutine pops the
+saved values from the  stack and puts  them back into the registers. These
+instructions both have  an identical <i>register  list</i>, which specifies
+the registers to be saved  and the order in which  they are saved. A range
+of registers is designated  with a dash (e.g. <tt>d0-d3</tt> means <tt>d0</tt>,
+    <tt>d1</tt>, <tt>d2</tt> and     <tt>d3</tt>), while individual  registers
+are separated with a slash  (e.g. <tt>d0/d3</tt>  means <tt>d0</tt> and <tt>d3</tt>).<br>
+         The register values are pushed onto the stack using predecrement 
+addressing  mode. This works because that the stack grows towards lower memory 
+ addresses.  The second <tt>movem</tt> instruction is a kind of mirror image 
+ of the first.  It uses postincrement mode to "pop" register values from the
+ stack, and the register list now becomes the destination operand, rather 
+than the  source.<br>
+    By the way, if you are writing a  function, then you need to return a 
+value  in <tt>d0</tt> or <tt>a0</tt>. In this case you should not restore 
+    <tt>d0</tt> or <tt>a0</tt> to its previous  value. </li>
+          <li> The two other instructions involving the stack pointer, take 
+ the   parameters of the subroutine off the stack without moving the stack 
+ pointer.    This is the standard way to get subroutine parameters in all 
+assembly languages   except <tt>SPARC</tt>.  The tricky part is calculating 
+the offsets.  Notice  that in the stack frame in the opening comments for 
+the subroutine.  We carefully calculate how many bytes are used to store stuff
+on the stack during the subroutine linkage stage. The last thing stored (top
+of the stack) are 4 registers of 4 bytes each.  They start with offset 0.
+ The second last thing stored (at offset 16) is the return address of 4 bytes.
+ The third last thing stored (at offset 20) is two bytes for the array length
+and the fourth last thing stored(at offset 22) is 4 bytes for the array address.
+ Note that the return address and parameters are pushed onto the stack in
+the calling routine (in this case the mainline).  </li>
+          <li> The <tt>rts</tt> (return from subroutine) instruction also 
+uses   the stack. It is the last instruction in a subroutine. It "pops" the 
+return   address  off the stack and loads it into the program counter (PC). 
+Program   execution  then proceeds at the instruction following the call to
+the subroutine.    </li>
+        
+</ol>
+         
+<h3>Making a 68K subroutine</h3>
+         
+<p> We will now convert the code that performs the bubble sort into a subroutine.
+    The steps for this conversion are outlined below.  </p>
+        
+<ol>
+          <li> Identify the <i>parameters</i> for the subroutine. This includes 
+   both input and output parameters. The parameters for the bubble sort are 
+  identical  to the parameters for the <tt>printarr</tt> subroutine, namely 
+  the address of the array and the number of elements. Create three instructions 
+  to push the parameters onto the stack. Put these lines just before the code
+  that performs the bubble sort. </li>
+          <li> Just below the three lines you have added, add a fourth line 
+ that   will  call your new subroutine using the&nbsp;<tt></tt> <tt>jsr</tt><i></i> 
+instruction. This instruction requires a single argument, which is a label 
+   that appears before the first instruction of the subroutine code. In this 
+   case, you can use <tt>jsr bubble</tt>.    </li>
+          <li> Add a fifth line that pops the parameters off the stack when 
+ the   mainline  resumes executing. </li>
+          <li> Use Cut and Paste to move the code for the bubble sort below 
+ the   printarr  subroutine. Add a comment header for your new routine similar 
+ to  the one for printarr. Particularly important is the register dictionary 
+ and  stack frame. Examine the bubble sort code carefully and note all the 
+ registers  it uses These are the registers you will need to save and restore 
+ using the      <tt>movem</tt> instruction. Add the two <tt>movem</tt> instructions 
+  to  the beginning and end of the bubble sort code.  This changes the stack 
+  frame; you now have to space over the saved registers to get at your parameters.
+(In a later assignment, we will use the <tt>link</tt> and <tt>unlk</tt> instructions
+to eliminate this extra adjustment.) </li>
+          <li> The last statement in the bubble sort subroutine is the <tt>rts</tt><i></i> 
+instruction, so add this at the end of the subroutine. </li>
+          <li> You aren't quite done yet. You still have to change two instructions
+    so that you get the two parameters, address and size of array, from the
+  stack.</li>
+      <li>Put two calls in the main program so you now sort <tt>array1</tt> 
+and      <tt>array2</tt>, and of course print each array before and after 
+each call to sort. The original main program sorted only <tt>array1</tt>.<br>
+      </li>
+          <li> Assemble and test your new subroutine. </li>
+        
+</ol>
+           Show the demonstrator your program<tt></tt> and its output so
+you   can  be checked   off  for task 2.<br>
+          <br>
+         <br>
+        <br>
+       <br>
+      <br>
+     <br>
+    <br>
+   <br>
+  <br>
+ <br>
+</body>
+</html>

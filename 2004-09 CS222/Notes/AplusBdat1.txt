@@ -1,0 +1,2 @@
+AInput    dc.l       -999
+BInput    dc.l       765

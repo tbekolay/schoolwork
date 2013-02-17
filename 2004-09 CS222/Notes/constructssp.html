@@ -1,0 +1,147 @@
+<HTML>
+<HEAD>
+  <META NAME="GENERATOR" CONTENT="Adobe PageMill 2.0 Mac">
+  <TITLE> Ifs, Loops and the DBRA instruction</TITLE>
+</HEAD>
+<BODY>
+
+<H1 align=center>  IFs and  LOOPs </h1> 
+
+Stay away from speghetti code!
+
+<h2> IF </h2>
+
+<H4> Simple IF</h4>
+<pre>
+a)HLL               b) SPARC
+
+x:=x+1              ADD      1,%L0  !L0 holds x
+IF A=7 THEN         CMP      7,%L1  !L1 holds A
+                    BNE      NEXT
+                    NOP
+   B:=3;            MOV      3,%L2    !L2 holds B
+END IF         NEXT:    
+x:=x+2;             ADD      %L0,2,%L0
+
+b) At HLL
+
+IF X=2 THEN                   CODE:=2;
+   CODE:=1;       change to   IF X=2 THEN
+ELSE                             CODE:=1;
+   CODE:=2;                   END IF
+END IF
+
+This simplifies the code.
+
+c) GENERAL IF
+
+HLL                        SPARC
+
+IF (I > 0) THEN            CMP      0,%L0    %L0 holds I
+   A:=1                    BLE      ELSE
+                           NOP
+ELSE                       MOV      1,%L1    %L1 holds A    
+   B:=2                    BA      NEXT
+                           NOP
+END IF                ELSE:
+                           MOV      2,%L2    %L2 holds B
+NEXT                  NEXT:
+
+
+d) I never want to see:
+
+      STUFF                           STUFF
+      BA NEXT    replace with    NEXT:
+      NOP
+NEXT:
+
+You want to reduce the number of branches not put in superflous ones
+because branches are slow.
+</pre>
+
+<h2 align=center> Loops</h2>
+
+There are two types of loops in the world - REPEAT loops and WHILE loops.
+Repeat Loops are always executed once which is a rare for loops.  You must
+always check yourself to see if it is safe to use a repeat loop.  A while
+loop can be executed zero times and is always safe and very common in
+programming.
+
+
+<h4> REPEAT Loops</h4>
+
+a) Standard Repeat Loop
+<PRE>
+REPEAT:                        A read with a sentinel is 
+     CALL     DECIN             suitable for a repeat loop.
+     NOP
+     CMP      -1,%o0
+     BEQ      NEXT
+     NOP
+     :                ! body of loop
+     BA       REPEAT
+     NOP
+NEXT:
+
+b) General Loop  (Realy a Repeat loop)
+
+Loop:
+      :              ! body of loop before test 
+     CMP      0,%L3         
+     BLT      NEXT
+     NOP
+      :              ! body of loop after test
+     BA       LOOP
+     NOP
+NEXT:
+
+<h4>  While Loop </h4>
+
+a) OK VERSION            b) Better Version
+
+        :                     :
+        :                     :
+                              BRA CHECK
+LOOP:                         NOP
+    CMP     0,%L3          LOOP:
+    BEQ     ENDLOOP            :        !body of loop
+    NOP
+    : !body of loop        CHECK:
+    BA     LOOP                CMP   0,%L3
+    NOP                        BNE   LOOP 
+                               NOP
+ENDLOOP:                      
+    NEXT CODE                  NEXT CODE
+
+
+</PRE>
+
+<H4>Some General Points about Loops</H4>
+
+<UL>
+  <LI>Most loops are &quot;top-tested&quot; (like WHILE loops in Pascal or
+  C). This is correct most of the time.
+  <LI>The loop condition should be tested before executing the body of the
+  loop for the first time, not after. This allows the body of the loop to
+  be executed 0 times, if that is appropriate.  In some instances the
+  repeat-until loop is the loop of choice. 
+  <LI>In assembler language, a conditional branch will test the loop condition.
+  <LI>This does not mean that the conditional branch should appear at the
+  start of the loop in assembler language, though. Usually, it should be
+  placed at the bottom, and there should be an unconditional branch to the
+  bottom of the loop to get it started.  Occassionally, if the loop is
+  very long, this procedure is not followed.
+</UL>
+<UL>
+  <LI>What's the difference?
+  <UL>
+    <LI>In the first one, there are two branches inside the loop.
+    <LI>In the second one, there is only one branch inside the loop. The other
+    one is outside the loop where it is only done once, not every iteration.
+    <LI>Particularly in today's pipelined processors, it is very important
+    to minimize the number of branches, and simplify loop structures.
+  </UL>
+</UL>
+
+</BODY>
+</HTML>

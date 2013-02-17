@@ -1,0 +1,458 @@
+74.222 - Introduction to Assembly Language Programming ñ U. of Manitoba 
+Prof. John van Rees - Final Exam-3 hours - Paper Number 713 - MPR Seats
+149-288  April 25, 2001 at 1:30pm -  Page 1 of  10
+
+Name_________________________________               ID NUMBER_________________
+
+Instructions:  1) No aids including calculators.  2) Answer everything on
+question paper.   3) Marks for each question are in square brackets.  The
+mark total is 100.  4) Do not rip the pages apart.  5) For full marks
+show all your work and formulas.  6) Adopt good style and form unless 
+otherwise specified.  7) There are two pages per program ñ last page you
+can probably safely use 
+as scrap. 
+
+Q1) [1] What is the equivalent of 12 (base 10) in hexadecimal?____C__________
+
+Q2) [4] Explain why two's complement is the "proper choice" of data  
+representation for signed integers in a computer.
+1.	It has the best 0, both natural and unique.
+2.	The addition algorithm is the best.
+3.	It is self-inverting
+4.	Easy extension of sign and a fairly natural order of the integers.
+
+Q3) [4] How is 32.5 stored as a single precision real number using IEEE
+format?  Give your answer in hex digits.
+
+32.5 = 100000.1(base2) = 1.000001*2**5
+Sign is 0.  Exp. in excess 127 is 10000100 so number is 
+0    100 0010 0     000 0010 0000
+       4        2           0      2        0
+Answer is 42020000
+
+Q4) [4] Register %L0 or D0 contains a lower case letter in its least
+significant byte.  Give the instructions that change this to the
+equivalent upper case letter.
+In SPARC:           add     %L0, 'A'-'a',%L0
+In 68K Simulator:   add.b   #'A'-'a',D0
+
+Q5)[1] What is PC-relative addressing?
+It is an addressing mode that gives an offset from the current address
+(or there abouts) which is stored in the Program Counter.  It is used
+instead of absolute addressing.
+
+Q6)[2] Explain what RTS does?
+It causes a branch to the a dress pointed at by PC and then the SP is
+incremented by 4.
+
+Q7) [2] What does the following instruction do?  
+List:  dcb.w   20,0
+It sets aside 20 words (40 bytes) starting at List and the words are
+initialized to 0.
+
+ Q8) [2] Give the two most desirable features that any collating sequence
+(like ASCII) should have?
+The digits should be  contiguous memory and in order.  The same for both
+the lowercase and uppercase letters.
+
+Q9) [2] Give the value of the computation and the values of the CC (N, Z,
+V & C) after the following 8-bit addition operation.
+a)	3C		N	Z	V	C   
+       +CD              0       0       0       1
+   -------
+     (1)09           
+
+Q10) [2] If we have N sets of windows available on a SPARC, how many sets
+can we use simultaneously without generating a save to the stack.
+Explain this number.  We can use N-1 sets as the out registers of the
+first set overlaps the in registers of the last set. So if we use both
+sets of registers we would lose information.
+
+11) [2] What does the following instruction do?
+      ORG  $1000
+It causes the program to be loaded starting at memory location 1000.
+
+12) [2] Without using UDIV or SDIV write the command in SPARC to divide
+%L0 by 16.
+		SRA  %L0,4,%L0
+
+13)[1] Is the following command syntactically correct? LD [%L4],[%L6].     NO!
+
+14) [1] Give an appropriate use for global  registers, %g1,%g1,Ö,%g7?
+Can be used for temporary storage between subroutine calls.
+
+15) [2] What is the von Neumann bottleneck?
+The inputting and outputting of instructions and especia lly data takes a
+long time compared to the execution of the instructions.  So the instructions 
+have to await the arrival of the data.
+
+16)[6] Fill in the following table with the 4-bit representatives for the
+signed decimal integers in the left column.  Give your answer as a single
+hex digit. If there is more than one correct answer give them all.
+Value Signed magnitude Excess-8 One's complement Two's Complement
+    7         7          F              7             7
+    0       0 or 8       8            0 or F          0
+   -6         E          2               9            A
+
+
+  Programming Notes 1) Do not optimize delay slots.  Include the prologue
+and epilogue.  2) The only documentation required is the register usage
+and stack frames (for 68k Simulator).  3) Do not echo the data, do not
+print a Normal Termination message and do not print an ID banner.  4)
+Otherwise use good style.  5) For 68K Simulator code you may assume that
+the code will be inserted into the template. Similarly, you may assume
+that your SPARC program will be run with MASlib.c.  Do not write MASlib.c
+or the template. 
+
+Q17)[15] Write a 68k simulator program that reads (with no prompts) a list
+of 100 integers of size word which it must store in an appropriate array,
+then add up the integers in the array and then print out the sum.  The sum
+will not overflow 32 bits. 
+
+	ORG     $1000
+***********************************************************************
+*    W R I T E   Y O U R   C O D E   B E L O W   T H I S   L I N E
+***********************************************************************
+*
+* THIS PROGRAM reads 5 integers, stores them in an array, sums them and 
+* prints out sum. The question said to not use prompts. 
+*
+* REGISTER USAGE
+* D0/a0 - I/O
+* A1 - POINTS INTO ARRAY
+* D2 - COUNTER 
+* D3 - SUM
+* *****************************************************************************
+      lea    array,a1
+      move.w #5,d2
+      bra    rchk
+rloop:
+      jsr    decin
+      move.w d0,(a1)+
+      cmp    #0,d2
+rchk: dbra   d2,rloop
+
+      clr.l  d3
+      move.w #5,d2
+      lea    array,a1
+      bra    achk
+aloop:
+      clr.l  d4
+      move.w (a1)+,d4
+      add.l  d4,d3
+achk: dbra   d2,aloop
+
+      lea    head,a0
+      move.w #hlen,d0
+      jsr    strout
+      move.l d3,d0
+      jsr    decout_long
+      jsr    newline
+
+
+	JSR	STOP
+
+*	DATA	PUT YOUR PROGRAM DATA BELOW THIS LINE
+***********************************************************************
+head:  dc.b  'THE SUM IS: '
+hlen:  equ   *-head
+array: ds.w  5
+
+	      DS.W		0			;ENSURES NEXT ADDRESS IS EVEN
+
+
+  Q18a) [12] Write a 68k simulator subroutine, FIND, that accepts two
+parameters.  The first parameter is a pointer to a node, let's call it the
+current node.  The node consists of a 32 bit integer, COEFF, which is a
+coefficient of a term, followed by an 32-bit integer, X, which is the
+exponent of x, followed by a forward link, FLINK.  The second parameter is
+a pointer to a linked list of similar nodes.  The nodes are not in order
+and there is no dummy node.  The subroutine should return a pointer to the
+first node in the linked list with the same x exponent as our current
+node.  If there is no such node in the linked list it should return the
+null pointer.  Use the 74.222 subroutine linkage conventions. You must
+assume that D0 and A0 are the only volatile registers for this question.
+Q18b) Write the calling sequence for the subroutine FIND in the mainline.
+You may assume that the pointer to the current node is in register A5 and
+the pointer to the linked list is in register A1.  Put the returning
+parameter into register A2.
+
+
+!calling sequence
+     move.l  a1,-(sp)
+     move.l  a5,-(sp)
+     jsr     find
+     adda.l  #8,sp
+     move.l  a0,a2
+
+find:
+* FIND accepts a pointer to a current node and a pointer to 
+*a linked list.  It finds the node with the same x exponent 
+*to the current node and returns a pointer to the found node. 
+*if no node, it returns a 0.
+* A1 - ptr to current node 
+* A2 - ptr to linked list then ptr to some node in linked list
+* D1 - x-exponent of current node
+* A0 - pointer to found node or 0.
+* stack frame                  address
+* saved registers 12 bytes      sp
+* ret addr.        4 bytes      sp+12
+* current node     4 bytes      sp+16
+* ptr linked list  4 bytes      sp+20          
+coef:   equ 0
+xoff:   equ 4
+link:   equ 8
+cur:    equ 16
+list:   equ 20
+
+        movem.l  A1/A2/D1,-(sp)
+        movea.l  cur(sp),a1
+        movea.l  list(sp),a2
+        move.l   xoff(a1),d1
+        bra      check
+loop:
+        cmp.l    xoff(a2),d1
+        beq      done
+        move.l   link(a2),a2
+check:  
+        tst.l    (a2)
+        bne      loop
+
+done:   
+        
+        move.l   a2,a0
+        movem.l  (sp)+,a1-a2/d1
+        rts
+
+	      DS.W  	0		;ENSURES NEXT ADDRESS IS EVEN
+
+
+
+Q19 [15] Write a SPARC program to read in, from a file, a single positive
+number, NUM, as a 32-bit integer.  Your program should calculate, using
+integer arithmetic, how many digits (in base 10) that NUM has.  The
+program's only output should be a heading and the number printed out right
+justified in the first 20 columns of a line of output.  Your program may
+not use PRINTF or GETCHAR.  Recall that DECOUT always leaves one blank in
+front of the integer.  An example of the output follows:  
+THE INPUT INTEGER IS: 
+          1789546783
+                   ^
+                column 20
+
+!========== Standard prologue for code ===================
+        .section    ".text"
+        .global     main
+        .align      4
+main:   save        %sp,-96,%sp !allocate min 96 bytes
+!____________________________________________________________________
+!This program reads a 32-bit integer from input and counts the 
+!number of digits, d, in the number in base 10.  It uses 
+!this to print out  20-d-1 blanks so decout prints the number 
+!right-justified in the first 20 columns.
+!Register Usage
+!L0 - 32-bit integer shrinking a digit at a time
+!L1 - number of digits in integer
+!L2 - 32-bit number
+!L3 - # of blanks needed
+!___________________________________________________________________
+
+	clr	%L1
+	call 	decin
+	nop
+	mov	%o0,%L0
+	mov	%L0,%L2
+loop:
+	cmp	%L0,0
+	be	next
+	nop
+	mov	0,%y
+	udiv	%L0,10,%L0
+	inc	%L1
+	ba 	loop
+	nop
+next:
+	mov	20,%L3
+	sub	%L3,%L1,%L3
+	set	head,%o0
+	call	strout
+	nop
+oloop:
+	cmp	%L3,1
+	be	outs
+	nop
+	mov	' ',%o0
+	call	putchar
+	nop
+	dec	%L3
+	ba 	oloop
+	nop
+outs:
+	mov	%L2,%o0
+	call	decout
+	nop
+	call	newline
+	nop
+	ret 
+	restore
+                
+!========== Standard epilogue for code ===================
+        ret                     !Return to the OS.
+        restore                 !Actually done before "ret".
+!=========================================================
+
+! The data section
+
+        .section   ".data"
+head:	.asciz	"\n\nThe input integer is:\n\n"
+
+OR
+
+
+!========== Standard prologue for code ===================
+        .section    ".text"
+        .global     main
+        .align      4
+main:   save        %sp,-96,%sp !allocate min 96 bytes
+!____________________________________________________________________
+!This program reads a 32-bit integer from input and counts the 
+!number of digits, d, in the number in base 10.  It uses 
+!this to print out  20-d-1 blanks so decout prints the number 
+!right-justified in the first 20 columns.
+!Register Usage
+!L0 - 32-bit integer shrinking a digit at a time
+!L1 - number of digits in integer
+!L2 - 32-bit number
+!L3 - # of blanks needed
+!___________________________________________________________________
+
+	clr	%L1
+	call 	decin
+	nop
+	mov	%o0,%L0
+	mov	%L0,%L2
+loop:
+	cmp	%L0,0
+	be	next
+	nop
+	mov	0,%y
+	udiv	%L0,10,%L0
+	inc	%L1
+	ba 	loop
+	nop
+next:
+	mov	20,%L3
+	sub	%L3,%L1,%L3
+	sub	%L3,1,%L3
+	set	head,%o0
+	call	strout
+	nop
+	set	blanks,%L5
+	stub	%g0,[%L5+%L3]
+	mov	%L5,%o0
+	call	strout
+	nop
+
+	mov	%L2,%o0
+	call	decout
+	nop
+	call	newline
+	nop
+	ret 
+	restore
+                
+!========== Standard epilogue for code ===================
+        ret                     !Return to the OS.
+        restore                 !Actually done before "ret".
+!=========================================================
+
+! The data section
+
+        .section   ".data"
+head:	.asciz	"\n\nThe input integer is:\n\n"
+blanks: .ascii  "                    "
+
+
+
+
+
+Q20 [15] Write a SPARC recursive subroutine, DEPTH, to find the depth of a
+binary
+tree.  Depth is defined to be the maximum number of nodes in a path from
+the root to any leaf node.  Both the root and the leaf node in the path
+are counted in the definition of depth.  The subroutine accepts a pointer
+to a tree as its only parameter and returns the depth of that tree.  A
+node in the tree consists of a value(word), followed by a left pointer and
+a right pointer. 
+
+!--------------------------------------------------------------------
+!DEPTH Accepts a pointer to a binary tree and returns its depth.
+! It is recursive
+! L0 - pointer to binary tree
+! L1 - pointer to left tree
+! L2 - pointer to right tree
+! value 4 bytes
+! left link 4 bytes
+! right link 4 bytes
+!____________________________________________________________________
+value=0
+llink=4
+rlink=8
+ndsz=12
+
+
+
+	.section	".text"
+ 	.global		depth
+	.align		4
+depth:
+	save		%sp,-96,%sp
+	mov		%i0,%L0
+	
+	cmp		%L0,0
+	be		done
+	nop
+	clr		%i0
+	ld		[%L0+llink],%o0
+	call		depth
+	nop
+	mov		%o0,%L1
+
+	clr		%i0
+ 	ld		[%L0+rlink],%o0
+	call		depth
+	nop
+	mov		%o0,%L2
+	mov		%L2,%i0
+	
+	cmp		%L2,%L1
+	bgt		done1
+	nop
+	mov		%L1,%i0
+done1:
+	inc		%i0
+	
+done:	ret
+	restore
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  

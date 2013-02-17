@@ -1,0 +1,15 @@
+NAME             Trevor Bekolay
+STUDENT NUMBER   6796723
+COURSE           74.222
+INSTRUCTOR       Prof. Van Rees
+ASSIGNMENT	      4
+QUESTION	      1
+
+Reading in two strings:
+kjdffadksfj234234lkjsadlfjasdf
+hjsd
+hjsd is not a substring of kjdffadksfj234234lkjsadlfjasdf
+
+
+End of Processing
+

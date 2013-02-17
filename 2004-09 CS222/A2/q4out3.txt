@@ -1,0 +1,11 @@
+NAME             Trevor Bekolay
+STUDENT NUMBER   6796723
+COURSE           74.222
+INSTRUCTOR       John van Rees
+ASSIGNMENT	      2
+QUESTION	      4
+Please enter a positive number: 54234
+Parity bit is: 0
+New value is: 54234
+End of Processing
+

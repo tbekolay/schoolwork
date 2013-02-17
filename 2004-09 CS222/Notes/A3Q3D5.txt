@@ -1,0 +1,3 @@
+key	dc.w	1
+crypt	dc.b	'zabcdefghijklmnopqrstuvwxy',null
+

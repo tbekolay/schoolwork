@@ -1,0 +1,573 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+  <title>Assignment 1 Answers</title>
+
+  <style type="text/css">
+    h1, h2, h3, td{text-align: center;}
+  </style>
+</head>
+
+<body>
+
+<h3>74.222 - Assembly Language Programming - Spring 2004</h3>
+
+
+<h2>Assignment 1 Answers</h2>
+
+<ol>
+
+  <!-- question 1 -->
+  <li>(20 marks)</li>
+ In this question, you
+are working  with an 8-bit byte as the   memory unit.
+<br>Perform the specified
+conversions using the signed integer representations shown in the tables below.<br>
+  <ol type="a">
+    <!-- part a -->
+    <li>Convert the following decimal values into hexadecimal (2 hex   digits
+ each).
+<p>
+<table border="1">
+          <tbody>
+            <tr>
+              <th>Decimal</th>
+              <th>signed magnitude</th>
+              <th>excess-128</th>
+              <th>ones complement</th>
+              <th>twos complement </th>
+            </tr>
+            <tr>
+              <td>-88</td>
+              <td>D8</td>
+              <td>28</td>
+              <td>A7</td>
+              <td>A8</td>
+            </tr>
+            <tr>
+              <td>-12</td>
+              <td>8C</td>
+              <td>74</td>
+              <td>F3</td>
+              <td>F4</td>
+            </tr>
+            <tr>
+              <td>-0</td>
+              <td>80</td>
+              <td>80</td>
+              <td>FF</td>
+              <td>00</td>
+            </tr>
+            <tr>
+              <td>1</td>
+              <td>01</td>
+              <td>81</td>
+              <td>01</td>
+              <td>01</td>
+            </tr>
+            <tr>
+              <td>88</td>
+              <td>58</td>
+              <td>D8</td>
+              <td>58</td>
+              <td>58</td>
+            </tr>
+
+  </tbody>
+</table>
+        </p>
+	<!-- part b -->
+        </li><li>Convert the following hexadecimal values (one byte) into decimal
+  values. Indicate the sign of zero where appropriate.<br>
+<p>
+<table border="1">
+          <tbody>
+            <tr>
+              <th>Hex Byte</th>
+              <th>signed magnitude</th>
+              <th>excess-128</th>
+              <th>ones complement</th>
+              <th>twos complement </th>
+            </tr>
+            <tr>
+              <td>80</td>
+              <td>-0</td>
+              <td>0</td>
+              <td>-127</td>
+              <td>-128<sup>*</sup></td>
+            </tr>
+            <tr>
+              <td>01</td>
+              <td>1</td>
+              <td>-127</td>
+              <td>1</td>
+              <td>1</td>
+            </tr>
+            <tr>
+              <td>1C</td>
+              <td>28</td>
+              <td>-100</td>
+              <td>28</td>
+              <td>28</td>
+            </tr>
+            <tr>
+              <td>DD</td>
+              <td>-93</td>
+              <td>93</td>
+              <td>-34</td>
+              <td>-35</td>
+            </tr>
+            <tr>
+              <td>FF</td>
+              <td>-127</td>
+              <td>127</td>
+              <td>-0</td>
+              <td>-1</td>
+            </tr>
+
+  </tbody>
+</table>
+<sup>*</sup> - special case
+</p>
+    <!-- end of question 1 -->
+    </li></ol>
+                                                           <br>
+        <!-- question 2 -->
+	<li>(20 marks)<br>
+	<ol type="a">
+	<!-- part a -->
+<li>Find the 32-bit twos complement representation (8 hexadecimal  digits)
+  for the following signed integers. Show your work.<br>
+	<!-- list for part a -->
+	<ol type="i">
+
+        <li> -12 = FFFFFFF4<sub>16</sub>
+        <ol type=a>
+          <li>convert magnitude to hex:
+          <tt>12<sub>10</sub> = 0000000C<sub>16</sub></tt>
+          <li>perform 2's complement operation to get negative representation:
+          <b>Note:</b> here <tt>G</tt> represents <tt>10<sub>16</sub></tt>
+          <pre>
+            FFFFFFFG
+           -0000000C
+            --------
+            FFFFFFF4</pre>
+        </ol>
+        </li>
+        <p>
+
+        <li> 1,044,765,400 = 3E45DAD8<sub>16</sub>
+        <ol type=a>
+          <li>convert to hex:<pre>
+          1,044,765,400/16 = 65,297,837   remainder  8  (8)
+          65,297,837/16 = 4,081,114       remainder 13  (D)
+          4,081,114/16 = 255,069          remainder 10  (A)
+          255,069/16 = 15,941             remainder 13  (D)
+          15,941/16 = 996                 remainder  5  (5)
+          996/16 = 62                     remainder  4  (4)
+          62/16 = 3                       remainder 14  (E)
+          3/16 = 0                        remainder  3  (3)</pre>
+          <li>The number is positive, so no 2's complement necessary.
+        </ol>
+        </li>
+         <p>
+
+        <li> -2,147,483,648 = 80000000<sub>16</sub>
+        <ol type=a>
+          <li>convert magnitude to hex:<pre>
+          2,147,483,648/16 = 134,217,728  remainder  0  (0)
+          134,217,728/16 = 8,388,608      remainder  0  (0)
+          8,388,608/16 = 524,288          remainder  0  (0)
+          524,288/16 = 32,768             remainder  0  (0)
+          32,768/16 = 2,048               remainder  0  (0)
+          2,048/16 = 128                  remainder  0  (0)
+          128/16 = 8                      remainder  0  (0)
+          8/16 = 0                        remainder  8  (8)</pre>
+          <li>This is special case value for 32-bit 2's complement representations.
+        </ol>
+        </li>
+        <p>
+
+        <li> 1,010,101 = 000F69B5<sub>16</sub>
+        <ol type=a>
+          <li>convert magnitude to hex:<pre>
+          1,010,101/16 = 63,131  remainder  5  (5)
+          63,131/16 = 3,945      remainder 11  (B)
+          3,945/16 = 246         remainder  9  (9)
+          246/16 = 15            remainder  6  (6)
+          15/16 = 0              remainder 15  (F)</pre>
+          <li>Sign extend with zero's. No 2's complement needed.
+        </ol>
+        </li>
+        <p>
+
+        <li> -58,000 = FFFF1D70<sub>16</sub>
+        <ol type=a>
+          <li>convert magnitude to hex:<pre>
+          58,000/16 = 3,625  remainder  0  (0)
+          3,625/16 = 226     remainder  9  (9)
+          226/16 = 14        remainder  2  (2)
+          14/16 = 0          remainder 14  (E)</pre>
+          <li>perform 2's complement operation to get negative representation:
+          <b>Note:</b> here <tt>G</tt> represents <tt>10<sub>16</sub></tt>
+          <pre>
+            FFFFFFG0
+           -0000E290
+            --------
+            FFFF1D70</pre>
+        </ol>
+        </li>
+
+        </li>
+	</ol>
+	<!-- end of list -->
+        <br>
+	<!-- part b -->
+        </li><li>Find signed decimal integer represented by the following
+       32-bit twos complement representations? Show your work.<br>
+	<!-- list for part b -->
+	<ol type="i">
+	  <li><tt>0000 001A</tt> = 26<sub>10</sub>
+	  <ol type=a>
+          <li>Value is positive. No 2's complement needed.
+         <li>convert magnitude to decimal (start with first non-zero digit)<pre>
+          1 * 16 + 10 (A) = 26 </pre>
+        </ol>
+	  </li>
+	  <p>
+          <li><tt>4444 4444</tt> = 1,145,324,612<sub>10</sub>
+	  <ol type=a>
+          <li>Value is positive. No 2's complement needed.
+         <li>convert magnitude to decimal (start with first non-zero digit)<pre>
+                   4 * 16 + 4 = 68
+                  68 * 16 + 4 = 1,092
+               1,092 * 16 + 4 = 17,476
+              17,476 * 16 + 4 = 279,620
+             279,620 * 16 + 4 = 4,473,924
+           4,473,924 * 16 + 4 = 71,582,788
+          71,582,788 * 16 + 4 = 1,145,324,612
+          </pre>
+        </ol>
+          </li>
+          <p>
+          <li><tt>FF00 0000</tt> = -16,777,216<sub>10</sub>
+        <ol type=a>
+          <li>Value is negative; perform 2's complement operation
+          <b>Note:</b> here <tt>G</tt> represents <tt>10<sub>16</sub></tt>
+          <pre>
+            FG000000
+           -FF000000
+            --------
+            01000000</pre>
+         <li>convert magnitude to decimal<pre>
+         1 * 16<sup>6</sup> = 16,777,216</pre>
+        </ol>
+          </li>
+          <p>
+
+          <li><tt>6B23 EBBB</tt> = 1,797,516,219<sub>10</sub>
+	  <ol type=a>
+          <li>Value is positive. No 2's complement needed.
+         <li>convert magnitude to decimal (start with first non-zero digit)<pre>
+                   6 * 16 + 11 (B) = 107
+                 107 * 16 +  2     = 1,714
+               1,714 * 16 +  3     = 27,427
+              27,427 * 16 + 14 (E) = 438,846
+             438,846 * 16 + 11 (B) = 7,021,547
+           7,021,547 * 16 + 11 (B) = 112,344,763
+         112,344,763 * 16 + 11 (B) = 1,797,516,219
+          </pre>
+        </ol>
+          </li>
+          <p>
+          <li><tt>E234 5678</tt> = -499,886,472<sub>10</sub>
+        <ol type=a>
+          <li>Value is negative; perform 2's complement operation
+          <b>Note:</b> here <tt>G</tt> represents <tt>10<sub>16</sub></tt>
+          <pre>
+            FFFFFFFG
+           -E2345678
+            --------
+            1DCBA988</pre>
+         <li>convert magnitude to decimal (start with first non-zero digit)<pre>
+                   1 * 16 + 13 (D) = 29
+                  29 * 16 + 12 (C) = 476
+                 476 * 16 + 11 (B) = 7,627
+               7,627 * 16 + 10 (A) = 122,042
+             122,042 * 16 +  9     = 1,952,681
+           1,952,681 * 16 +  8     = 31,242,904
+          31,242,904 * 16 +  8     = 499,886,472</pre>
+        </ol>
+          </li>
+
+	</ol>
+	<!-- end of list -->
+        <br>
+	<!-- end of question 2 -->
+	</li></ol>
+
+
+	<!-- question 3 -->
+        </li><li>(20 marks)<br>
+	<ol type="a">
+	<!-- part a -->
+<li>Find the IEEE single precision format (32 bits) of the following    decimal
+numbers. Show your work.<br>
+	<!-- list for part a -->
+	<ol type="i">
+          <li> 1.5 = <tt>3FC00000</tt>
+          <ol type=a>
+            <li>Convert to binary (this one is trivial)<pre>
+            1.5 = 1.1<sub>2</sub></pre>
+            <li>Normalize (also trivial)<pre>
+            1.1 = 1.1 * 2<sup>0</sup></pre>
+            <li>Sign bit = 0
+            <br>Exponent = 0 + 127 = 127 = 01111111
+            <br>Mantissa = 10000000000000000000000
+            <li>Put it together (Sign bit + exponent + mantissa)<pre>
+            0011 1111 1100 0000 0000 0000 0000 0000
+              3    F    C    0    0    0    0    0</pre>
+          </ol>
+          </li>
+          <li>  812.25 = <tt>444B1000</tt>
+          <ol type=a>
+            <li>Convert to binary <pre>
+            812 / 2 = 406 remainder 0
+            406 / 2 = 203 remainder 0
+            203 / 2 = 101 remainder 1
+            101 / 2 =  50 remainder 1
+             50 / 2 =  25 remainder 0
+             25 / 2 =  12 remainder 1
+             12 / 2 =   6 remainder 0
+              6 / 2 =   3 remainder 0
+              3 / 2 =   1 remainder 1
+              1 / 2 =   0 remainder 1
+              
+            .25 * 2 = (0).5
+            .5  * 2 = (1).0
+            
+            812.25 = 1100101100.01<sub>2</sub></pre>
+            <li>Normalize<pre>
+            1100101100.01 = 1.10010110001 * 2<sup>9</sup></pre>
+            <li>Sign bit = 0
+            <br>Exponent = 9 + 127 = 136 = 10001000
+            <br>Mantissa = 10010110001000000000000
+            <li>Put it together (Sign bit + exponent + mantissa)<pre>
+            0100 0100 0100 1011 0001 0000 0000 0000
+              4    4    4    B    1    0    0    0</pre>
+          </ol>
+          </li>
+          <li> -0.05078125 = <tt>BD500000</tt>
+          <ol type=a>
+            <li>Convert to binary <pre>
+            .05078125 * 2 = (0).1015625
+            .1015625  * 2 = (0).203125
+            .203125   * 2 = (0).40625
+            .40625    * 2 = (0).8125
+            .8125     * 2 = (1).625
+            .625      * 2 = (1).25
+            .25       * 2 = (0).5
+            .5        * 2 = (1).0
+            
+            0.05078125 = 0.00001101<sub>2</sub></pre>
+            <li>Normalize<pre>
+            0.00001101 = 1.101 * 2<sup>-5</sup></pre>
+            <li>Sign bit = 1
+            <br>Exponent = -5 + 127 = 122 = 01111010
+            <br>Mantissa = 10100000000000000000000
+            <li>Put it together (Sign bit + exponent + mantissa)<pre>
+            1011 1101 0101 0000 0000 0000 0000 0000
+              B    D    5    0    0    0    0    0</pre>
+          </ol>
+          </li>
+          <li>  1812.5 = <tt>44E29000</tt>
+          <ol type=a>
+            <li>Convert to binary <pre>
+           1812 / 2 = 906 remainder 0
+            906 / 2 = 453 remainder 0
+            453 / 2 = 226 remainder 1
+            226 / 2 = 113 remainder 0
+            113 / 2 =  56 remainder 1
+             56 / 2 =  28 remainder 0
+             28 / 2 =  14 remainder 0
+             14 / 2 =   7 remainder 0
+              7 / 2 =   3 remainder 1
+              3 / 2 =   1 remainder 1
+              1 / 2 =   0 remainder 1
+              
+            .5  * 2 = (1).0
+            
+            1812.5 = 11100010100.1<sub>2</sub></pre>
+            <li>Normalize<pre>
+            11100010100.1 = 1.11000101001 * 2<sup>10</sup></pre>
+            <li>Sign bit = 0
+            <br>Exponent = 10 + 127 = 137 = 10001001
+            <br>Mantissa = 11000101001000000000000
+            <li>Put it together (Sign bit + exponent + mantissa)<pre>
+            0100 0100 1110 0010 1001 0000 0000 0000
+              4    4    E    2    9    0    0    0</pre>
+          </ol>
+          </li>
+          <li> -0.000375 = <tt>B9C49BA6</tt>
+          <br> This value contains more than 24 bits in normalized form, so we
+          have to round off the last bit.
+          <ol type=a>
+            <li>Convert to binary<pre>
+            .000375 * 2 = (0).00075
+            .00075  * 2 = (0).0015
+            .0015   * 2 = (0).003
+            .003    * 2 = (0).006
+            .006    * 2 = (0).012
+            .012    * 2 = (0).024
+            .024    * 2 = (0).048
+            .048    * 2 = (0).096
+            .096    * 2 = (0).192
+            .192    * 2 = (0).384
+            .384    * 2 = (0).768
+            .768    * 2 = (1).536  <-- start counting bits here
+            .536    * 2 = (1).072
+            .072    * 2 = (0).144
+            .144    * 2 = (0).288
+            .288    * 2 = (0).576
+            .576    * 2 = (1).152
+            .152    * 2 = (0).304
+            .304    * 2 = (0).608
+            .608    * 2 = (1).216
+            .216    * 2 = (0).432  <-- 10
+            .432    * 2 = (0).864
+            .864    * 2 = (1).728
+            .728    * 2 = (1).456
+            .456    * 2 = (0).912
+            .912    * 2 = (1).824
+            .824    * 2 = (1).648
+            .648    * 2 = (1).296
+            .296    * 2 = (0).592
+            .592    * 2 = (1).184
+            .184    * 2 = (0).368  <-- 20
+            .368    * 2 = (0).736
+            .736    * 2 = (1).472
+            .472    * 2 = (0).944
+            .944    * 2 = (1).888  <-- 24 (round up since .888 &gt; .5)
+            
+            0.000375 = 0.00000000000110001001001101110101110<sub>2</sub></pre>
+            <li>Normalize<pre>
+            0.00000000000110001001001101110101110 = 1.10001001001101110101110 * 2<sup>-12</sup></pre>
+            <li>Sign bit = 1
+            <br>Exponent = -12 + 127 = 115 = 01110011
+            <br>Mantissa = 10001001001101110101110 (rounded)
+            <li>Put it together (Sign bit + exponent + mantissa)<pre>
+            1011 1001 1100 0100 1001 1011 1010 0101
+              B    9    C    4    9    B    A    6</pre>
+          </ol>
+	      </li>
+	</ol>
+	<!-- end of list -->
+<p>
+<!-- part b -->
+</p></li><li>Find the decimal value (to 7 significant digits) of the following
+IEEE single precision format numbers. Show your work.<br>
+	<!-- list for part b -->
+	<ol type="i">
+
+          <li><tt>8100 0000</tt> = -2.350988 * 10<sup>-38</sup>
+          <ol type=a>
+            <li>Convert to binary<pre>
+              8    1    0    0    0    0    0    0
+            1000 0001 0000 0000 0000 0000 0000 0000</pre>
+            <li>Sign bit = 1 (negative)
+            <br>Exponent = 00000010 = 2 - 127 = -125
+            <br>Mantissa = 00000000000000000000000
+            <li>Normalized value = <tt>1 * 2<sup>-125</sup></tt>
+            <br>For this question calculator accuracy was sufficient<pre>
+            2<sup>-125</sup> = 2.350988 * 10<sup>-38</sup></pre>
+          </ol>
+          </li>
+          <li><tt>C344 0000</tt> = -196.0
+          <ol type=a>
+            <li>Convert to binary<pre>
+              C    3    4    4    0    0    0    0
+            1100 0011 0100 0100 0000 0000 0000 0000</pre>
+            <li>Sign bit = 1 (negative)
+            <br>Exponent = 10000110 = 134 - 127 = 7
+            <br>Mantissa = 10001000000000000000000
+            <li>Normalized value = <tt>1.10001 * 2<sup>7</sup></tt>
+            <li>Non-normalized value = <tt>11000100.0</tt>
+            <br>Convert to decimal<pre>
+              1 * 2 + 1 =   3
+              3 * 2 + 0 =   6
+              6 * 2 + 0 =  12
+             12 * 2 + 0 =  24
+             24 * 2 + 1 =  49
+             49 * 2 + 0 =  98
+             98 * 2 + 0 = 196</pre>
+          </ol>
+          </li>
+          <li><tt>02DD 0000</tt> = 3.247303 * 10<sup>-37</sup>
+          <ol type=a>
+            <li>Convert to binary<pre>
+              0    2    D    D    0    0    0    0
+            0000 0010 1101 1101 0000 0000 0000 0000</pre>
+            <li>Sign bit = 0 (positive)
+            <br>Exponent = 00000101 = 5 - 127 = -122
+            <br>Mantissa = 10111010000000000000000
+            <li>Normalized value = <tt>1.1011101 * 2<sup>-122</sup></tt>
+            <br>Another large negative exponent! For this one we will just
+            change the exponent to get rid of the fractional part, then convert
+            the binary integer to decimal, then evaluate the binary exponent
+            with a calculator.
+            <li>"Non-normalized value" = <tt>11011101 * 2<sup>-129</sup></tt>
+            <br>Convert to decimal<pre>
+              1 * 2 + 1 =   3
+              3 * 2 + 0 =   6
+              6 * 2 + 1 =  13
+             13 * 2 + 1 =  27
+             27 * 2 + 1 =  55
+             55 * 2 + 0 = 110
+            110 * 2 + 1 = 221</pre>
+            So, 221 * 2<sup>-129</sup> (by calculator) = 3.247303 * 10<sup>-37</sup>
+          </ol>
+          </li>
+          <li><tt>C142 8000</tt> = -12.15625
+          <ol type=a>
+            <li>Convert to binary<pre>
+              C    1    4    2    8    0    0    0
+            1100 0001 0100 0010 1000 0000 0000 0000</pre>
+            <li>Sign bit = 1 (negative)
+            <br>Exponent = 10000010 = 130 - 127 = 3
+            <br>Mantissa = 10000101000000000000000
+            <li>Normalized value = <tt>1.10000101 * 2<sup>3</sup></tt>
+            <li>Non-normalized value = <tt>1100.00101</tt>
+            <br>Convert to decimal<pre>
+            1100 = 12
+            
+            work right-to-left to convert the binary fraction.
+                     1  / 2 = .5
+            (.5    + 0) / 2 = .25
+            (.25   + 1) / 2 = .625
+            (.625  + 0) / 2 = .3125
+            (.3125 + 0) / 2 = .15625</pre>
+          </ol>
+          </li>
+          <li><tt>41CC 0000</tt> = 25.5
+          <ol type=a>
+            <li>Convert to binary<pre>
+              4    1    C    C    0    0    0    0
+            0100 0001 1100 1100 0000 0000 0000 0000</pre>
+            <li>Sign bit = 0 (positive)
+            <br>Exponent = 1000011 = 131 - 127 = 4
+            <br>Mantissa = 10011001000000000000000
+            <li>Normalized value = <tt>1.10011 * 2<sup>4</sup></tt>
+            <li>Non-normalized value = <tt>11001.1</tt>
+            <br>Convert to decimal<pre>
+            11001 = 25
+            
+            .1<sub>2</sub> = .5<sub>10</sub></pre>
+          </ol>
+	     </li>
+	</ol>
+	<!-- end of list -->
+</li></ol>
+<!-- end of question 3 -->
+
+
+</ol></body></html>

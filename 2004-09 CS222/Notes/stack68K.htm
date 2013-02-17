@@ -1,0 +1,308 @@
+<html>
+<head>
+  <title>cs222 Stack Frame Convention (68K)</title>
+</head>
+<body>
+<div align=center><h2>Parameter Passing using the 68K Stack</h2></div>
+<p>
+Parameter passing to subroutines using the stack is the
+<b>convention</b> (a set of rules imposed by humans, not by the architecture) 
+used by most high-level language compilers. While registers can also
+be used for this purpose, the number and type of parameters that can
+be passed is limited. It is for that reason we want to develop the
+techniques needed to pass parameters on the stack.
+<p>
+In order to make the use of the stack for parameter passing more 
+systematic and less error-prone, we will adopt our own convention.
+First, some definitions.
+<dl>
+  <dt><b>Run Time Stack (Stack)</b></dt>
+  <dd>
+  The area in memory allocated by the Operating System or reserved by
+  the programmer for dynamic allocation. The stack grows towards 
+  lower memory addresses.
+  </dd>
+  <dt><b>Stack Frame (Call Frame)</b></dt>
+  <dd>
+  The area on the stack that is used by a subroutine. It contains
+  the return address, parameters and any local storage needed by the 
+  subroutine.
+  </dd>
+  <dt><b>Frame Pointer</b></dt>
+  <dd>
+  A pointer to a fixed place in the stack frame. It is used to access
+  the input parameters and local storage for the subroutine. Our 
+  convention is to use Address register <b>A6</b> as the frame pointer.
+  </dd>
+  <dt><b>Push and Pop</b></dt>
+  <dd>
+  To place an item on the stack and remove an item from the stack, 
+  respectively.
+  </dd>
+  <dt><b>Caller</b></dt>
+  <dd>
+  The section of code that calls a subroutine.
+  </dd>
+  <dt><b>TOS (Top of Stack)</b></dt>
+  <dd>
+  The item that the stack pointer points to.
+  </dd>
+</dl>
+
+<div align=center><h3>Caller's Conventions</h3></div>
+<p>
+The caller is responsible for pushing the parameters for the
+subroutine onto the stack before the call to the subroutine and for
+popping them off the stack after the subroutine returns.
+How they are placed onto the stack depends
+on whether they are value parameters or reference parameters.
+<h3>Value Parameters</h3>
+<p>
+For a value parameter, a copy of the parameter's value is pushed. Use a
+<i>MOVE</i> instruction and predecrement mode to push a value parameter.
+<dl>
+<dt>e.g. the low-order word in register D1 is to be passed as
+ a value parameter</dt>
+<dd><tt>MOVE.W	D1,-(SP)</tt></dd>
+</dl>
+<h3>Reference Parameters</h3>
+For a reference parameter, the address of the parameter is pushed. Use the
+<i>PEA</i> (Push Effective Address) instruction to push a reference
+parameter. Note that PEA decrements the stack pointer automatically.
+<dl>
+<dt>e.g. the address labeled <i>array</i> is to be passed as
+ a reference parameter</dt>
+<dd><tt>PEA	array</tt></dd>
+</dl>
+<h3>Popping the Parameters</h3>
+Once the caller places the parameters onto the stack, it calls the 
+subroutine using the <i>JSR</i> instruction.
+<p>
+Once the subroutine returns, the parameters are popped off the stack.
+This is accomplished by simply adding to the stack pointer the number
+of bytes the parameters occupy. Make sure to use a symbolic constant
+for the number of bytes
+<dl>
+<dt>e.g. pop the stack to clear the above parameters</dt>
+<dd><pre>pbytes	equ	6
+	ADDA.L	#pbytes,SP</pre></dd>
+</dl>
+
+<div align=center><h3>Subroutine's Conventions</h3></div>
+<h3>Symbolic Constants</h3>
+<p>
+We will be using displacement mode addressing to access the items in
+the stack frame. Our convention is that <b>all</b> displacements are
+specified symbolically using the <i>EQU</i> directive.
+<h3>Frame Pointer</h3>
+<p>
+Once the subroutine code is entered, the stack frame contains the return
+address at TOS, with the parameters below that. In addition, we also need
+space on the stack for saving and restoring work registers using the 
+<i>MOVEM</i> instruction, and space for any local storage. We could use 
+the stack pointer to access these items using displacement mode
+addressing, but this has a problem. Each time we change the
+subroutine code by changing the number of work registers or the amount
+of local storage, the displacements will change as well. Rather than
+worry about recalculating displacements each time we make a change to our
+subroutine, we access these items using a <b>frame pointer</b>, which is
+in a fixed position relative to the parameters and local storage.
+<p>
+As indicated above, our convention is to use A6 as the frame pointer. We
+use the <i>LINK</i> instruction to set up the frame pointer. It will be
+the first instruction in your subroutine. This instruction, in addition
+to setting up the frame pointer, allocates room for local storage on the
+stack. The amount of local storage (in bytes) is specified in the 
+LINK instruction by a displacement. Note that the amount of local storage
+is specified as a negative value, since it is added to the stack pointer.
+<dl>
+<dt>e.g. Set up the frame pointer, allocating 6 bytes for three words of local 
+storage</dt>
+<dd><pre>lbytes	EQU	-6
+	LINK	A6,#lbytes</pre></dd>
+</dl>
+<p>
+This is what the LINK instruction actually does:
+<ol>
+  <li>It pushes the current contents of the frame pointer onto the stack
+  (so it can be restored later). We'll call this saved value the old frame
+  pointer.
+  <li>It copies the contents of the stack pointer into the frame pointer
+  <li>It adds the displacement to the stack pointer, leaving room
+  for local storage in the stack frame.
+</ol>
+The frame pointer points to the old frame pointer on the stack;
+ below that is the
+return address, and below that are the parameters. This means that the 
+first parameter is always at a positive displacement of 8 bytes from 
+the frame pointer. Other parameters are at larger displacements; the actual
+displacements depend on the size of the parameters above them. 
+Above the frame pointer are the local variables.
+<dl>
+<dt>e.g. Access the two parameters from the calling program above</dt>
+<dd><pre>astart	EQU	8
+asize	EQU	12
+	MOVE.W	asize(A6),D1	get the size into D1
+	MOVEA.L	astart(A6),A1	get the start of the array into A1</pre></dd>
+</dl>
+Local storage is above the frame pointer; this means we need a negative
+displacement to access this storage.
+<dl>
+<dt>e.g. Access the first word of temporary storage</dt>
+<dd><pre>pmin	EQU	-2
+	MOVE.W	D0,pmin(A6)		store D0 into local pmin
+</dl>
+
+<p>
+The <i>UNLK</i> (Unlink) instruction restores the previous contents
+of the frame pointer and pops the local storage off the stack. 
+The UNLK instruction looks like:
+<pre>	UNLK	A6	restore the frame pointer</pre>
+<p>
+Note that
+the saving of work registers using MOVEM is done immediately after the
+LINK instruction, and restoring the work registers is done immediately
+before the UNLK instruction. Also note that you don't have to save and
+restore the frame pointer, since that is already done by the LINK and 
+UNLK instructions.
+
+<h3>Sample Subroutine</h3>
+Here is a sample of a subroutine using the cs222 stack conventions.
+
+<pre>
+*setup low memory
+          org       $0
+          dc.l      $100000             stack pointer after reset
+          dc.l      start               program counter after reset
+          org       $1000
+*****************************************************************
+          include   68kIO.s             Input/Output routines
+*****************************************************************
+*initialize for I/O
+start:    lea       zzduart,a1
+          move.b    #%00010000,zzcra(a1)     Reset MR?A pointer
+          move.b    #%00100011,zzmr1a(a1)    8 data bits
+          move.b    #%00010111,zzmr2a(a1)    Normal Mode
+          move.b    #%10111011,zzcsra(a1)    Set clock to 9600
+          move.b    #%00000101,zzcra(a1)     Enable Rx and Tx
+*****************************************************************
+*equ symbols
+null      equ       $00                 null string terminator
+lf        equ       $0A                 linefeed
+cr        equ       $0D                 carriage return
+*****************************************************************
+*This program finds an array in its memory and prints it out along with
+*the maximum and minimum value in the array
+******************************************************************
+pbytes  equ     6       size of parameters
+
+* call the do-everything  subroutine
+        move.w  asize,-(sp)     size parameter
+        pea     array   	address parameter
+        jsr     printarr
+        adda.l  #pbytes,sp      remove parameters from stack
+        break
+
+
+printarr:
+*****************************************************************
+* subroutine printarr
+* Do everything
+* Input parameters on the stack:
+*The first parameter is the size of the array
+*The second parameter is the address of the array
+* Output parameters: none
+****************************************************
+*We will use fp instead of sp in the program but show both
+*in the stack frame.  Sp could have been used in program.
+*STACK FRAME
+*  4 reisters 		fp-22 sp+0
+*  ptot       		fp-6  sp+16
+*  pmax       		fp-4  sp+18
+*  pmin	      		fp-2  sp+20
+*  old fp     		fp    sp+22
+*  return address	fp+4  sp+26
+*  array addres =par1	fp+8  sp+30
+*  array size=par2	fp+12 sp+34
+* Register usage
+*       d0      Used for I/O subroutines
+*       d1      loop counter
+*       a0      Used for I/O subroutines
+*       a1      copy of the array address
+*       a6      frame pointer
+
+address	equ	8		address of the array
+size	equ	12		number of elements
+pmin    equ     -2      	minimum value
+pmax    equ     -4      	maximum value
+ptot    equ     -6      	total value
+locals  equ     ptot-pmin-2 	set up local storage
+
+	link	a6,#locals	set up the frame pointer
+	movem.l	d0-d1/a0-a1,-(sp)	save work registers on the stack
+        move.w  #$7FFF,pmin(a6) store largest positive value in minimum
+        move.w  #$8000,pmax(a6) store largest negative value in maximum
+        clr.w   ptot(a6)        set total to 0
+        move.l  address(a6),a1  get the pointer to the array
+        move.w  size(a6),d1     put the size into the loop index
+        clr.l   d0              read element into D0 so it's ready to print
+        lea     blank,a0        load the address of a blank
+        bra     ptest           enter the loop at the bottom
+ploop   jsr     decout          print the element...
+        jsr     strout          and a blank
+chkmin  cmp.w   pmin(a6),d0     check for new minimum value
+        bge     chkmax          no new min here
+        move.w  d0,pmin(a6)     update the minimum
+chkmax  cmp.w   pmax(a6),d0     check for new maximum value
+        ble     addtot          no new max here
+        move.w  d0,pmax(a6)     update the maximum
+addtot  add.w   d0,ptot(a6)     add this value into the total
+ptest   move.b  (a1)+,d0        get the next byte
+        dbra    d1,ploop
+        jsr     newline         all done, start a new line
+        clr.l   d0
+        lea     minmsg,a0       print out minimum value
+        jsr     strout
+        move.w  pmin(a6),d0
+        jsr     decout
+        jsr     newline
+        lea     maxmsg,a0       print out maximum value
+        jsr     strout
+        move.w  pmax(a6),d0
+        jsr     decout
+        jsr     newline
+        lea     totmsg,a0       print out total value
+        jsr     strout
+        move.w  ptot(a6),d0
+        jsr     decout
+        jsr     newline
+        movem.l (sp)+,d0-d1/a0-a1       restore work registers
+        unlk    a6              restore the frame pointer
+        rts     return
+blank   dc.b    ' ',null
+minmsg  dc.b    'minimum value: ',null
+maxmsg  dc.b    'maximum value: ',null
+totmsg  dc.b    ' total  value: ',null
+
+* end of subroutine printarr
+********************************************************************
+	ds.w	0	make sure next address is even
+asize   dc.w    14
+array   dc.b    81,15,12,77,44,90,6,45,29,55,33,66,11,22
+</pre>
+
+<h3>Stack Figures</h3>
+Here are some figures illustrating the stack frame at various points 
+in the above program.
+<p>
+<img src="image1.gif">
+<p>
+<img src="image2.gif">
+<p>
+<img src="image3.gif">
+<p>
+<img src="image4.gif">
+<p>
+<img src="image5.gif">
+</body>
+</html>

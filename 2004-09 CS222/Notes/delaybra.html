@@ -1,0 +1,171 @@
+<HTML>
+<HEAD>
+  <META NAME="GENERATOR" CONTENT="Adobe PageMill 2.0 Mac">
+  <TITLE>SPARC Delayed Branching</TITLE>
+</HEAD>
+<BODY>
+
+<H2 ALIGN=CENTER>SPARC Delayed Branching</H2>
+
+<P>If a branch or CALL is done on a SPARC, the new address is loaded into
+the <B>nPC, not the PC</B>.</P>
+
+<P>Effect: <B>The instruction following the branch is executed before the
+branch takes effect.</B></P>
+
+<P>The position immediately following any branch or call instruction is
+called the &quot;delay slot&quot;, and the instruction in that position
+is the &quot;delay instruction&quot;.</P>
+
+<P>Example:</P>
+
+<BLOCKQUOTE>
+  <PRE>Addr  Code
+----  ----------------------
+1000  addcc %g0,%g0,%g0
+1004  be    where
+1008  subcc %g0,123,%L1
+100C  st    %L1,[%i0+%i1]
+...
+2000  where: add %L1,%G0,%L2
+2004         ld [%i0+%i1],%L3</PRE>
+</BLOCKQUOTE>
+
+<P>Effect:</P>
+
+<BLOCKQUOTE>
+  <PRE> PC   nPC  What's happening
+---- ----  -----------------------
+1000 1004  addcc executing, be    being fetched
+1004 1008  be    executing, subcc being fetched
+1008 2000  subcc executing, add   being fetched
+2000 2004  add   executing, ld    being fetched</PRE>
+</BLOCKQUOTE>
+
+<P><B>***ALWAYS FILL THE DELAY SLOT!!***</B></P>
+
+<P>What can be put into the delay slot?</P>
+
+<UL>
+  <LI>Some useful instruction that should be executed whether you branch
+  or not.
+  <LI>Some instruction that does useful work only when you branch (or when
+  you don't branch), but doesn't do any harm if executed in the other case.
+  <LI>When all else fails, a NOP instruction.
+</UL>
+
+<P>What <B>MUST NOT</B> be put into the delay slot?</P>
+
+<UL>
+  <LI>Anything that sets the CC that the branch decision depends on. The
+  branch instruction makes the <B>decision</B> on whether to branch or not
+  right away but it doesn't actually <B>do</B> the branch until after the
+  delay instruction. (Only the branch is delayed, not the decision.)
+  <LI>Another branch instruction. (What happens if you do this is not even
+  defined! The result is unpredictable!)
+  <LI>A &quot;set&quot; instruction. This is really two instructions, not
+  one, and only half of it will be in the delay slot. (The assembler will
+  warn you about this.)
+</UL>
+
+<P>Example 1:</P>
+
+<BLOCKQUOTE>
+  <PRE>Loop: ...
+      ...
+      add %L1,%L2,%L1 !Add %L2 to the sum in %L1
+      add %L3,1,%L3   !Increment the counter
+      ba  Loop        !Back to the Loop again
+      nop             !The delay slot</PRE>
+</BLOCKQUOTE>
+
+<P>should not be done that way. Instead, use:</P>
+
+<BLOCKQUOTE>
+  <PRE>Loop: ...
+      ...
+      add %L1,%L2,%L1 !Add %L2 to the sum in %L1
+      ba  Loop        !Back to the Loop again
+      add %L3,1,%L3   !Increment the counter (delay slot)</PRE>
+</BLOCKQUOTE>
+
+<P>Example 2:</P>
+
+<BLOCKQUOTE>
+  <PRE>Loop: add   %L3,1,%L3   !Increment the counter
+      ...
+      subcc %L2,%L3,%G0 !Compare %L2 to %L3
+      bne   Loop        !Loop until they are equal
+      nop               !The delay slot</PRE>
+</BLOCKQUOTE>
+
+<P>should not be done that way. Instead, use:</P>
+
+<BLOCKQUOTE>
+  <PRE>      add   %L3,1,%L3   !Increment the counter
+Loop: ...
+      subcc %L2,%L3,%G0 !Compare %L2 to %L3
+      bne   Loop        !Loop until they are equal
+      add   %L3,1,%L3   !Increment the counter</PRE>
+</BLOCKQUOTE>
+
+<P>This one is better, because the number of instructions inside the loop
+has been decreased by 1. However, this version increments %L3 once too often.
+If the value of %L3 is not important after the loop is finished, then that
+it not a problem. If the value of %L3 is important, then you could add the
+instruction</P>
+
+<BLOCKQUOTE>
+  <PRE>      sub   %L3,1,%L3 !Undo the last addition.</PRE>
+</BLOCKQUOTE>
+
+<P>This looks like a poor solution, but it is better to do an extra instruction
+once after the end of a loop than an extra instruction every time through
+the loop.</P>
+
+<P>(There is also another solution to this problem - the &quot;bne,a&quot;
+instruction - but we will not cover it in this course.)</P>
+
+<P>Example 3: This program contains a bug:</P>
+
+<BLOCKQUOTE>
+  <PRE>Loop: set   Array,%L4   !Put Array's address in %L4
+      ...
+      subcc %L2,%L3,%G0 !Compare %L2 to %L3
+      bne   Loop        !Loop until they are equal
+
+! -------------------
+! Another line has been finished.
+! Increment the line counter in %G1
+!--------------------
+
+      add   %G1,1,%G1
+      ...</PRE>
+</BLOCKQUOTE>
+
+<P>The correct code is:</P>
+
+<BLOCKQUOTE>
+  <PRE>Loop: set   Array,%L4   !Put Array's address in %L4
+      ...
+      subcc %L2,%L3,%G0 !Compare %L2 to %L3
+      bne   Loop        !Loop until they are equal
+      nop
+
+! -------------------
+! Another line has been finished.
+! Increment the line counter in %G1
+!--------------------
+
+      add   %G1,1,%G1
+      ...</PRE>
+</BLOCKQUOTE>
+
+<P>Without the &quot;nop&quot; in the delay slot, the &quot;add&quot; will
+be done every time through the loop (the add will be in the delay slot).
+Since we can't put the &quot;subcc&quot; in the delay slot (the branch depends
+on it), and we can't put the &quot;set&quot; in the delay slot either, we'll
+have to settle for a &quot;nop&quot;.</P>
+
+</BODY>
+</HTML>

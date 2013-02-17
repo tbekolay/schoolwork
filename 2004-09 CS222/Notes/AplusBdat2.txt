@@ -1,0 +1,2 @@
+AInput    dc.l       100
+BInput    dc.l       25

@@ -1,0 +1,420 @@
+<HTML>
+<HEAD>
+  <META NAME="GENERATOR" CONTENT="Adobe PageMill 2.0 Mac">
+  <TITLE>SPARC Instructions </TITLE>
+</HEAD>
+<BODY>
+
+<H2>SPARC Instruction Types</H2>
+
+<P>There are very few addressing modes on the SPARC, and they may be used
+only in certain very restricted combinations. The three main types of SPARC
+instructions are given below, along with the valid combinations of addressing
+modes. There are only a few unusual instructions which do not fall into
+these catagories.</P>
+
+<H4>1. Arithmetic/Logical/Shift instructions</H4>
+
+<BLOCKQUOTE>
+  <PRE><TT>opcode reg1,reg2,reg3    !reg1 op reg2    -&gt; reg3</TT>
+<TT>opcode reg1,const13,reg3 !reg1 op const13 -&gt; reg3</TT></PRE>
+</BLOCKQUOTE>
+
+<UL>
+  <LI>All &quot;action&quot; instructions (add, sub, and, or, etc.) take
+  three operands.
+  <LI>The destination is always the third operand.
+  <LI>The middle operand may be a 13-bit signed constant (-4096...+4095).
+  <LI>Otherwise, all operands are registers.
+  <LI>Examples:
+</UL>
+
+<BLOCKQUOTE>
+  <PRE><TT>add %L1,%L2,%L3 !%L1+%L2-&gt;%L3</TT>
+<TT>add %L1,1,%L1   !increment L1</TT>
+<TT>sub %g0,%i3,%i3 !negate i3</TT>
+<TT>sub %L1,10,%G0  !compare %L1 to 10 (discard result)</TT>
+<TT>add %L1,%G0,%L2 !move %L1 to %L2 (add 0 to it)</TT>
+<TT>add %G0,%G0,%L4 !clear L4 (0+0 -&gt;%L4)</TT></PRE>
+</BLOCKQUOTE>
+
+<UL>
+  <LI>To do the above things in the 680x0, 6 different opcodes would be needed
+  (move, add, addi, clr, neg, cmp)
+</UL>
+
+<H4>2. Load/Store Instructions</H4>
+
+<BLOCKQUOTE>
+  <P><TT>opcode [reg1+reg2],reg3<BR>
+  opcode [reg1+const13],reg3</TT></P>
+</BLOCKQUOTE>
+
+<UL>
+  <LI><B>Only</B> load and store instructions can access memory.
+  <LI>The contents of reg3 is read/written from/to the address in memory
+  formed by adding reg1+reg2, or else reg1+const13 (a 13- bit signed constant
+  as above).
+  <LI>The operands are written in the reverse direction for store instructions,
+  so that the destination is always last.
+  <LI>One of reg1 or const13 can be omitted. The assembler will supply $g0
+  or 0. (This is a shorthand provided by the assembler. Both are always there
+  in machine language.)
+  <LI>Examples:
+</UL>
+
+<BLOCKQUOTE>
+  <PRE><TT>ld [%L1+%L2],%L3 !word at address [%L1+%L2]-&gt;%L3</TT>
+<TT>ld [%L1+8],%L2   !word at address [%L1+8]-&gt;%L2</TT>
+<TT>ld [%L1],%L2     !word at address [%L1]-&gt;%L2</TT>
+<TT>st %g0,[%i2+0]   !0 -&gt; word at address in %i2</TT>
+<TT>st %g0,[%i2]     !same as above</TT></PRE>
+</BLOCKQUOTE>
+
+<H4>3. Branch Instructions</H4>
+
+<BLOCKQUOTE>
+  <P><TT>opcode address</TT></P>
+</BLOCKQUOTE>
+
+<UL>
+  <LI>Branch to (or otherwise use) the address given.
+  <LI>There are actually 2 types of addresses (see &quot;relocatability&quot;
+  later) - but they look the same.
+  <LI>Examples:
+</UL>
+
+<BLOCKQUOTE>
+  <PRE><TT>call printf</TT>
+<TT>be   Loop</TT></PRE>
+</BLOCKQUOTE>
+
+<P><B>That's it. Period. No other modes or combinations of modes are possible.
+This is a RISC machine and R stands for &quot;Reduced&quot;.</B></P>
+
+<BLOCKQUOTE>
+  <PRE><TT>add %L1,[%L2],%L3 !Invalid. No memory access allowed.</TT>
+<TT>ld  5,%L4         !Invalid. Must be a memory access.</TT></PRE>
+</BLOCKQUOTE>
+
+<H2>SPARC Fundamental Instructions</H2>
+
+<H3>Load/Store Instructions</H3>
+
+<UL>
+  <LI><B>Only these instructions access memory.</B>
+  <LI>All 32 bits of the register are always affected by a load. If a shorter
+  data item is loaded, it is padded by either adding zeroes (for unsigned
+  data), or by sign extension (for signed data).
+  <LI>In effect, data in memory may be 1, 2, or 4 bytes long, but data in
+  registers is always 4 bytes long.
+</UL>
+
+<BLOCKQUOTE>
+  <PRE><TT>ld   - load (load a word into a register)</TT>
+<TT>st   - store (store a word into memory)</TT>
+<TT>ldub - load unsigned byte (fetch a byte, pad with 0's)</TT>
+<TT>ldsb - load signed byte (fetch a byte, sign extend it)</TT>
+<TT>lduh - load unsigned halfword (fetch 2 bytes, pad)</TT>
+<TT>ldsh - load signed halfword (fetch 2 bytes, sign extend)</TT>
+<TT>stb  - store byte (store only the LSB)</TT>
+<TT>sth  - store halfword (store only the 2 LSB's)</TT></PRE>
+</BLOCKQUOTE>
+
+<MENU>
+  <LI>There are also two instructions for double words. The register number
+  must be even, and 8 bytes are loaded or stored. The MSW goes to the even
+  register and the LSW to the odd register that follows it.
+</MENU>
+
+<BLOCKQUOTE>
+  <P><TT>ldd - load double (load 2 words into 2 registers)<BR>
+  std - store double (store 2 words from 2 registers)</TT></P>
+</BLOCKQUOTE>
+
+<H3>Arithmetic/Logical Instructions</H3>
+
+<UL>
+  <LI>All 32 bits of every register is used.
+  <LI>Setting the condition code is always optional. Add &quot;cc&quot; to
+  the opcode to set the condition code. By default, it is <B>not</B> set.
+</UL>
+
+<BLOCKQUOTE>
+  <PRE><TT>add  - a+b</TT>
+<TT>sub  - a-b</TT>
+<TT>and  - a&amp;b (bitwise AND)</TT>
+<TT>andn - a&amp;~b (bitwise and - second operand complemented)</TT>
+<TT>or   - a|b (bitwise OR)</TT>
+<TT>orn  - a|~b (bitwise or - second operand complemented)</TT>
+<TT>xor  - a^b (bitwise exclusive or)</TT>
+<TT>xnor - a^~b (bitwise exor - second operand complemented)</TT></PRE>
+</BLOCKQUOTE>
+
+<MENU>
+  <LI>Examples:
+</MENU>
+
+<BLOCKQUOTE>
+  <PRE><TT>add   %L1,%L2,%L3  ;add %L1+%L2 -&gt; %L3</TT>
+<TT>subcc %L4,10,%G0   ;sub %L4-10, set cc, discard result</TT>
+<TT>or    %o3,0xFF,%o3 ;set lowest 8 bits of %o3 to 1's</TT>
+<TT>xnor  %L6,%G0,%L6  ;complement %L6 (same as NOT in 680x0)</TT></PRE>
+</BLOCKQUOTE>
+
+<H3>Comparison of CISC vs. RISC (680x0 vs. SPARC)</H3>
+
+<P>A RISC (Reduced Instruction Set Computer) achieves the same functionality
+with a much smaller (and more consistent) instruction set. For example,
+the sets of instructions below can do roughly the same jobs. (Size modifiers
+like &quot;ub&quot; after &quot;ld&quot; in SPARC and &quot;.w&quot; after
+&quot;move&quot; in 680x0 are ignored.)</P>
+
+<P>680x0:</P>
+
+<BLOCKQUOTE>
+  <P><TT>add,adda,addi,addq,clr,cmp,cmpa,cmpi,cmpm,exg,<BR>
+  ext,extb,move,movea,move16,movem,moveq,neg,negx,<BR>
+  sub,suba,aubi,subq,tst</TT></P>
+</BLOCKQUOTE>
+
+<P>SPARC:</P>
+
+<BLOCKQUOTE>
+  <P><TT>ld,st,addcc,subcc</TT></P>
+</BLOCKQUOTE>
+
+<P>How is this reduction made possible?</P>
+
+<UL>
+  <LI>Three operands per instruction
+  <LI>The fact that %g0 gives easy access to a 0 value
+  <LI>The use of more instructions is expected in some cases. (Example,<BR>
+  <TT>move (a3)+,-(a4)<BR>
+  </TT>in 68000 would require<BR>
+  <TT>ld [%L3],%G1<BR>
+  add %L3,4,%L3<BR>
+  sub %L4,4,%L4<BR>
+  st %G1,[%L4]<BR>
+  </TT>in SPARC.
+  <LI>But, in the example above, both machines would likely use about the
+  same number of clock cycles, and the SPARC would have a faster clock because
+  it is simpler, so the SPARC would likely be faster for roughtly equivalent
+  technology.
+</UL>
+
+<H3>CALL Instruction</H3>
+
+<P>This instruction is used to call subprograms. As for the 680x0, we will
+leave the details for later. For now, it will be used only to call library
+routines.</P>
+
+<BLOCKQUOTE>
+  <P><TT>call printf</TT></P>
+</BLOCKQUOTE>
+
+<H3> Divide and Multiply</H3>
+smul[cc] and umul[cc] are the unsigned multiplication and signed
+multiplication instructions.  The operands are %r1,%r2,%r3  or
+%r1,const13,%r3 where
+the second 32 bit operand multiplies the first 32 bit operand and the 64
+bit product is stored in %y:%r3.  %y is a special register for
+multiplication and division. Only a few instructions can use it eg. MOV
+%y,%L1.  The high order bits of the product are stored in %y and the low
+order bits of
+the product are stored in %r3.  The cc flags look only at %r3 and never at
+%y.  No overflow is possible.  Example instruction - smul %L1,8,%L3
+<BR><BR>
+sdiv[cc] and udiv[cc] are signed division and unsigned division and
+the operands are %r1,%r2,%r3 or %r1,const13,%r3.  The
+second 32 bit operand divides the 64 bit operand %y:%r1 and puts the
+64 bit answer into %y:%r3.  If %y is non-zero for after udiv, or if %y 
+is not 32 bits equal to the sign bit, this is generally considered
+to be overflow.  Because of this %y often contains junk.  Also the system
+often uses %y (even before you run your program) and leaves junk there so
+you must guard the division.  The easiest way to do that is move a 0 into
+%y for udiv or use the following two instructions before sdiv.<br>
+<pre>
+    sra %L1,31,%g1
+    mov %g1,%y
+now %L1 is ready for any kind of division.
+</pre>
+The sra command moves the bits in %L1 31 places to the right padding the
+leftof the register with sign bits.  The two instructions are the
+equivalent of an extend
+command in 68k.  We will learn more about shifts later.  Where is the
+remainder?  Nowhere. You have to calculate it yourself.  So you must know
+this formula for tests and exams: Remainder (when b divides a) := a-(b*(a
+DIV b).  As before the cc flags are set only for %r3.  They do not use %y
+at all.
+   
+<H3>SETHI Instruction (and the SET synthetic instruction)</H3>
+
+<P>This instruction is one of the few that has a slightly different assembly-language
+format. The syntax looks like this:</P>
+
+<BLOCKQUOTE>
+  <P><TT>sethi const22,%reg</TT></P>
+</BLOCKQUOTE>
+
+<P>where &quot;const22&quot; is a 22-bit integer constant (signed or unsigned
+is not relevant). It places the constant into the high-order 22 bits of
+the register, and sets the low-order 10 bits of the register to 0's. (?!)
+For example,</P>
+
+<BLOCKQUOTE>
+  <P><TT>sethi 0x333333,%L1; 0x333333 is 1100110011001100110011</TT></P>
+</BLOCKQUOTE>
+
+<P>would set register %L1 to</P>
+
+<BLOCKQUOTE>
+  <P><TT>1100110011001100110011 0000000000</TT></P>
+</BLOCKQUOTE>
+
+<P>Q: Why would you want to do this? A: In order to load a 32-bit constant
+(such as an address) into a register. This can't possibly be done in one
+instruction (since all instructions are 32 bits long, there isn't room for
+a 32-bit constant and also an opcode and a register number). There are instructions
+that can set the lower part of a register (add, or, etc), so this one complements
+those nicely.</P>
+
+<P>For example, to set %L1 to 0x89ABCDEF, do the following:</P>
+
+<BLOCKQUOTE>
+  <P>1. Split up 0x89ABCDEF into the top 22 bits and the bottom 10 bits</P>
+  <BLOCKQUOTE>
+    <PRE>89ABCDEF = 10001001101010111100110111101111
+Top 22 bits are 1000100110101011110011 = 226AF3
+Low 10 bits are 0111101111 = 1EF</PRE>
+  </BLOCKQUOTE>
+  <P>2. Place the two halves into %L1 using separate instructions:</P>
+  <BLOCKQUOTE>
+    <PRE>sethi 0x226AF3,%L1
+or    %L1,0x1EF,%L1 ;or is better than add. (WHY?)</PRE>
+  </BLOCKQUOTE>
+</BLOCKQUOTE>
+
+<P>Shortcut #1: The SPARC assembler provides two special &quot;functions&quot;
+to make this easier. %hi(X) will give the top 22 bits of the constant X
+and %lo(X) will give the bottom 10 bits. This is an assembler feature. It
+is not part of the SPARC machine language. So we could use</P>
+
+<BLOCKQUOTE>
+  <BLOCKQUOTE>
+    <PRE>sethi %hi(0x89ABCDEF),%L1
+or    %L1,%lo(0x89ABCDEF),%L1</PRE>
+  </BLOCKQUOTE>
+</BLOCKQUOTE>
+
+<P>The most common use of this instruction is to place the address of something
+into a register. For example, if there is a character string in memory with
+the label &quot;Prompt&quot; on it, you can put the address of that string
+into %o1 using</P>
+
+<BLOCKQUOTE>
+  <BLOCKQUOTE>
+    <PRE>sethi %hi(Prompt),%o1
+or    %o1,%lo(Prompt),%o1</PRE>
+  </BLOCKQUOTE>
+</BLOCKQUOTE>
+
+<P>Shortcut #2: The above pair of instructions is used quite a lot, so the
+assembler provides a &quot;synthetic instruction&quot; which will generate
+them for you. The &quot;instruction&quot;</P>
+
+<BLOCKQUOTE>
+  <BLOCKQUOTE>
+    <PRE>set   const32,%reg</PRE>
+  </BLOCKQUOTE>
+</BLOCKQUOTE>
+
+<P>will accept any 32-bit constant (const32) such as an address, and any
+register (%reg) and will generate</P>
+
+<BLOCKQUOTE>
+  <BLOCKQUOTE>
+    <PRE>sethi %hi(const32),%reg
+or    %reg,%lo(const32),%reg</PRE>
+  </BLOCKQUOTE>
+</BLOCKQUOTE>
+
+<P>However, it should be remembered that <B>SET is not a real SPARC instruction</B>,
+and that <B>it produces two machine language instructions</B>, not one.
+</P>
+
+<HTML>
+<HEAD>
+  <META NAME="GENERATOR" CONTENT="Adobe PageMill 2.0 Mac">
+  <TITLE>Conditional Branches</TITLE>
+</HEAD>
+<BODY>
+
+<H3>NOP Instruction (No OPeration)</H3>
+
+<P>This is another &quot;synthetic instruction&quot;. The syntax looks like
+this:</P>
+
+<BLOCKQUOTE>
+  <P><TT>nop</TT></P>
+</BLOCKQUOTE>
+
+<P>but it really generates the instruction</P>
+
+<BLOCKQUOTE>
+  <PRE><TT>sethi 0,%g0</TT></PRE>
+</BLOCKQUOTE>
+
+<P>which does <B>absolutely nothing</B>. All instruction sets have a NOP
+instruction. In RISC machines, it is often a very essential instruction.
+
+<H2 ALIGN=CENTER>SPARC Synthetic Instructions</H2>
+
+<P>RISC machine languages do not have many instructions that are common
+in CISC machine languages (move, negate, clear, compare, etc.) because all
+of these can be done quite easily with 3-operand add, subtract, and logical
+instructions. However, the assembler provides &quot;synthetic instructions&quot;
+to improve convenience and readability. These are not real machine language
+instructions, but the assembler will automatically translate them into the
+proper instruction(s) for you.</P>
+
+<P>In SPARC, some of the most common synthetic instructions are:</P>
+
+<PRE>Synthetic Instruction   Assembled As
+---------------------   -----------------------------
+  clr     %reg          or      %g0,%g0,%reg
+  cmp     %reg,%reg     subcc   %reg,%reg,%g0
+  cmp     %reg,const    subcc   %reg,const,%g0
+  mov     %reg,%reg     or      %g0,%reg,%reg
+  mov     const,%reg    or      %g0,const,%reg
+
+  set     const,%reg    sethi   %hi(const),%reg
+                        or      %reg,%lo(const22),%reg</PRE>
+
+<P>And here are some others that may be useful:</P>
+
+<PRE>Synthetic Instruction   Assembled As
+---------------------   -----------------------------
+  clr     [address]     st      %g0,[address]
+  clrh    [address]     sth     %g0,[address]
+  clrb    [address]     stb     %g0,[address]
+  dec     %reg          sub     %reg,1,%reg
+  deccc   %reg          subcc   %reg,1,%reg
+  inc     %reg          add     %reg,1,%reg
+  inccc   %reg          addcc   %reg,1,%reg
+  not     %reg          xnor    %reg,%g0,%reg
+  neg     %reg          sub     %g0,%reg,%reg
+  tst     %reg          orcc    %reg,%g0,%g0</PRE>
+
+<P>Here are two that will be used for subprograms later:</P>
+
+<PRE>Synthetic Instruction   Assembled As
+---------------------   -----------------------------
+  restore               restore %g0,%g0,%g0
+  ret                   jmpl    %i7+8,%g0</PRE>
+
+
+</BODY>
+</HTML>
+
+

@@ -1,0 +1,3 @@
+key	dc.w	6
+crypt	dc.b	'6448 cm u Fyuj Syul, mi Zyvlouls bum 63 xusm.',null
+

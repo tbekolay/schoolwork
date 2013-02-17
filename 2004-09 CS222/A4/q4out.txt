@@ -1,0 +1,17 @@
+NAME               Trevor Bekolay
+STUDENT NUMBER     6796723
+COURSE             74.222
+INSTRUCTOR         Van Rees
+ASSIGNMENT 4
+QUESTION 4
+
+Reading in 6 pairs.
+10 C 0 = 1
+8 C 8 = 1
+7 C 2 = 21
+6 C 3 = 20
+10 C 4 = 210
+11 C 10 = 11
+
+End of Processing
+

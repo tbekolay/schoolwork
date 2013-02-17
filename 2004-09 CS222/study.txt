@@ -1,0 +1,87 @@
+Things to Memorize:
+
+CC's: Z N V C
+
+The Z bit is set to 1 if the result was Zero. (It is set if all bits of the result were 0's.)
+The N bit is set to 1 if the result was Negative. (In other words, it is set to the sign bit of the result.)
+The V bit is set to 1 if the operation caused an oVerflow (For add/sub, signed values are assumed). An overflow occurs when there is no encoding/representation for the correct answer in the space available.
+The C bit is set to 1 if the operation caused a carry (or borrow) out of the top bit. This is an overflow bit for unsigned values when using add/sub.
+
+Subroutines:
+
+Sparc:
+
+bneg
+bpos
+
+.section	".text"
+.global		main
+.align		4
+main: save	%sp,-96,%sp !allocate min 96 bytes
+
+	Normally:
+		Caller:
+		-save	%sp,-96,%sp
+		put parameters in %o0-%o5
+		-call	subroutine
+		-nop
+		get returned values from %o0-%o5
+		Called:
+		-save	%sp,-96,%sp
+		get parameters from %i0-%i5
+		do stuff
+		put returned values in %i0-%i5
+		-ret
+		-restore
+	
+	More than 6 parameters (ex: 8):
+		Caller:
+		-save	%sp,-104,%sp
+		-st	%L1,[%sp+92]
+		-st	%L2,[%sp+96]
+		Called:
+		-save	%sp,-96,%sp
+		-ld	[%fp+92],%L1
+		-ld	[%fp+96],%L2
+	Local Variables (ex: 2 longs):
+		Called:
+		-save	%sp,-104,%sp
+		-st	%L1,[%fp-4]
+		-st	%L2,[%fp-8]
+
+ret
+restore
+
+68k:
+
+bmi
+bpl
+
+start     jsr       initIO              initialize I/O
+
+	Caller:
+	-move.l	A1,-(sp)
+	-move.w	D1,-(sp)
+	-jsr	sum
+	-adda.l	#6,sp
+	-move.w	D0,D5
+	Called:
+	-link	A6,#LOCALS (if you have locals)
+	-movem.l A2-A4/D2-D3,-(sp)
+	stuff
+	-movem.l (sp)+,A2-A4/D2-D3
+	-unlk
+	-rts
+	
+jsr       finish              end of execution
+
+	
+	Drawing stack frames:
+	*   FP-16  = 2 SAVED REGISTERS
+	*   FP-8  = X FIRST LOCAL VARIABLE
+	*   FP-4  = Y SECOND LOCAL VARIABLE
+	*   FP+0  = OLD FP VALUE
+	*   FP+4  = RETURN ADDRESS
+	*   FP+8  = SECOND PARAMETER (B)
+	*   FP+12 = FIRST PARAMETER  (A)
+	*   SP = FP-16

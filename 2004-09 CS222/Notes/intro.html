@@ -1,0 +1,207 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="GENERATOR" content="Mozilla/4.6 [en] (Win95; I) [Netscape]">
+   <title>Introduction to Assembly Language g</title>
+</head>
+<body>
+
+<center>
+<h2>
+Introduction to Assembly Language</h2></center>
+
+<h4>
+Central Processing Unit (CPU)</h4>
+
+<ul>
+<li>
+Control Unit is device which "runs" the CPU.</li>
+
+<li>
+ALU-arithmetic/logic unit does the arithmetic and logic.</li>
+
+<li>
+Main Memory stores everything.</li>
+</ul>
+
+<h4>
+Main Memory</h4>
+
+<ul>
+<li>
+Conceptually like a very long strip of memory locations.  </li>
+
+<li>
+Each location holds a 0 or a 1 called a <b>bit </b>= <b>bi</b>nary
+digi<b>t.</b></li>
+
+<li>
+8 bits = 1 byte, 2 bytes = 1 word, 2 words = 1 double word</li>
+
+<li>
+Each byte (or word) has an address and can be accessed directly, i.e. RAM
+- random access memory.</li>
+
+<li>
+Everthing, i.e. instructions, data, software must be stored in main memory.</li>
+</ul>
+
+<h2>
+<font size=+0>Machine Language:</font></h2>
+
+<ul>
+<li>
+The only language that is ever actually executed by a computer.</li>
+
+<li>
+Composed of instructions encoded as strings of 0's and 1's.</li>
+
+<li>
+Never written and rarely read directly by programmers.</li>
+</ul>
+
+<h4>
+Assembler Language:</h4>
+
+<ul>
+<li>
+Programmers write in <b>Assembly Language.&nbsp; </b>It uses mnemonics,
+eg.&nbsp; instead of 110001011 there is ADD</li>
+
+<li>
+1-1: One assembly language instruction corresponds to one machine language
+instruction.</li>
+
+<li>
+(Exception: "synthetic instructions" or "pseudo instructions" may translate
+into a more than one machine language instruction.&nbsp; Also special 
+input/output instructions save much programming time.)</li>
+
+<li>
+The <b>Assembler</b> (a program) translates assembly code into machine
+code.</li>
+
+<li>
+Assembler language is just a more readable version of machine language
+(machine language in symbolic form instead of binary form).</li>
+
+<li>
+You write Assembly code; Assembler translates it into machine code; Control
+unit runs machine code.</li>
+</ul>
+
+<h4>
+High-Level Languages (Pascal, C, Java, Prologue etc.):</h4>
+
+<dir>
+<li>
+Assembly language is still tedious to work in so most work done in HLL.</li>
+
+<li>
+Translated into machine language by a <b>Compiler</b> (sometimes an intermediate
+language).</li>
+
+<li>
+One-to-many: One HLL statement tranlates into several or several dozen
+of machine instructions.</li>
+
+<li>
+Much more abstract and compact.</li>
+
+<li>
+Compilers translate everything at once and only once.&nbsp;
+<b>Interpreters</b>
+translate one statement at a time and every time a statement is encountered,
+eg. a loop, it must be translated from scratch each time through the 
+loop.</li>
+</dir>
+
+
+<h4>
+Why USE Assembly language?</h4>
+
+<ul>
+<li>
+Old&nbsp; reason: To get very efficient code in time-critical places. No
+longer true. Compilers generate better code than almost all assembly
+language programmers.</li>
+
+<li>
+Valid Reason: Need access to specific hardware features or instructions,
+eg. set interrupt level in state register - cannot be done in any HLL.&nbsp;
+This occurs in system programming and is implemented via assembly language
+subprograms.&nbsp; Also programmers contolling physical objects eg. robots,
+programm in assembly language.  Also needed for embedded programming.</li>
+</ul>
+
+<h4>
+OK, then, Why STUDY Assembly Language?</h4>
+
+<ul>
+<li>
+Needed for a full understanding of HLLs and the reason for some of their
+unusual rules.</li>
+
+<li>
+Needed in order to write many programs <b>well</b> (to understand efficiency
+issues) especially in parallel computers.</li>
+
+<li>
+Needed to write or understand compilers, interpreters, debuggers.</li>
+
+<li>
+The basis for understanding computer hardware and computer organization
+(74.337).</li>
+
+<li>
+The chance to develope and implement algorithms
+</li>
+
+<li>
+To be a "Computer Scientist": This is the way ALL software runs and what
+ALL hardware has as its core function.</li>
+</ul>
+
+<h4>
+We will study</h4>
+
+<ul>
+<li>
+Motorola 68000 and Sparc to compare and contrast major paradyms in assemblers.
+</li>
+
+<li>
+We will not study MAS directly as there are no more MACs around. Instead
+we will use a 68000 simulater.&nbsp; Like all simulators, this one is
+slightly different from MAS.  We will learn the BSVC simulator and if you
+can logon to the university system from home, you can run it from home.   
+</li>
+
+<li>
+The SPARC assembly language we will get from CCU.&nbsp; The CC compiler
+understands it as well as C.</li>
+</ul>
+
+<h4>
+Data</h4>
+
+<ul>
+<li>
+Strings of 0's and 1's.</li>
+
+<li>
+Many different ways to represent integers, real numbers and characters.</li>
+</ul>
+
+<h4>
+Reading</h4>
+In Ford &amp; Topp 1-23,59-72.&nbsp; But you must know number systems and
+specfically how to change from one number sytem to another one.&nbsp; Eg.&nbsp;
+You must know algorithms to change 136<sub>7</sub>=6A<sub>12</sub>.
+<br><sub>&nbsp;</sub>
+<ul>&nbsp;
+<br>&nbsp;</ul>
+
+</body>
+</html>

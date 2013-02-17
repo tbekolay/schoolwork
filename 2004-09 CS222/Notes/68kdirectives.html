@@ -1,0 +1,158 @@
+<HTML>
+<HEAD>
+  <META NAME="GENERATOR" CONTENT="Adobe PageMill 2.0 Mac">
+  <TITLE>Assembler Directives</TITLE>
+</HEAD>
+<BODY>
+
+<H2 ALIGN=CENTER>Assembler Directives</H2>
+
+<p><h4><b>Source Code Control</b></h4>
+In most modern machines, the code and data must be stored separately.
+This is not true of the simulator.  
+
+
+<H4>2. Boundary Alignment</H4>
+
+
+<p> In the simulator, use</p>
+<BLOCKQUOTE>
+  <PRE>DS.W   O</PRE>
+</BLOCKQUOTE> 
+<p> to produce the proper alignment when some code follows the data. The
+"ORG  $1000" directive aligns the first chunk of code.  The template does 
+both of these directives for you.  Since data is forced on the correct
+boundary alignment, there is no need to use this directive with
+data.  Normally, you don't see this directive much.
+
+<H4>3. Storage Allocation</H4>
+
+<P>To allocate uninitialized storage for variables, use</P>
+
+<PRE>
+   ds.b N ;allocate N bytes of uninitialized storage
+   ds.w N ;allocate N words (2N bytes)
+   ds.l N ;allocate N longwords (4N bytes)
+</pre>
+
+
+<P>To place particular initial values in memory (constants or initialized
+variables) use</P>
+<PRE>
+   dc.b value,value,... ;Each value occupies 1 byte
+   dc.w value,value,... ;Each value occupies 2 bytes
+   dc.l value,value,... ;Each value occupies 4 bytes
+   dc.b 'characters..'  ;Each ascii character occupies a byte
+   dcb.b N,Value ;Allocate N bytes, all initialized to Value
+   dcb.w N,Value ;Allocate N words, all initialized to Value
+   dcb.l N,Value ;Allocate N longwords, all initialized to Value</PRE>
+</PRE>
+
+
+<p>
+<H4>4. Symbol Definition</H4>
+
+<P>In any assembler, symbols (identifiers) may be defined in two ways:</P>
+
+<OL>
+  <LI>By using a symbol as a label, it stands for the address into which
+  the following code or data will be placed (the value of the &quot;location
+  counter&quot;).  The label starts in column 1 and does not need a colon
+  after it but it is not wrong to have one.  If the label is not in column
+  1 then the colon is a terminator and must be there but it is not part of
+  the label.
+  
+  <LI>By defining a symbol and giving it a value directly. In 68k use<BR>
+  symbol  equ value<BR>
+  where the &quot;value&quot; may be any constant, or any expression
+  which combines constants to give a constant answer. </O
+L>
+
+<P>Example 1</P>
+
+<BLOCKQUOTE>
+  <PRE>ArraySize equ   10
+TheArray  ds.w  ArraySize  allocate space for the array
+</BLOCKQUOTE><br>
+Four symbols are defined here. &quot;ArraySize&quot; has the value 10,
+&quot;TheArray&quot; has as its value the address of a block of 10 words
+in memory (which is also an integer value just like 10).
+
+
+<P>Example 2
+<Blockquote>
+Heading   dc.b  'This is a longwinded heading full of junk...'
+EndHeading
+HdgLngth:  equ   EndHeading-Heading</PRE>
+</BLOCKQUOTE>
+&quot;Heading&quot; has as its value the address of the first byte of a
+string of characters in memory, and &quot;EndHeading&quot; has as its
+value the address of the first byte after the last byte of the string of
+characters in memory. So the value of &quot;HdgLngth&quot; is the length
+of that string.  This last example is used if the output routine uses
+length rather than terminators.  Our output routines use terminators.
+</P>
+
+
+<h2>Standard Library Routines</h2>
+<h3>68K</h3>
+To call a library routine use:
+<pre>   jsr    name</pre>
+<p>
+Here is a descrition of the standard routines for the 68K.
+
+
+<P><TABLE WIDTH="450" BORDER="1" CELLSPACING="2" CELLPADDING="0" HEIGHT=
+"355">
+<TR>
+<TD WIDTH="24%" HEIGHT="17"><P ALIGN=CENTER>&nbsp;<B>Name</B></TD>
+<TD WIDTH="76%"><P ALIGN=CENTER><B>Purpose</B></TD></TR>
+<TR>
+<TD HEIGHT="17">NEWLINE</TD>
+<TD>Write a newline command. (carriage control, linefeed)</TD></TR>
+<TR>
+<TD HEIGHT="17">DECIN</TD>
+<TD>Read a signed long decimal integer from the keyboard into
+d0.  Input terminated by a &lt;return&gt;.</TD></TR>
+<TR>
+<TD HEIGHT="17">HEXIN</TD>
+<TD>Read a long hexadecimal integer (up to 8 characters) from the keyboard
+into d0.  Input terminated by a &lt;return&gt;.</TD></TR>
+<TR>
+<TD HEIGHT="17">DECOUT</TD>
+<TD>Write a signed decimal integer from D0.W to the screen using 
+11 spaces.  Stays on same line after output.</TD></TR>
+<TR>
+<TD HEIGHT="17">HEXOUT</TD>
+<TD>8-digit long hex written to screen from d0.  Stays on same
+line after input.</TD></TR>
+<TR>
+<TD HEIGHT="30">STROUT</TD>
+<TD>Up to 400 characters written to screen at the string whose address is
+in A0 and null terminated</TD></TR>
+<TR>
+<TD HEIGHT="69">STRIN</TD>
+<TD>Up to 400 character string of valid characters ($20 to $7E
+inclusive) input from keyboard to memory location in a0. Input terminated
+by a &lt;return&gt;.
+<TR>
+<TD HEIGHT="30">CHROUT</TD>
+<TD>Ascii character output to screen from d0</TD></TR>
+<TR>
+<TD HEIGHT="30">CHARIN</TD>
+<TD>ascii character input from keyboard into d0</TD></TR>
+<TR>
+<TD HEIGHT="30">FINISH</TD>
+<TD>terminates execution</TD></TR>
+<TR>
+<TD HEIGHT="30">INITIO</TD>
+<TD>initializes some bytes for Input/Output</TD></TR>
+</TABLE>
+<p>The parameters (if any) are passed by placing them in registers D0
+and/or A0 before the JSR statement is executed.  The result if any, is
+returned in register D0 or A0.
+
+The template has a description of each of the routines in it.
+
+</BODY>
+</HTML>

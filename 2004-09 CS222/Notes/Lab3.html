@@ -1,0 +1,227 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+  <title>Lab 3</title>
+</head>
+  <body>
+                          
+<h3 align="center">74.222 - Assembly Language Programming - Summer 2003<br>
+                         </h3>
+                         
+<h1> 
+<center>Lab 3</center>
+                         </h1>
+                         
+<hr width="100%" size="2"> 
+<h3>Week of 23-27 Feb. 2004 </h3>
+                          
+
+             
+<p> In this lab you will be introduced to the environment for assembly language
+programming for the Motorola 68000. We will write and assemble our programs in 
+<tt>UNIX</tt> and <i>simulate</i> their execution with a program called 
+<tt>BSVC</tt>.      
+                  
+<p> You may edit your 68000 assembly language programs using a text editor 
+ such as <tt>pico</tt>, or you may use an editor such as <tt>nedit</tt> in 
+<tt>X-Windows</tt>. Assembling your programs  is done from  the command line 
+using the command <tt>68kasm</tt>. The  <tt>BSVC</tt> simulator is an
+<tt>X-Windows</tt> program, so you <b>must</b> be working in
+<tt>X-windows</tt> when running your 68000 programs. It is possible to
+run an <tt>X-Windows</tt> terminal through any web browser using a program
+called <tt>vnc</tt>; see the documentation about <tt>vnc</tt> in the
+<tt>Documents</tt> page of the 222 web site. This means you can run
+<tt>X-Windows</tt> from home, although they say it is slow. 
+     </p>
+                  
+<h3>Task 1: Assembling and running a program</h3>
+              
+<ol>
+<li>Logon to INS.  Gooid luck!
+
+<li>Select <tt>INS Programs-&gt;Internet -&gt;Utilities-&gt;X-Win32 
+ 5.3</tt> to start an <tt>X-Windows</tt> terminal. Sign on using your
+UNIX id and password and after the <tt>X-Windows</tt> has finished
+initializing, choose from the menus at the botton of the screen (third
+left arrow)    <tt>Hosts-&gt;This Host</tt> to get a window that accepts
+<tt>UNIX</tt> commands.<br>
+    
+<li>Create a directory called <tt>Lab3</tt>. Copy the file
+<tt>BSVC.setup</tt> from the <tt>Programs</tt> page of the 222 web
+site. Use the techniques developed in labs 1 and 2.  This file is a text
+file, but it contains a very long line that must not get broken in transit.
+Some editors will transfer it correctly, but some will not. Use
+<tt>ftp</tt> if you have trouble or put the line back together very
+carefully checking with someone else's successfully transmitted line.
+<li>Transfer the two files <tt>68kIO.s</tt> and <tt>68kAplusB.s</tt>
+to the directory <tt>Lab3</tt>. The <tt>68kIO.s</tt> file contains Input/Output
+routines that have names and functions very similar to what you have
+been using on the <tt>SPARC</tt>. You will be "including" this file
+in each program you write. Edit the program file <tt>68kAplusB.s</tt>
+so the identification comments at the top contain your information. Go
+to the bottom of the file and edit the strings that will be used to print 
+a banner so that they also contain  your information. Note that <tt>null</tt> 
+at the end of a character string terminates it and it must be there.   
+ 
+<li> Return to the top of the file. The first section of
+instructions, labelled <tt>setup low memory</tt>, is used to load two
+important addresses into memory. The stack pointer is loaded into memory
+address 0 and the starting address of your program is loaded into memory
+address 4. The simulator will  use addresses when you choose
+<tt>reset</tt>.   The section labelled <tt>equ symbols</tt> sets up
+symbolic constants used for printing strings. Start your program below
+the line that reads <tt>your program starts here</tt>. Program execution
+starts at the label <tt>start</tt>,  which you also see being used in the
+above <tt>setup low memory</tt>. The first action of your program will
+generally be <tt>jsr initIO</tt>, which initializes the
+simulator's I/O bits. At the end of the data section you see the        
+<tt>include</tt> directive. This is not an executable instruction, but 
+rather causes the assembler to include the contents of the named file at that
+point in this program. We are using it here to include the I/O routines  
+ after our program.&nbsp;Save your edited file as <tt>template.s</tt>.   
+ 
+<li>Assemble your template program with the <tt>UNIX</tt>
+command: <tt>68kasm    -l template.s</tt>. It produces as output the executable
+version of your    program in a file called <tt>template.h68</tt>. The
+<tt>-l</tt> option produces   a  listing file called <tt>template.lis</tt>.
+Use an editor  to have a look   at the listing file. On the left-hand side
+you will see two columns of hexadecimal    numbers, and on the right-hand
+side you will see your assembly language  program.  The first column of numbers
+gives  addresses and the second  column gives  the contents stored at those
+addresses. The contents in  memory line up with  the assembly language code
+that generated those contents.   At memory address 4, you should see the
+contents 00001000 stored. This  corresponds to storing  the symbolic address
+<i>start</i>. Scroll down through  the listing to the bottom where the
+directive <tt>include 68kIO.s</tt> was.  There you should see the IO routines.
+ 
+<li>In an <tt>X-Windows</tt> terminal, start the simulator 
+with the command <tt>bsvc&amp;</tt>. (The <tt>&amp;</tt> is optional;
+it makes the simulator run in background so you can issue other <tt>UNIX</tt>
+commands while the simulator is active. You will find this useful when
+you want to correct a program, assemble it, and run it again without having
+to restart <tt>bsvc</tt>).  A  window titled <tt>BSVC: Version 2.1</tt>
+will  appear. Under its <tt>File</tt> menu, choose <tt>Open Setup</tt>
+<i><tt>.</tt>..</i> and open the <tt>BSVC.setup</tt> file saved previously. 
+A window titled <tt>M68681  Port A</tt> will open.    This is the window that 
+will be used for I/O when our program in running.  You may wish to
+move these last two windows around so that both can be viewed
+simultaneously.  Under the <tt>File</tt> menu
+again, choose <tt>Load Program<i>...</i></tt> and load the executable file
+<tt>template.h68</tt>. To run your program, first press the <tt>Reset</tt>
+button, then the <tt>Run</tt> button. The I/O window will accept your
+typing (if you click on it) and will display the output. The I/O is also
+written to a file called <tt>68kout.txt</tt>.
+Run the program several times with different inputs. Open <tt>68kout.txt</tt>
+in a text editor. You will notice that the output from <i>all</i> the runs
+of the program is in this file, not just the latest run. This means that
+once you have your program working properly and you want to print the output
+for handing in, delete this file and run the program one more time.  
+
+<li> Open <tt>template.s</tt> in your text editor and save a copy as     
+<tt>68kAminusB.s</tt>.  Find the <tt>add</tt> instruction and change
+it to a subtract instruction <tt>sub</tt>.   Change the string 
+that is printed with the answer so that it reads <tt>A - B =</tt> as well. 
+Save the program. Assemble it and use the simulator to run  it.  Why does 
+this not work? Ask your lab demonstrator to explain if you cannot figure 
+it out.
+
+<li>Print the <tt>68kout.txt</tt> file for the
+<tt>68kAminusB.s</tt> &nbsp;program.<br>
+           
+<li> When you are finished running the bsvc simulator, choose
+<tt>Quit</tt> from the <tt>File</tt> menu of the window <tt>BSVC:
+Version   2.1</tt>.  
+             
+</ol>
+Show the demonstrator your printout for the&nbsp;<tt>68kAminusB.s</tt> 
+so you can be checked  off for task 1.<br>
+         
+
+
+<h3>Task 2: Using data files for input</h3>
+The BSVC simulator does not have the capability to permit your programs to 
+read input from files. However, the <tt>include</tt> statement
+can be used to include data definition statements contained in a file.
+It certainly doesn't work as well as redirection, since your program
+must be edited and re-assembled for each data file you want to run, but
+it gives  us a way to run a program with prepared data. Another restrictive 
+aspect of using the <tt>include</tt> directive for including data files 
+is that you have to use the same labels in your program that are used in 
+the data file. The following  exercise will give you some practise with including 
+data files in your programs.                 
+
+<ol>
+<li> Download the following files into your directory <tt>Lab3</tt>: 
+  
+    <ul>
+        <li><tt><a href="AplusBData.s">AplusBData.s</a></tt>, a version of the 
+            "A plus B" program that uses a data file.</li>
+        <li><tt><a href="AplusBdat1.txt">   AplusBdat1.txt</a></tt>     
+             and <tt><a href="AplusBdat2.txt">AplusBdat2.txt</a></tt>, two
+different data files. </li>
+   
+    </ul>
+
+<li> Have a look at the data files first. They each contain two lines, which  
+hold values for A and B. The data values are defined using assembler memory 
+directives, just like you would use in your program.  The lines have labels 
+<tt>AInput</tt> and <tt>BInput</tt>, respectively.    
+
+<li> Now take a look at <tt>AplusBData.s</tt>. You will notice that the data 
+is not read from the keyboard. Instead, the data is contained in memory, and  
+is loaded from memory locations labeled AInput and BInput.  Go to the bottom   
+of the program, and you will see the include statement: 
+<pre>	include   AplusBdat1.txt</pre>
+This copies the contents of the first data file into the program when it is 
+assembled. Assemble the program and run it.   
+
+<li> Now edit&nbsp;<tt>AplusBData.s</tt> and change the <tt>include</tt> 
+statement so that it includes the other data file, <tt>AplusBdat2.txt</tt>. 
+Assemble and run the program.  You will notice that the input values and
+the result have changed.  
+
+<li> Now edit&nbsp;<tt>AplusBData.s</tt> and change the <tt>APrompt</tt>
+and <tt>BPrompt</tt> to <tt>AHead</tt>  and  <tt>BHead</tt> respectively.
+These are no longer prompts but headings and should be changed throughout
+the program.
+         
+<li>Run the program again.<br>
+         
+             
+</ol>
+Show the demonstrator your printout of the source and the output for the
+final   run of <tt>AplusBData.s</tt> so you can be checked  off for task 2.<br>
+       
+<h3>Controlling <tt>68kout.txt</tt></h3>
+        
+<p>To get around the problem of <tt>68kout.txt</tt> getting so large that
+your quota is used up, create a shell script as follows.            
+                       </p>
+      
+<ol>
+             <li>Create and edit a file called <tt>mybsvc</tt>. For example,
+type <tt>pico mybsvc</tt>. </li>
+             <li>Type in the next three lines exactly as is:            
+                                                                        
+        
+    <pre>#!/bin/csh<br>rm 68kout.txt<br>bsvc&amp;<br></pre>
+                  
+<li>Note, <tt>UNIX</tt> requires a <tt>&lt;return&gt;</tt> before it
+looks at any  command, so each of the above 3 lines <b>must</b> be terminated 
+with a <tt>&lt;return&gt;</tt>.  In your editor, it will probably look like 
+you have 4 lines in the file. Save the file.<br>
+      
+<li>Now you have to make <tt>mybsvc</tt> executable. Type: 
+<tt>chmod u+x mybsvc</tt>; this adds the "executable" permission to the
+file <tt>mybsvc</tt>.
+       
+<li>To run <tt>bsvc</tt>, instead of typing the command <tt>bsvc</tt>, you can 
+type <tt>mybsvc</tt>, and above commands will be excecuted. If 
+<tt>68kout.txt</tt> exists you will be prompted to see if you want to delete 
+it and then <tt>bsvc</tt> is invoked.  If <tt>68kout.txt</tt> is not there, 
+<tt>UNIX</tt> says so and envokes <tt>bsvc</tt> immediately.
+    </
+           
+</ol>
+</body>
+</html>

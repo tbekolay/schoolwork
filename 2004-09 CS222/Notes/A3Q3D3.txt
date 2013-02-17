@@ -1,0 +1,3 @@
+key	dc.w	10
+crypt	dc.b	'30 tqoi xqjx Iufjucruh, Qfhyb, Zkdu qdt Delucruh',null
+

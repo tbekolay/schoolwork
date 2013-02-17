@@ -1,0 +1,218 @@
+
+<HTML>
+<HEAD>
+  <META NAME="GENERATOR" CONTENT="Adobe PageMill 2.0 Mac">
+  <TITLE> SUBROUTINES</TITLE>
+</HEAD>
+<BODY>
+
+<H1 align=center>  SUBROUTINES </h1> 
+
+<h3 general> General </h2>
+Subroutines tend to use registers,stack, previously defined memory.  They
+tend never to define new storage in memory.
+<pa>
+Stack - memory at high end of addresses.  It is uses addresses high to
+low.  There is a stack pointer to the top of the stack.  The top of the
+stack has data in it.
+<p>
+To use subroutines you must:<BR>
+1. Stop what you are doing and store everything subroutine might
+clobber.<BR>
+2. Solve subroutine problem<BR>
+3. Restore the machine to its previous state except for what subroutine is
+allowed to clobber.
+<p>
+
+
+Subroutine Linkage<BR>
+1. Basic - How to Call, Save return address, How to get back<BR>
+2. Saving registers -All Non-volatile registers must be saved, Volatile
+registers may be clobbered.<BR>
+3. Communication - save parameters and results.  Either registers or stack
+or both.<BR>
+4. Saving Local Varibles and temporary Storage - on stack
+
+
+
+<h3>SPARC</H3>
+<h4>BASIC</H4>
+1) "call address(name of routine)" saves the address of itself into
+the register %o7, branches to the operand address.  This instruction has a
+delay slot.  It is equivalent to the following:
+<pre>
+     set    subprog, %L1
+     jumpl  %L1, %o7
+</pre>
+"jumpl is called jump and link.<br>
+2) "jumpl %r1 +{%r2 or const}, %r3" saves the address of itself into %r3
+and branches to the address %r1 plus the optional offset const or plus the
+optional value in %r2.<br>
+"jumpl %i7+8,%go" is the regular instruction for synethetic instruction
+"RET" in the epilogue.  Note that %i7 is the name of %o7 in the subroutine
+and that %i7 has the address of jumpl in the mainline, %i7+4 is the delay slot
+after jumpl and that %i7+8 is the address of the instruction where we want
+to return to.  All what the user needs to know is that you call with
+"CALL" and return with "RET" and it all works.
+ 
+<h4>Saving Registers</H4>
+<ol>
+<li>Registers %o7,%o6,%i7,%i6 should only be used for subroutine linkage.
+%06 is the stack pointer and %i6 is the frame pointer ( not quite the same
+as in 68k).
+<li>Volatile Registers %g1-%g7 and %o0-%o7.  Use only as tempoaries within
+subroutine.  So %i0-%i7 and %L0-%L7 need saving and restoring.
+<li>Mechanism-Every subroutine gets a new set of registers with the "SAVE"
+command.  More precisely the following happens.  There is only one set of
+g registers and all programs and subprograms use the same set.  The output
+registers of the calling program get a new name and are called input
+registers of the called program.  Finally a new set of local and output
+registers are issued to the subroutine.  Also the stack pointer gets a 
+new name called frame pointer and a new stack pointer with an offset
+subtracted off it is established.  This is all done by decrementing
+the Current Window Pointer(CWP) which takes one CPU cycle to do.  Faster
+than any other system.
+<li>Instruction- "save~~sp,{const or %reg},sp".  This is a weird
+instruction.  In the middle of the "SAVE" instruction the CWP gets
+decremented.  The value of the old sp (calling program) + the
+offset (either const or in %reg) is passed onto the new sp (called
+program).
+Of course the fp of the called program gets the value of just the old sp
+of the calling program.  The effect is to switch register sets and to save
+space on the stack.  <br>
+In the prologue we always use -96.  Of those 96 bytes, 64 are used for the
+16 4-byte registers (in and local).
+<li>Space on Stack-If the program gets interupted (eg. swapped out,
+debugger stops it, etc) there must be somewhere to save the registers.
+The programmer is responsible for setting up the storage although the
+system will do the actual saving.
+<li>When are registers saved-<br>
+1) "window overflow" - The system runs out of register sets and must use
+the stack.  This happens when there are more pending subroutine calls then
+register sets.<br>
+2) "window underflow" - the sytem is returning fron a subroutine call and
+would like to switch back the register sets but the "about-to-be restored"
+set has been saved previously because of overflow.  This happens near the
+top of the "return".<br>
+3)interrupt occurs. <br>
+<p>
+Switching register sets take 1 CPU cycle if there is a set available.  If
+not it takes significanly longer to store the registers on the stack.
+With 8 register sets available, 3% of SAVE/RETURN commands cause
+overflow/underflow.  Each additional set cuts this in half.  A modern
+machine probably has 32 sets at its disposal.  If we had 8 sets of
+registers (set 7 to set 1, start at set 7) at our disposable we would find 
+that the input registers of set 7 are the same ar the output registers of
+set 0.  We could not use both at once so when we need set 0 we must store
+either set 7 or set 0.  Since set 7 probably won't be used for some time,
+it is the one stored. So one can only use n-1 of the N sets available at a
+time.
+<h4>Instruction</H4>
+"Restore~~~%g0,%g0,%g0" Increments CWP so the "mailine" gets all its
+registers back as they were.  The 96 or so bytes on the stack are now just
+junk.  Note in the epilogue that RESTORE sits in RET's delay slot so the
+registers are restored before control is passed back to the calling
+program.
+
+<h4> 3. Communication</h4>
+
+The parameters are put in %o0,%o1,%o2,%o3,%o4,%o5 in that order. The
+called routine recieves the parameters in its corresponding input
+registers. This takes care of 97% of all programs.  If there are more
+parameters, they must be put on the stack.  If the function returns a
+value it should be put in %i0 in the subroutine, so that it comes back in
+%o0 in the calling routine.  Normally, if there are more return parameters
+they will be put on the stack.  So in a recursive routine which returns two 
+values, they should both or one of them put on the stack.<p>
+
+The parameters often need memory to exist in.  This memory is always put
+on the stack.  So there is room for 7 parameters on the stack when we do a
+"save" command i.e. the 6 input parameters plus a return parameter.  This
+is 7*4=28 of the usual 96 bytes on the "save" command.  So that is 28
+bytes for the parameters and 64 bytes for the registers for a total of 92.
+The stack must be double word aligned for real numbers so the address must
+be 0 mod 8 so we add on 4 bytes of padding.  So once the subroutine has
+started, the registers are stored the par.0, "the return parameter, par.
+1, par.2, ...,par.6, and 4 bytes of padding in order from low memory to
+high memory.  Extra input or output parameters must be stored on stack and
+will increase the "96" number in the "save" command.<pa>
+
+Eg. Suppose we want %L1 to contain the address of a piece of memory
+containing the value of parameter 1 which the subroutine gets in %i0.  We
+would do this as follows.<br>
+<pre>
+    st   %i0,[%fp+68]  !put the parameter on the stack
+    add  %fp,68,%L1    !L1 now contains the address of memory containing
+                       !the parameter 1 value
+</pre>
+ 
+Eg. If we have 8 parameters to pass to a subroutine the first 6 go in %o0
+to %o5.  The next two are passed on the stack as follows:<br>
+<pre>
+Parameter  Calling Program    Called program
+7th        %sp +92            %fp+92
+8th        %sp +96            %fp+96
+           :
+           still need 4 bytes of padding
+Note if the called program wants to call a subroutine it uses sp for that
+not fp.  This is not the same fp as in 68k but it has the same kind of
+use.
+Calling: save %sp -104,%sp
+         mov  %L7,%o0      !parameter 1
+           :     :               :
+         mov  %L2,%o5      !parameter 6
+         st   %L1,[%sp+92] !parameter 7
+         st   %L0,[%sp+96] !parameter 8
+	 call Called
+		:
+
+Called:  save %sp,-96,%sp
+	 ld   [%fp+92],%L1
+         ld   [%fp+96].%l2
+         :
+	 ret
+	 restore
+</pre>
+<h4> Fixed and Variable Local Variables</h4>
+The fixed local variables have space allocated for them on the stack by
+the program segment that uses them.  For example, if MYSUB uses 3 local 
+variables, then we have "MYSUB: save %sp,-104,%sp".  It is 96+12-4 = 104.
+We subtract 4 as we do not need padding.   The following is an example of
+variable local storage and the calculations needed.
+<pre>
+               highlevel
+Procedure X(n:integer);
+Var
+  Temp:array[1..n] of integer;
+
+		assembler
+X: sll  %o0,2,%g1   !g1=n*4 change entries into bytes
+   add  %g1,104,%g1 !g1=104+n*4 add to offset 104 ( 8 input parameters)
+
+! round up to 0 mod 8 if not 0 mod 8 address
+   add  %g1,7,%g1   !add 7 to g1
+
+!create mask 0xFFFFFFF8
+   add  %g2,1,%g2   !put a 1 in lowest bit
+   sll  %g2,31,%g2  !move 1 to highest bit (0's elsewhere)
+   sra  %g2,28,%g2  !put a 1 in all bits ecxept 3 lowest bits
+   and  %g1,%g2,%g1 !zero out last three bits of address
+   neg  %g1	    !offset must be negative
+   save %sp,%g1,%sp !not too easy to do
+</pre>
+ 
+Remember most of the time you don't need the tricky stuff. 
+
+
+
+
+
+ 
+
+
+
+
+
+
+</BODY>
+</HTML>

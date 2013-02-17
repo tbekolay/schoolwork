@@ -1,0 +1,128 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+  <title>Lab 2</title>
+</head>
+  <body>
+                 
+<h3 align="center">74.222 - Assembly Language Programming - Summer 2003<br>
+                </h3>
+                
+<h1> 
+<center>Lab 2</center>
+                </h1>
+                
+<hr width="100%" size="2"> 
+<h3>Week of 2-6 Feb.  2004 </h3>
+                 
+<h3>Task 1: Editing a <tt>SPARC</tt> program</h3>
+                       
+<ol>
+          <li>Create a directory called <tt>Lab2</tt> at the same level as
+ the directory <tt>Lab1</tt>in your <tt>UNIX</tt> home directory. Change
+directory  to Lab1 and copy <tt>SparcAplusB.s</tt> and <tt>SparcIO.c</tt>
+ into Lab2  using the commands:<br>
+  <tt>&nbsp;&nbsp; cd &nbsp; Lab1<br>
+ &nbsp;&nbsp; cp &nbsp; SparcAplusB.s &nbsp;../Lab2/SparcAplusB.s<br>
+ &nbsp; &nbsp;cp &nbsp; SparcIO.c &nbsp; &nbsp; &nbsp;../Lab2/SparcIO.c<br>
+     </tt> The <tt>../</tt> takes you up one directory level, you select
+    <tt>Lab2</tt>, and then <tt>/</tt> takes you inside directory     <tt>Lab2</tt>.
+You can also do this transfer with the <tt>ftp</tt> program. There you would
+copy the files from <tt>Lab1</tt> to your local machine and then copy them
+from your local machine to <tt>Lab2</tt>. Although this seems roundabout,
+the interface is much nicer than what <tt>UNIX</tt> provides.</li>
+            <li>Edit <tt>SparcAplusB.s</tt> with a <tt>UNIX</tt> editor you 
+ are familiar  with,  for example      <tt>pico</tt>. Near the top of the 
+file you will see a block  of comments.  Comment lines start with an exclamation 
+ point (!). Edit these  lines so that  they contain your personal information. 
+    </li>
+           <li> Near the end of the file are a number of <i>pseudo-ops</i>. 
+ These    are  assembly-language statements that don't correspond to machine-language
+     instructions, but perform some other task. In this case the pseudo-ops
+      <tt>.ascii</tt> and <tt>.asciz</tt> cause the ASCII codes for a character
+   string to be assembled  into memory.  The <tt>.asciz</tt> pseudo-op places
+   a null byte at the end  of the string, which the <tt>strout</tt> function
+   looks for in order to stop  printing characters.  Note that all pseudo-ops
+   begin with a period. Edit the character strings so that they contain your
+   personal information. Save your changes into a new file called <tt>template.s</tt>.
+   You can use this "template" file as a starting point for all your SPARC
+ programming.  It contains all the required parts of a <tt>SPARC</tt> assembly
+ language  program and  not much else.  </li>
+           <li> Make a copy of your template file using the command <tt>cp
+ template.s AminusB.s</tt>. The copy is named <tt>AminusB.s</tt>.    Edit
+ this new file. The instruction that adds the two numbers is <tt>add</tt>.
+   Find it and change it so that the calculation A-B will be performed. The
+  instruction to subtract two numbers is <tt>sub</tt>. Make sure you also
+change the text string that prints out <tt>A+B is</tt> so that it prints
+    <tt>A-B  is</tt> instead. Assemble and run it.  If you got the wrong
+answer, you probably calculated B-A.  Fix it and run it again.   </li>
+           
+</ol>
+           Show the demonstrator your program executing by typing <tt>a.out</tt>
+while the demonstrator is watching so you can be checked off for task 1.<br>
+      
+<h3>Task 2: Printing input and output</h3>
+      
+<h4>Script</h4>
+      
+<ol>
+        <li> In order to print out the input from the keyboard and the output 
+   from the screen we can use the <tt>UNIX</tt> command <tt>script</tt>. After
+ the command      <tt>script</tt> everything  that appears on the screen is
+ recorded in  a file called <tt>typescript</tt>. It's better to type <tt>script 
+ Lab2script.txt</tt> so the session is recorded in a file called <tt>Lab2script.txt</tt>. 
+ Now type     <tt>a.out</tt> to run the program in task 1, type in your input 
+  and see your output.  To end the script session type <tt>exit</tt>.  Now&nbsp;<tt>Lab2script.txt</tt> 
+can be printed as any other  file.<br>
+       </li>
+      
+</ol>
+     
+<h4>Redirection</h4>
+      Using <tt>script</tt> is Ok but we can do much better than that in
+<tt>UNIX</tt>.    We can   use <i>redirection</i> to allow input to our programs
+to come from  a file, and to send output to a file instead of to  the screen.
+  This comes in handy when there is lots of input, or when we  need to print
+  the output.          
+<ol>
+           <li> Use a <tt>UNIX</tt> editor to prepare an input file for your 
+     <tt>AminusB.s</tt> program.   It  should contain two numbers, one per 
+ line. Save it in the file      <tt>Lab2in.txt</tt>.    </li>
+           <li>The redirection operator   is <i>&lt;</i>. To use input redirection, 
+  type the name of the executable <tt>a.out</tt>, the redirection operator, 
+  and the name of the file where the input  can be found, like this:<br>
+   <tt>&nbsp; &nbsp;a.out &lt; Lab2in.txt</tt><br>
+  </li>
+           <li>One problem with input redirection is that you don't see the 
+ numbers  being input. Edit your <tt>AminusB.s</tt> program so that it echoes 
+ the input  values. Run the executable  again.  </li>
+           <li> Now try using output redirection to capture the output to 
+a  file.    The  operator for output redirection is &gt;. You should only 
+use  output    redirection once your program is working properly and you want
+to print  the  output for handing it in. You will also use it along with
+input  redirection    since you won't be able to see any of the prompts for
+input that the program    is printing! To run your program with both input
+and output redirection,   use the  command <br>
+    <tt>&nbsp; &nbsp;a.out &lt; Lab2in.txt &gt; Lab2out.txt</tt><br>
+ The output  will be written to the file <tt>Lab2out.txt</tt>.   </li>
+           <li> Finally, adapt your last program to one called <tt>AplusBminusC.s</tt> 
+which reads three   numbers, adds the first two and subtracts the third to 
+  give a result.   Your program should read the numbers 7 18 and 46, all from
+  one line of the file <tt>Lab2in.txt</tt> and the output should be redirected
+  to the file <tt>Lab2out.txt</tt>. </li>
+         
+</ol>
+               Show the demonstrator your printouts of <tt>Lab2script.txt</tt>,&nbsp;<tt>Lab2in.txt</tt>, 
+  and <tt>Lab2out.txt</tt> so you can be checked off for task 2.<br>
+      <br>
+         <br>
+        <br>
+       <br>
+      <br>
+     <br>
+    <br>
+   <br>
+  <br>
+ <br>
+</body>
+</html>

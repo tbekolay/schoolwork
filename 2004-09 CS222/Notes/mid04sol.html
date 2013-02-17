@@ -1,0 +1,270 @@
+<html>
+<head>
+	<title>74.222 Midterm Test March 4, 2004</title>
+</head>
+<body>
+<center><h3>74.222 Midterm Test March 4, 2004</h3></center>
+<pre>
+Name_______________________________    ID_____________________________ Instructor ____________________________
+</pre>
+
+<strong>Instructions:</strong>
+<ul>
+	<li>Answer all questions on exam paper.
+	<li>The backs of the pages can be used as scrap.
+	<li>Do not rip pages apart.
+	<li>No aids or calculators are allowed.
+	<li>Time: 90 minutes, Total marks: 70 
+</ul>
+<ol>
+<h3>  General Section </h3>
+
+<li>[6] Fill in the following table with the equivalent signed decimal
+integers interpreted in the Number Representation specified at the top of
+the column for the 8-bit binary numbers given in hexadecimal in the left
+column . 
+
+	<table border=2 cellpadding=6>
+	<tr><th>Value</th><th>Signed Magnitude</th><th>Excess-128</th><th>1's complement</th><th>2'scomplement</th></tr>
+	<tr><th>0C</th><td>12</td><td>-116</td><td>12</td><td>12</td></tr>
+	<tr><th>00</th><td>0</td><td>-128</td><td>0</td><td>0</td></tr>
+	<tr><th>FE</th><td>-126</td><td>126</td><td>-1</td><td>-2</td></tr>
+	</table>
+<br>
+<li>[4] Give 4 different reasons why two's complement is the "proper
+choice" of general integer representation in a computer.
+<pre>
+1. Most efficient add algorithm
+2. Best representation of zero
+3. Easy sign extension
+4. Self-inverting 
+5. Fairly natural counting order
+(need only 4 reasons)
+</pre>
+
+<li>[4] How is 8.25 stored in single precision using the IBM mainframe
+standard. Write your answer as hex digits.  Show your work.
+<pre>
+8.25 = 8.4(16) = 0.84*16**(+1)
+
+8=1000; .25*16=4.0
+
+  0     100001            = 41
+(sign) (-1 in excess 128)
+
+8.25 is stored as 41840000
+
+</pre>
+<li> [1] In the IEEE standard for 32 bit storage of real numbers, how is
+minus infinity stored.  Give the answer in hexadecimal digits.
+<pre>
+
+FF800000
+
+</pre>
+<li> [3] Write one or more lines of SPARC code to store
+the contents of the low order byte of register %o0 in the memory location
+whose address is 4 bytes higher than memory location with the symbolic
+name "data".<br><br> 
+<pre>
+    set	  data,%L0        or 	set  data+4,%L0
+    stub  %o0,[4+%L0]        	stub %o0,[%L0]
+
+</pre>
+<li> [3] Write one or more lines of 68k code to store the contents of the
+low order byte of register D1 in the memory location whose address is 2
+bytes higher than memory location with the symbolic name "data".<br><br> 
+<pre>
+   lea    data+2,a2    or     lea    data,a2
+   move.b d1,(a2)             move.b d1,2(a2)
+
+</pre>
+
+<li> [3] What three types of things should not put into a delay slot.
+<pre>
+1. branch instruction
+2. set	instruction
+3. any instruction that has a dependency with the branch instruction 
+</pre>
+
+
+<li> [2] What are the two main differences between a RISC and a CISC
+machine.  
+<pre>
+1. RISC has a reduced set of instructions whereas CISC has a complex set of 
+instructions.
+2. RISC has all instructions same length (or can be executed in 1 cycle
+most of time) and CISC has variable length instructions (take different number
+of cycles to execute).
+3. RISC are pipelined whereas CISC usually are not.
+( 2 of these are good enough.  The difference innumber of registers is due
+to SPARC pecularity not the fact it is a RISC)
+</pre>
+ 
+<li> [4] 68k has two types of registers.  What are they and what is their
+difference?
+<pre>
+The data registers are to hold data whereas the A registers hold
+addresses.
+</pre>
+
+<li> [3] List three desirable attributes any collating sequence
+(ie. algorithm to associate characters to binary sequences) should have.
+Does ASCII have all 3 attributes?
+<pre>
+
+1) the digits are in consecutive order 0-9
+2) the lowercase alphabet is consecutive order a-z
+3) the uppercase alphabet is consecutive order A-Z
+YES
+
+</PRE>
+<li> [2] Write code in 68k and Sparc to change an uppercase letter
+stored in D1 or %L1 to a lower case letter.
+<PRE>
+
+sub %L0,'A'-'a',%L0       subi.b #'A'-'a',D1
+
+</pre>
+<LI>[3] In 68k, write code to calculate the quotient (do not worry
+about the remainder when the signed integer in D1.w is divided by 8 using:<br>
+ i) a shift command. 
+ii) a divide command. <br>  
+Which would be faster?
+<pre>
+lsr.w   #3,D1 faster
+
+divs    #8,D1 slower
+</pre>
+
+<li> [2] Is it better to leave data in memory or try to store them, if
+possible, in registers?  Why?
+<pre>
+It is better (ie faster) to leave data in registers because even though a
+language may have instructions to do operations on data in memory, the
+operation still has to be done in registers, anyways.  Of course in SPARC
+every arithmetic/logical operation has to be done in the registers.
+</pre>
+
+
+<h3> Programming </h3>
+<p> In the next two programming question, do not include an ID banner or
+a normal termination section. Do not initalize the stack pointer, use the org
+command, or initialize the DUART.   Inline comments are not required. You
+do not need to optimize delay slots but do include the SPARC prologue and
+SPARC epilogue.  You must include a register dictionary. Use good form
+unless otherwise indicated.  You may assume that the 68kIO.s will be
+included or you may assume that MASlib.c will be used with your program.
+<p>
+<li>[15] Write a 68k simulator program that gives one prompt for a list
+of integers (positive and negative but not 0) and reads them from the
+keyboard until it reads a sentinel  0. Your program should check to
+see if these numbers are "proper" or not and print the designation underneath
+the integer.  A number is "proper" as long as the square of the number is
+divisible by 8. Your program should print out whether the number read in
+is proper or not.  You may assume that the quotient will fit in 16 bits.
+<pre>
+* register usage
+* d1 original number, then square of number, then square mod 8
+start:  jsr	initIO
+        lea	prmpt,a0
+	jsr	strout
+	
+loop:   
+	jsr	decin     
+	cmp	#0,d0
+	beq	alldone
+	move 	d0,d1
+	muls	d1,d1
+	divs	#8,d1
+	swap	d1
+	cmp	#0,d1
+	beq	proper
+
+notprop:
+ 	lea	not,a0
+	jsr	strout
+	bra	endloop
+proper:
+	lea 	prop,a0
+	jsr	strout
+	
+endloop:
+	bra	loop
+
+alldone:
+	jsr	finish
+
+not:  	dc.b   'Not Proper',lf,cr,null
+prop: 	dc.b   'Proper',lf,cr,null
+prmpt   dc.b   lf,cr,'Type in a list of integers, 0 to quit',lf,cr,null
+
+
+
+</pre>
+
+<li> [15] Write a SPARC assembly language program to do the same as the
+above question except that the input comes from a file and the output
+goes to a different file. One other change is to print "proper" or "not
+proper" beside the number.  Be sure to make all appropriate changes. 
+You do not have to give any UNIX commands.
+<pre>
+
+ 
+! Register Usage  
+! L0 original number
+! L1 square of number
+! L3 square mod 8
+
+
+        .section    ".text"
+        .global     main
+        .align      4
+main:   save        %sp,-96,%sp !allocate min 96 bytes
+        
+        set	head,%o0
+	call	strout
+	nop
+loop:   
+	call	decin     	
+	nop
+	cmp	%o0,0
+	be	alldone
+ 	nop
+	call	decout
+	nop
+	mov	' ',%o0
+	call	charout
+	nop
+	mov 	%o0,%L0
+	smul	%L0,%L0,%L1
+	sdiv	%L1,8,%g1
+	smul	%g1,8,%L3
+	cmp	%L1,%L3
+	be	proper
+	nop
+notprop:
+ 	set	not,%o0
+	call	strout
+	nop
+	ba	endloop
+	nop
+proper:
+	set 	prop,%o0
+	call	strout
+	nop
+
+endloop:
+	ba	loop
+	nop
+alldone:
+        ret                     !Return to the OS.
+        restore                 !Actually done before "ret".
+       
+
+        .section ".data"
+head:	.asciz 'The integers\n'
+not:  	.asciz ' Not Proper\n'
+prop: 	.asciz ' Proper\n'
+
+</pre>

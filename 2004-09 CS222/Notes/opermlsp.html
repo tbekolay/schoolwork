@@ -1,0 +1,80 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="Author" content="John van Rees">
+   <meta name="GENERATOR" content="Mozilla/4.6 [en] (Win95; I) [Netscape]">
+   <title>Operation of Machine Language</title>
+</head>
+<body>
+<h3><align=center> Basic Operation of Sparc Machine Language</h3>
+The SPARC is a RISC machine. RISC stands for reduced instruction set
+computer.  This means that the number of instructions have been reduced
+and standardized for efficiency.  In the SPARC, there is no way to do
+anything to data in the memory accept to fetch it or store it. Because of
+standardization pipelining is possible.  More on that later on. In
+contrast the 68k is a CISC machine which stands for complex instruction
+set machine. 
+
+
+<p> The control unit executes instructions from top to bottom.  The Fetch
+And Execute cycle have already been described. All instructions are
+32 bits long and most of them are executed in one time unit or machine
+cycle.
+
+
+<h3><align=center> HARDWARE MODEL </h3>
+<h4>Memory</h4>
+<ul>
+<li> Addresses are 32 bits in SPARC
+<LI> Each BYTE=8 bits has its own address.
+<LI> Half Word = 16 bits, not used much
+<LI> Word = 32 bits 
+<LI> Bit 0 is least significant (rightmost) bit. Bit 7/15/31 is most
+signifcant for various sizes
+<LI> The 2/4/8 bytes of a thing are stored in consecutive memory
+locations using Big Endian.<BR>
+</ul>
+
+
+<H5> Boundary Alignment </H5>
+SPARC- 2/4/8 entities <b>must </b>be 2/4/8 aligned. Instructions are 
+aligned on 0 mod 4 bytes.
+The instructions are:
+<pre>
+   .align  2
+   .align  4
+   .align  8
+</pre>
+
+<H4> Registers</H4>
+
+<P>General Purpose Registers:</P>
+There are 32 32bit registers available to you at anyone time.
+<br>%g0 - %g7, gloabal registers, %go is always 0. Used as temporary
+storage.
+<br>%o0 - %o7. output registers
+<br>%i0 - %i7 input registers
+<br>%L0 - %L7 local registers, use these first
+<BR><BR>
+%i6,%i7,%o6,%o7 are special by software convention.  They are used for
+stacks and subprograms.   
+
+
+<P>Special Purpose Registers: (available to programmer) </P>
+
+<UL>
+  <LI>PC (Program Counter) same as in 68k
+  <LI>nPC (Next Program Counter) we will see later.
+  <LI>PSR (Process State Register) serves a similar function to the SR of
+68k. 
+</ul>
+<P>There are other registers in the CPU, but these are not visible to the
+assembly language (or machine language) programmer, and are
+implementation-dependent.</P>
+
+
+<h4>Assembly Process</h4>
+As already described.  
+</body>
+</html>

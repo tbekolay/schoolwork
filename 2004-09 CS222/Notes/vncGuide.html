@@ -1,0 +1,81 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+  <title>vnc Guide</title>
+</head>
+  <body>
+                         
+<h3 align="center">74.222 - Assembly Language Programming - Summer 2003<br>
+                        </h3>
+                        
+<h2> 
+<center>Guide to vnc</center>
+ </h2>
+ 
+<hr width="100%" size="2"> 
+<p>The <tt>vnc</tt> system works through an internet browser and provides 
+an X-Windows terminal. It means that you can run an <tt>X-Windows</tt> terminal 
+from anywhere in the world! You can find more information on <tt>vnc</tt> 
+at <a href="http://www.uk.research.att.com/vnc/"> AT&amp;T Laboratories Cambridge</a></p>
+            
+<h3>Starting a vnc session </h3>
+            
+<ol>
+              <li>                                    Start up a telnet client
+   (for   example, SSH) and <tt>login</tt> to your <tt>UNIX</tt> account. 
+The host  you   want is <tt>ccu.umanitoba.ca</tt>.     Enter your userID and
+password.      </li>
+              <li>    Create a password that you will use to connect to 
+  your       <tt>vnc</tt> desktop session with the command <tt>vncpasswd</tt>. 
+      It will prompt   you for your password, then get you to type it again 
+  for    verification.   You only need to create your password once, but if
+  you    forget it you will  have to create a new one using the <tt>vncpasswd</tt> 
+command    again.        </li>
+              <li>    Start your remote desktop session using the command 
+    <tt>vncserver</tt>.          The response to this command will look something 
+like this:                                                              
+ 
+    <pre>New 'X' desktop is merak:5</pre>
+                plus some other information. This response contains the name
+  of  a  server      and a port number that you will use to connect to your
+  desktop   session.      The server may be any of the Computer Centre login
+  servers  like     <tt>pollux</tt>,      <tt>mira</tt>, etc.        </li>
+              <li>    Start a web browser. Make sure Java is enabled. Type
+ in  the   <tt>URL</tt>  for    your desktop session using the server and 
+port information   given   by  the    <tt>vncserver</tt> command. For example, 
+for the server   and port   information     above, the correct <tt>URL</tt> 
+is:                                                                
+    <pre>http://merak.cc.umanitoba.ca:5805</pre>
+                Your <tt>URL</tt> should look exactly like this, except for 
+the server   name   and      the last 2 digits and notice the insertion of 
+a <tt>58</tt>.         </li>
+              <li>    You will see a page with the title <tt> VNC Authentication</tt> 
+and a     text box labelled <tt>Password:</tt>. Enter the password you created 
+     in     step 2 and click OK. The browser will then start your <tt>X-Windows</tt> 
+ desktop        session. Note that you probably won't be able to see your 
+entire     desktop in the browser window, so if it looks like something's 
+missing    from your desktop, scroll to the bottom of the window.     </li>
+            
+</ol>
+ 
+<h3>Finishing your vnc session</h3>
+      
+<ol>
+   <li>When you are finished your work, you should close down your desktop 
+    session. To do this, scroll to the top of the browser window. At the top
+     left hand corner you will find the <tt>Disconnect</tt> button. Click
+ it  to   end your desktop session. You are still logged into <tt>ccu.umanitoba.ca</tt> 
+and you need to kill the desktop session there.</li>
+   <li>On the command  line type (with the appropriate machine name - <tt>antares</tt>
+is used here):   <tt>vncserver -kill antares:6</tt> . If you forget the number
+   and name do a <tt>ps</tt> to  get the process name  and kill it with <tt>kill
+   -9 #</tt>, where <tt>#</tt> is the process number. If you do not kill
+the    session, it will be available at the web site for later use.  Letting
+a      <tt>vnc</tt> session continue for a few days is very bad as your quota 
+will be used up  and then you will have no resources to do anything.<br>
+   </li>
+ 
+</ol>
+ <br>
+</body>
+</html>

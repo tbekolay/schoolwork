@@ -1,0 +1,50 @@
+NAME               Trevor Bekolay
+STUDENT NUMBER     6796723
+COURSE             74.222
+INSTRUCTOR         Van Rees
+ASSIGNMENT 3
+QUESTION 5
+
+"This is a short sentence." => "This is a short sentence."
+
+End of Processing
+
+NAME               Trevor Bekolay
+STUDENT NUMBER     6796723
+COURSE             74.222
+INSTRUCTOR         Van Rees
+ASSIGNMENT 3
+QUESTION 5
+
+"  This   is a   short  sentence as   well.  " => "This is a short sentence as well."
+
+End of Processing
+
+NAME               Trevor Bekolay
+STUDENT NUMBER     6796723
+COURSE             74.222
+INSTRUCTOR         Van Rees
+ASSIGNMENT 3
+QUESTION 5
+
+"Here  is  a longer sentence.   Since data   is stored in   continguous memory, we   can have  several  dc.b assembler   directives in   the same  string. " => "Here is a longer sentence. Since data is stored in continguous memory, we can have several dc.b assembler directives in the same string."
+
+End of Processing
+
+NAME               Trevor Bekolay
+STUDENT NUMBER     6796723
+COURSE             74.222
+INSTRUCTOR         Van Rees
+ASSIGNMENT 3
+QUESTION 5
+
+" Here  is  a longer sentence.   Since data   is stored
+ in   continguous memory, we   can have  several  dc.b
+ assembler  directives in  the same  string.  You  can
+ also  have  cr and  lf.  " => "Here is a longer sentence. Since data is stored
+ in continguous memory, we can have several dc.b
+ assembler directives in the same string. You can
+ also have cr and lf."
+
+End of Processing
+

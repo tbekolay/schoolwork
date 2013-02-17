@@ -1,0 +1,238 @@
+<HTML>
+<HEAD>
+  <META NAME="GENERATOR" CONTENT="Adobe PageMill 2.0 Mac">
+  <TITLE>Data Representation</TITLE>
+</HEAD>
+<BODY>
+
+<H2 ALIGN=CENTER>Data Representation</H2>
+
+<P>Computer memory stores only sequences of 0's and 1's.  In order for 
+data to be meaningful we must agree how to encode that data with 0's
+and 1's.  Unfortunately, there are several systems that are used.</P>
+
+<DL>
+  <DT><B>Unsigned Integers</B>
+  <DD>- Simply use binary
+  <DD>- Using N bits, the integers 0..2^(N)-1 can be represented.
+  <DD>Examples-17
+
+  <DT><B>Signed Magnitude</B>
+  <DD>- Use the first bit for a sign (0 for +, 1 for -)
+  <DD>- Use the remaining N-1 bits for the magnitude (absolute value), in
+  binary
+  <DD>- For N bits, -(2^(N-1)-1) to +(2^(N-1)-1) can be represented.
+  <DD>- Simple, but arithmetic circuits become awkward
+  <DD>- Two different zeroes are created (+0 is 000..00 and -0 is 100..00)
+  <DD>- Arithmetic is awkward eg. add 0101 with 1110.  Since signs are
+different, determine the larger whose sign will be kept for answer,
+subtract larger from smaller.  Not pretty
+  <DD>Examples: +15, -6
+
+  <DT><B>Excess-N</B>
+  <DD>- To represent X, use the binary code for X+M
+  <DD>- Excess-2^(N-1) is normal, but any value of M can be used
+  <DD>- The code for zero is 100..00 in Excess-2^(N-1)
+  <DD>- First bit is still a sign bit in Excess-2^(N-1), but 1 is + and 0
+  is -
+  <DD>- Excess-2^(N-1) is almost the same as Twos Complement (differ in sign
+  only)
+  <DD>- Excess-2^(N-1) with N bits can represent -2^(N-1) to +2^(N-1)-1
+  <DD>- Natural number order
+  <DD>Example: For 4 bits use excess-8 notation -8,-7,0,7
+
+  <DT><B>Ones Complement</B>
+  <DD>- Positive numbers begin with a 0, otherwise use normal binary codes
+  <DD>- Negative numbers use the complement (toggle all bits) of the code
+  for the corresponding positive number
+  <DD>- For N bits, -(2^(N-1)-1) to +(2^(N-1)-1)
+  <DD>- Two different zeroes are created (+0 is 000..00 and -0 is
+111..11?)
+  <DD>Example: 5, -5 
+
+  <DT><B>Twos Complement</B>
+  <DD>- Positive numbers begin with a 0, otherwise use normal binary codes
+  <DD>- Negative numbers use the &quot;twos complement&quot; of the code
+  for the corresponding positive number
+  <DD>- To &quot;twos complement&quot; something:
+  <DL>
+    <DD>1. Toggle every bit and then add 1 to the result (in binary)
+    <DD>OR
+    <DD>2A. Leave the lowest 1 and trailing zeroes alone. Toggle the other
+    bits.
+    <DD>OR
+    <DD>2B. Toggle any bit where there is a lower order bit with a 1.
+  </DL>
+  <DD>- Zero is represented ONLY by 00...00 (the only code which does this).
+  <DD>- The &quot;twos complement&quot; operation is self-inverting. Applied
+  to any number (positive or negative) it will negate it (exception: -2^(N-1)
+  cannot be negated).
+  <DD>- The first bit is a sign bit (0 for +, 1 for -)
+  <DD>- Using N bits -(2^(N-1)) to +(2^(N-1)-1) can be represented
+  <DD>- almost natural order
+  <DD>Example: 5,-5,4,-4 in all styles
+
+</DL>
+
+<H4>The 4-bit codes for signed integers in these formats:</H4>
+
+<P><TABLE WIDTH="448" HEIGHT="392" BORDER="2" CELLSPACING="0" CELLPADDING=
+"0">
+<TR>
+<TD WIDTH="14%" HEIGHT="30" ALIGN="CENTER" BGCOLOR="#66cccc">&nbsp;Value</TD>
+<TD WIDTH="14%" ALIGN="CENTER" BGCOLOR="#66cccc">Signed Magnitude</TD>
+<TD WIDTH="14%" ALIGN="CENTER" BGCOLOR="#66cccc">Excess-7</TD>
+<TD WIDTH="14%" ALIGN="CENTER" BGCOLOR="#66cccc">Excess-8</TD>
+<TD WIDTH="14%" ALIGN="CENTER" BGCOLOR="#66cccc">Excess-9</TD>
+<TD WIDTH="15%" ALIGN="CENTER" BGCOLOR="#66cccc">Ones Complement</TD>
+<TD WIDTH="15%" ALIGN="CENTER" BGCOLOR="#66cccc">Twos Complement</TD></TR>
+<TR>
+<TD WIDTH="14%" HEIGHT="17" ALIGN="CENTER" BGCOLOR="#66cccc">-9</TD>
+<TD WIDTH="14%" ALIGN="CENTER">----</TD>
+<TD WIDTH="14%" ALIGN="CENTER">----</TD>
+<TD WIDTH="14%" ALIGN="CENTER">----</TD>
+<TD WIDTH="14%" ALIGN="CENTER">0000</TD>
+<TD WIDTH="15%" ALIGN="CENTER">----</TD>
+<TD WIDTH="15%" ALIGN="CENTER">----</TD></TR>
+<TR>
+<TD ALIGN="CENTER" BGCOLOR="#66cccc" HEIGHT="17">-8</TD>
+<TD ALIGN="CENTER">----</TD>
+<TD ALIGN="CENTER">----</TD>
+<TD ALIGN="CENTER">0000</TD>
+<TD ALIGN="CENTER">0001</TD>
+<TD ALIGN="CENTER">----</TD>
+<TD ALIGN="CENTER">1000</TD></TR>
+<TR>
+<TD WIDTH="14%" HEIGHT="17" ALIGN="CENTER" BGCOLOR="#66cccc">-7</TD>
+<TD WIDTH="14%" ALIGN="CENTER">1111</TD>
+<TD WIDTH="14%" ALIGN="CENTER">0000</TD>
+<TD WIDTH="14%" ALIGN="CENTER">0001</TD>
+<TD WIDTH="14%" ALIGN="CENTER">0010</TD>
+<TD WIDTH="15%" ALIGN="CENTER">1000</TD>
+<TD WIDTH="15%" ALIGN="CENTER">1001</TD></TR>
+<TR>
+<TD WIDTH="14%" HEIGHT="17" ALIGN="CENTER" BGCOLOR="#66cccc">-6</TD>
+<TD WIDTH="14%" ALIGN="CENTER">1110</TD>
+<TD WIDTH="14%" ALIGN="CENTER">0001</TD>
+<TD WIDTH="14%" ALIGN="CENTER">0010</TD>
+<TD WIDTH="14%" ALIGN="CENTER">0011</TD>
+<TD WIDTH="15%" ALIGN="CENTER">1001</TD>
+<TD WIDTH="15%" ALIGN="CENTER">1010</TD></TR>
+<TR>
+<TD WIDTH="14%" HEIGHT="17" ALIGN="CENTER" BGCOLOR="#66cccc">-5</TD>
+<TD WIDTH="14%" ALIGN="CENTER">1101</TD>
+<TD WIDTH="14%" ALIGN="CENTER">0010</TD>
+<TD WIDTH="14%" ALIGN="CENTER">0011</TD>
+<TD WIDTH="14%" ALIGN="CENTER">0100</TD>
+<TD WIDTH="15%" ALIGN="CENTER">1010</TD>
+<TD WIDTH="15%" ALIGN="CENTER">1011</TD></TR>
+<TR>
+<TD WIDTH="14%" HEIGHT="17" ALIGN="CENTER" BGCOLOR="#66cccc">-4</TD>
+<TD ALIGN="CENTER">1100</TD>
+<TD ALIGN="CENTER">0011</TD>
+<TD ALIGN="CENTER">0100</TD>
+<TD ALIGN="CENTER">0101</TD>
+<TD ALIGN="CENTER">1011</TD>
+<TD ALIGN="CENTER">1100</TD></TR>
+<TR>
+<TD HEIGHT="17" ALIGN="CENTER" BGCOLOR="#66cccc">-3</TD>
+<TD ALIGN="CENTER">1011</TD>
+<TD ALIGN="CENTER">0100</TD>
+<TD ALIGN="CENTER">0101</TD>
+<TD ALIGN="CENTER">0110</TD>
+<TD ALIGN="CENTER">1100</TD>
+<TD ALIGN="CENTER">1101</TD></TR>
+<TR>
+<TD HEIGHT="17" ALIGN="CENTER" BGCOLOR="#66cccc">-2</TD>
+<TD ALIGN="CENTER">1010</TD>
+<TD ALIGN="CENTER">0101</TD>
+<TD ALIGN="CENTER">0110</TD>
+<TD ALIGN="CENTER">0111</TD>
+<TD ALIGN="CENTER">1101</TD>
+<TD ALIGN="CENTER">1110</TD></TR>
+<TR>
+<TD HEIGHT="17" ALIGN="CENTER" BGCOLOR="#66cccc">-1</TD>
+<TD ALIGN="CENTER">1001</TD>
+<TD ALIGN="CENTER">0110</TD>
+<TD ALIGN="CENTER">0111</TD>
+<TD ALIGN="CENTER">1000</TD>
+<TD ALIGN="CENTER">1110</TD>
+<TD ALIGN="CENTER">1111</TD></TR>
+<TR>
+<TD HEIGHT="30" ALIGN="CENTER" BGCOLOR="#66cccc">&nbsp;0</TD>
+<TD ALIGN="CENTER">1000 or 0000</TD>
+<TD ALIGN="CENTER">0111</TD>
+<TD ALIGN="CENTER">1000</TD>
+<TD ALIGN="CENTER">1001</TD>
+<TD ALIGN="CENTER">1111 or 0000</TD>
+<TD ALIGN="CENTER">0000</TD></TR>
+<TR>
+<TD HEIGHT="17" ALIGN="CENTER" BGCOLOR="#66cccc">+1</TD>
+<TD ALIGN="CENTER">0001</TD>
+<TD ALIGN="CENTER">1000</TD>
+<TD ALIGN="CENTER">1001</TD>
+<TD ALIGN="CENTER">1010</TD>
+<TD ALIGN="CENTER">0001</TD>
+<TD ALIGN="CENTER">0001</TD></TR>
+<TR>
+<TD HEIGHT="17" ALIGN="CENTER" BGCOLOR="#66cccc">+2</TD>
+<TD ALIGN="CENTER">0010</TD>
+<TD ALIGN="CENTER">1001</TD>
+<TD ALIGN="CENTER">1010</TD>
+<TD ALIGN="CENTER">1011</TD>
+<TD ALIGN="CENTER">0010</TD>
+<TD ALIGN="CENTER">0010</TD></TR>
+<TR>
+<TD HEIGHT="17" ALIGN="CENTER" BGCOLOR="#66cccc">+3</TD>
+<TD ALIGN="CENTER">0011</TD>
+<TD ALIGN="CENTER">1010</TD>
+<TD ALIGN="CENTER">1011</TD>
+<TD ALIGN="CENTER">1100</TD>
+<TD ALIGN="CENTER">0011</TD>
+<TD ALIGN="CENTER">0011</TD></TR>
+<TR>
+<TD WIDTH="14%" HEIGHT="17" ALIGN="CENTER" BGCOLOR="#66cccc">+4</TD>
+<TD WIDTH="14%" ALIGN="CENTER">0100</TD>
+<TD WIDTH="14%" ALIGN="CENTER">1011</TD>
+<TD WIDTH="14%" ALIGN="CENTER">1100</TD>
+<TD WIDTH="14%" ALIGN="CENTER">1101</TD>
+<TD WIDTH="15%" ALIGN="CENTER">0100</TD>
+<TD WIDTH="15%" ALIGN="CENTER">0100</TD></TR>
+<TR>
+<TD WIDTH="14%" HEIGHT="17" ALIGN="CENTER" BGCOLOR="#66cccc">+5</TD>
+<TD WIDTH="14%" ALIGN="CENTER">0101</TD>
+<TD WIDTH="14%" ALIGN="CENTER">1100</TD>
+<TD WIDTH="14%" ALIGN="CENTER">1101</TD>
+<TD WIDTH="14%" ALIGN="CENTER">1110</TD>
+<TD WIDTH="15%" ALIGN="CENTER">0101</TD>
+<TD WIDTH="15%" ALIGN="CENTER">0101</TD></TR>
+<TR>
+<TD WIDTH="14%" HEIGHT="17" ALIGN="CENTER" BGCOLOR="#66cccc">+6</TD>
+<TD WIDTH="14%" ALIGN="CENTER">0110</TD>
+<TD WIDTH="14%" ALIGN="CENTER">1101</TD>
+<TD WIDTH="14%" ALIGN="CENTER">1110</TD>
+<TD WIDTH="14%" ALIGN="CENTER">1111</TD>
+<TD WIDTH="15%" ALIGN="CENTER">0110</TD>
+<TD WIDTH="15%" ALIGN="CENTER">0110</TD></TR>
+<TR>
+<TD ALIGN="CENTER" BGCOLOR="#66cccc" HEIGHT="17">+7</TD>
+<TD ALIGN="CENTER">0111</TD>
+<TD ALIGN="CENTER">1110</TD>
+<TD ALIGN="CENTER">1111</TD>
+<TD ALIGN="CENTER">----</TD>
+<TD ALIGN="CENTER">0111</TD>
+<TD ALIGN="CENTER">0111</TD></TR>
+<TR>
+<TD ALIGN="CENTER" BGCOLOR="#66cccc" HEIGHT="17">+8</TD>
+<TD ALIGN="CENTER">----</TD>
+<TD ALIGN="CENTER">1111</TD>
+<TD ALIGN="CENTER">----</TD>
+<TD ALIGN="CENTER">----</TD>
+<TD ALIGN="CENTER">----</TD>
+<TD ALIGN="CENTER">----</TD></TR>
+</TABLE>
+</P>
+
+
+</BODY>
+</HTML>

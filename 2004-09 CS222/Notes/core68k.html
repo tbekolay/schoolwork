@@ -1,0 +1,304 @@
+<HTML>
+<HEAD>
+  <META NAME="GENERATOR" CONTENT="Adobe PageMill 2.0 Mac">
+  <TITLE>Fundamental 680x0 Instructions</TITLE>
+</HEAD>
+<BODY>
+
+<H2>680x0 Fundamental Instructions</H2>
+
+<H3>Move Instructions</H3>
+
+<BLOCKQUOTE>
+  <H4>Move</H4>
+  <BLOCKQUOTE>
+    <P><TT>move{.size} src,dst</TT></P>
+  </BLOCKQUOTE>
+  <UL>
+    <LI>The destination (dst) operand must be a &quot;data alterable mode&quot;
+    (it cannot be an A register, an immediate operand (#const), or a PC-relative
+    address).
+    <LI>"size" can be b or w or l i.e. byte, word, longword
+    <li>Action - copies the value in source to the destination
+  </UL>
+  <BLOCKQUOTE>
+    <P><TT>move.b D2,D3<BR>
+    move.w (A2)+,45(A1)<BR>
+    move.l #23456,-(SP)</TT></P>
+  </BLOCKQUOTE>
+  <H4>Movea (move into A register)</H4>
+  <BLOCKQUOTE>
+    <P><TT>movea{.w or .l} src,Ai</TT></P>
+  </BLOCKQUOTE>
+  <UL>
+    <LI>In machine language, this is identical to &quot;move&quot;. There is
+    really no restriction that says &quot;dst&quot; can't be an A register.
+    Simulator doesn't care if you use &quot;movea&quot; or &quot;move&quot;, 
+    but other assemblers might.
+    <LI>If no size is specified, &quot;.w&quot; is assumed. That will usually
+    be a <B>disaster</B>. <B>ALWAYS PUT THE &quot;.L&quot; ON IT!</B>
+  </UL>
+  <BLOCKQUOTE>
+    <P><TT>movea.l A4,A3 ;Ptr1:=Ptr2<BR>
+    movea.l 4(A2),A2 ;Ptr:=Ptr^.Link</TT></P>
+  </BLOCKQUOTE>
+  <H4>Moveq (move quick)</H4>
+  <BLOCKQUOTE>
+    <P><TT>moveq #small,Di</TT></P>
+  </BLOCKQUOTE>
+  <UL>
+    <LI>Very restricted: The source operand must use immediate mode, and only
+    with an 8-bit signed integer constant (-128..127). The destination must
+    be a D register.
+    <LI>The constant is sign-extended and fills the entire D register
+    <LI>No size is allowed (not moveq.w or moveq.b).
+    <LI>So why not just use &quot;move #7,D3&quot; instead of &quot;moveq #7,D3&quot;?
+    <UL>
+      <LI>When you can use it, moveq is faster.
+      <LI>The machine language instruction is 2 bytes, not 6 bytes.
+    </UL>
+  </UL>
+  <BLOCKQUOTE>
+    <P><TT>moveq #5,D3</TT></P>
+  </BLOCKQUOTE>
+</BLOCKQUOTE>
+
+<H3>Add/Subtract Instructions</H3>
+
+<P>The subtraction instructions are identical to the add instructions. Just
+change &quot;add&quot; to &quot;sub&quot; in all of the instructions below.
+<br>
+<strong>Note:</strong> Keep in mind that the subtraction operation is 
+dst - src --&gt; dst
+<BLOCKQUOTE>
+  <H4>Add</H4>
+  <BLOCKQUOTE>
+    <P><TT>add{.size} src,dst</TT></P>
+  </BLOCKQUOTE>
+  <UL>
+    <LI>The destination (dst) operand must be a &quot;data alterable mode&quot;
+    (it cannot be an A register, an immediate operand (#const), or a PC-relative
+    address).
+    <LI><B>One of the two operands must be a D register</B>
+    <LI>If this is a problem, use one of the specialized instructions that
+    follow.
+  </UL>
+  <BLOCKQUOTE>
+    <P><TT>add.b D2,D3<BR>
+    add.w (A2)+,D4<BR>
+    add.l D4,16(A3)</TT></P>
+  </BLOCKQUOTE>
+  <H4>Adda (Add to A register)</H4>
+  <BLOCKQUOTE>
+    <P><TT>adda{.w or .l} src,Ai</TT></P>
+  </BLOCKQUOTE>
+  <UL>
+    <LI>This time &quot;adda&quot; and &quot;add&quot; are really different,
+    even in machine language, and you must use the right one.
+    <LI>If no size is specified, &quot;.w&quot; is assumed. That will usually
+    be a <B>disaster</B>. <B>ALWAYS PUT THE &quot;.L&quot; ON IT!</B>
+  </UL>
+  <BLOCKQUOTE>
+    <P><TT>adda.l #16,A4 ;Advance a pointer by 16 bytes<BR>
+    adda.l D4,A3 ;Add a calculated amount to A3<BR>
+    adda.l 46(A2),A3 ;Unlikely, but legal</TT></P>
+  </BLOCKQUOTE>
+  <H4>Addi (Add immediate)</H4>
+  <BLOCKQUOTE>
+    <P><TT>addi{.size} #const,dst</TT></P>
+  </BLOCKQUOTE>
+  <UL>
+    <LI>The destination (dst) operand must be a &quot;data alterable mode&quot;
+    (it cannot be an A register, an immediate operand (#const), or a PC-relative
+    address).
+  </UL>
+  <BLOCKQUOTE>
+    <P><TT>addi.l #16,(A4) ;add or adda can't do this<BR>
+    addi.w #1,Count ;Count:=Count+1</TT></P>
+  </BLOCKQUOTE>
+  <H4>Addq (add quick)</H4>
+  <BLOCKQUOTE>
+    <P><TT>addq{.size} #verysmall,dst</TT></P>
+  </BLOCKQUOTE>
+  <UL>
+    <LI>The source operand must use immediate mode, and only with a small 
+     positive constant between 1 and 8 inclusive.
+    <LI>The destination (dst) operand cannot be an immediate operand (#const), 
+     or a PC-relative address) (but an A register is OK).
+    <LI>A size is allowed (unlike moveq).
+    <LI>So why not just use &quot;add #7,D3&quot; instead of &quot;addq #7,D3&quot;?
+    <UL>
+      <LI>When you can use it, addq is much faster.
+      <LI>The machine language instruction is only 2 bytes (the opcode only).
+    </UL>
+  </UL>
+  <BLOCKQUOTE>
+    <P><TT>addq.w #1,D3 ;Fastest way to increment D3<BR>
+    addq.l #8,A3 ;Can even add to an A register<BR>
+    addq.b #1,Code ;or memory</TT></P>
+  </BLOCKQUOTE>
+</BLOCKQUOTE>
+
+
+
+<H3>LEA (Load Effective Address)</H3>
+
+<BLOCKQUOTE>
+  <P><TT>lea source ,Ai</TT></P>
+</BLOCKQUOTE>
+
+<P>The first operand must refer directly to an address in memory. It cannot be Di, Ai, (Ai)+, -(Ai), or #const. But no memory access is done. Instead, the address that would have been used by a normal instruction (move, add, etc.) is placed in Ai.</P>
+
+<BLOCKQUOTE>
+  <P><TT>lea Junk,A3 ;Put the address Junk into A3 (right)<BR>
+  movea.l #Junk,A3 ;Put the address Junk into A3 (wrong)</TT></P>
+</BLOCKQUOTE>
+
+<P>Under &quot;normal&quot; conditions, the above two instructions would
+accomplish the same thing. However, due to &quot;relocatability&quot; in
+real-life systems (Mac + MAS), the second one will generate an error message.
+Always use the first one.</P>
+
+<H3>CLR (Clear)</H3>
+
+<BLOCKQUOTE>
+  <P><TT>clr{.size} dst</TT></P>
+</BLOCKQUOTE>
+
+<P>Clears the destination to 0. The destination (dst) operand must be a
+&quot;data alterable mode&quot; (it cannot be an A register, an immediate
+operand (#const), or a PC-relative address).</P>
+
+<BLOCKQUOTE>
+  <P><TT>clr.w D3 ;Initialize D3 to 0<BR>
+  clr.l Count ;Initialize Count to 0<BR>
+  clr.w (A4)+ ;Clear the next word in the array</TT></P>
+</BLOCKQUOTE>
+
+<H3>NEG (Negate)</H3>
+
+<BLOCKQUOTE>
+  <P><TT>neg{.size} dst</TT></P>
+</BLOCKQUOTE>
+
+<P>Negates the destination (twos complements it). The destination (dst)
+operand must be a &quot;data alterable mode&quot; (it cannot be an A register,
+an immediate operand (#const), or a PC-relative address).</P>
+
+<BLOCKQUOTE>
+  <P><TT>neg.w D3 ;Negate D3<BR>
+  neg.l X ;Negate X<BR>
+  neg.w (A4)+ ;Negate the next word in the array</TT></P>
+</BLOCKQUOTE>
+
+<H3>JSR (Jump to SubRoutine)</H3>
+
+<BLOCKQUOTE>
+  <P><TT>jsr addresss</TT></P>
+</BLOCKQUOTE>
+
+<P>This is not a complete description of this instruction. That will be
+done later. For now, we will only use it to call built-in library routines
+(for things such as I/O).</P>
+
+<BLOCKQUOTE>
+  <P><TT>jsr stop ;terminate this program<BR>
+  jsr decin ;read in a decimal number<BR>
+  jsr strout ;write out a character string</TT></P>
+</BLOCKQUOTE>
+
+<H3>Compare Instructions</H3>
+
+<P>The compare instructions are almost identical to the subtract instructions
+(which are the same as the add instructions above). Just change &quot;add&quot;
+to &quot;cmp&quot; in all of the instructions above, with the following
+exceptions:</P>
+
+<UL>
+  <LI>In the &quot;cmp&quot; instruction, it is always the <B>second</B>
+  operand which must be Di.
+  <LI>There is no &quot;cmpq&quot; instruction.
+</UL>
+
+<P>Compare instructions are the same as subtract instructions in their
+operation, except that the result of the calculation is discarded. The
+only purpose is to set the condition code.  Following a compare
+instruction, you almost always find a conditional branch. </P>
+
+<BLOCKQUOTE>
+  <P><TT>cmp.w D2,D3 ;perform D3-D2, set CC reg, discard result<BR>
+  cmpi.b #'0',D4 ;compare D4 to the ascii code for '0'<BR>
+  cmpa.l A2,A3 ;compare two pointers in A2 and A3 (A3-A2)<BR>
+  cmp.w D3,#10 ;WRONG!!<BR>
+  cmp.w #10,D3 ;RIGHT!!</TT></P>
+</BLOCKQUOTE>
+
+
+<h3> Branch Instructions </h3>
+After a compare instruction, move or arithmetic, you often find a
+conditional branch statement which may cause the next statement to be
+executed to be changed to the address on the branch statement.  This is
+done by putting the address into the PC.  The branch is controlled by 5
+flags in the Condition Code Register.  A flag is a 1 bit piece of storage
+that control various branch instructions.  The flags are:
+<pre>
+Z-it is set(i.e. made 1) if the result is 0, otherwise it is cleared
+(made 0)
+N-it is set if result is negative, otherwise it is cleared
+V-it is set if there is an overflow i.e. the number is too large to be
+stored and is cleared otherwise
+C-it is set if there is a borrow or carry out of the top bit (overflow
+for unsigned integers) otherwise it is cleared.  
+More on these flags later.
+
+Unconditional Branch
+BRA    PLACE
+works like a "go to".  The instruction at PLACE will be the next one to be
+executed.
+
+Conditional Branches
+BEQ    PLace    If result is 0, then execute instruction at PLACE
+                otherwise  execute next instruction.
+BNE    PLACE    If result is not 0, then ... instruction
+BLT    PLACE    If result &lt;  0, then ... instruction
+BLE    PLACE    If result &lt;= 0, then ... instruction
+BGT    PLACE    If result &gt;  0, then ... instruction
+BGE    PLACE    If result &gt;= 0, then ... instruction
+</pre>
+
+<h3>Multiplication</h3>
+<pre>
+MULU   source,Dn   Unsigned Multiplication
+MULS   source,Dn   Signed Multiplication  
+
+Action - multiplies two 16 bit operands, yielding a 32 bit
+operand stored in Dn.  No carry or overflow is possible
+</pre>
+
+<h3>Division</h3>
+<pre>
+DIVU   source,Dn    Unsigned Division
+DIVS   source,Dn    Signed Division
+
+Action - Divide the 32 bit destination operand (right side) by the 16 bit
+source operand and store the quotient in LSW of the destination and the
+remainder in the MSW of the destination.
+</pre>
+<b>Notes</b>
+<ol>
+<li>Division by 0 generates an exception and usually stops the program
+with an error.
+<li>Overflow is possible and detected.  No operation occurs. When does
+this happen and does the simulator do this really?
+<li>In signed division the sign of the remainder is always the same as the
+sign of the dividend unless the remainder is 0.
+</ol>
+<h3>Swap Instruction</h3>
+Swap   Dn  causes the contents of MSW and LSW of Dn to be interchanged.
+
+<p><p><h3>Test Intruction</h3>
+TST.{size} <ea>  checks the value in <ea> and sets the Z and N flags.
+
+
+ </BODY>
+</HTML>

@@ -1,0 +1,18 @@
+NAME               Trevor Bekolay
+STUDENT NUMBER     6796723
+COURSE             74.222
+INSTRUCTOR         Van Rees
+ASSIGNMENT 4
+QUESTION 2
+
+Reading in 7 values.
+01234567 = (when reversed) E6A2C480
+10801080 = (when reversed) 01080108
+69F00F96 = (when reversed) 69F00F96
+12345678 = (when reversed) 1E6A2C48
+87654321 = (when reversed) 84C2A6E1
+FFFFFFFF = (when reversed) FFFFFFFF
+00000000 = (when reversed) 00000000
+
+End of Processing
+

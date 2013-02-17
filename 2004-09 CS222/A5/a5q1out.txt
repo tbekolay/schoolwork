@@ -1,0 +1,66 @@
+NAME             Trevor Bekolay
+STUDENT NUMBER   6796723
+COURSE           74.222
+INSTRUCTOR       Prof. Van Rees
+ASSIGNMENT	      5
+QUESTION	      1
+
+Creating a linked list . . .
+44 a
+13 m
+1 x
+12 b
+66 e
+40 t
+23 r
+4 q
+7 y
+10 n
+1 v
+4 k
+
+Printing out linked list . . .
+(44,a)
+(13,m)
+(1,x)
+(12,b)
+(66,e)
+(40,t)
+(23,r)
+(4,q)
+(7,y)
+(10,n)
+(1,v)
+(4,k)
+
+Deleting q to q
+
+(44,a)
+(13,m)
+(1,x)
+(12,b)
+(66,e)
+(40,t)
+(23,r)
+(7,y)
+(10,n)
+(1,v)
+(4,k)
+
+Deleting y to k
+
+(44,a)
+(13,m)
+(1,x)
+(12,b)
+(66,e)
+(40,t)
+(23,r)
+
+Deleting a to r
+
+
+
+
+End of Processing
+

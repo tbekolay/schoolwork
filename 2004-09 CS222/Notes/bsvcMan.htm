@@ -1,0 +1,1099 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+  <title>Table of Contents</title>
+</head>
+  <body bgcolor="#ffffff" text="#000000">
+      
+<div align="center"> 
+<h2>BSVC 68000 simulator</h2>
+      
+<div align="center">(modified from the BSVC documentation by D. Meek, 9 
+Apr 2002)<br>
+      </div>
+    
+<div align="left">  </div>
+    </div>
+      
+<h2>Table of Contents</h2>
+                (This is a modified version of the BSVC simulator documentation)<br>
+      
+<ul>
+            <li>Chapter 1  Introduction</li>
+            <li>Chapter 2  User Interface</li>
+                  
+  <ul>
+                  <li>Invoking BSVC</li>
+                  <li>File Menu</li>
+                  <li>Edit Menu</li>
+                  <li>Device Management</li>
+                  <li>Window Menu</li>
+                  <li>Memory Viewer</li>
+                  <li>Program Listing</li>
+                  <li>Register Manipulation</li>
+                  <li>Simulator Statistics</li>
+                  <li>Program Execution and Control</li>
+                  <li>Trace Window</li>
+                  <li>Bugs</li>
+                  
+  </ul>
+            <li>Chapter 3  Motorola 68000 Simulator and Assembler</li>
+                  
+  <ul>
+                  <li>Simulator</li>
+                  <li>Simulator Devices</li>
+                  <li>Assembler</li>
+                  <li>Acknowledgments</li>
+                  <li>Contacts</li>
+                  
+  </ul>
+      
+</ul>
+      
+<hr width="100%" size="6" align="center"> 
+<h1 align="center"> 
+<center><a id="I1" name="I1">Chapter 1  Introduction  <br>
+      </a>     </center>
+      </h1>
+      
+<hr width="100%" size="6" align="center"> 
+<p>BSVC is a microprocessor simulation framework. It provides a graphical 
+       user interface and an object oriented framework that simplifies the 
+ task     of writing a microprocessor simulator. The goal of the project was
+ to replace     the Motorola 68000 simulator currently in use at North Carolina
+  State University.</p>
+      <font size="+1"><b>History</b></font> 
+<p>BSVC started off as a simple 68000 simulator that supported the 6850 UART,
+       but after decomposing the simulator into its components (processor
+and    devices)   it became apparent that it could be expanded into a virtual
+ computer   simulator   that allowed the user to "build" his/her own computer.
+ Instead   of a single   68000 processor object it would consist of several
+ processor   objects and  several device objects that could be connected
+together  to build  a computer.   This effectively allows users to build
+a virtual computer that  simulates  the single-board 68000 based computers
+in the ECE 218 lab at North  Carolina  State University or any other computer
+as long as the processor  and devices  are supported.</p>
+      
+<hr width="100%" size="6" align="center"> 
+<h1 align="center"> 
+<center><a id="I1" name="I1">Chapter 2  User Interface  <br>
+      </a>     </center>
+      </h1>
+      
+<hr width="100%" size="6" align="center"><a id="I2" name="I2"><br>
+      <font size="+2"><b>Invoking BSVC</b></font></a>     
+<hr size="2" noshade="noshade" align="left"> 
+<p>In Unix, the BSVC user interface is invoked by typing the  following command:</p>
+      
+<p><tt><b>&nbsp; &nbsp; bsvc</b></tt></p>
+      
+<p>If you are using Windows then you should select BSVC from the Start menu. 
+       Once invoked, the BSVC user interface should appear as shown in Figure 
+    2-1.   At this point the only options available are the drop down menus. 
+   These menus  and other features of the user interface are discussed in 
+the   following sections  of this chapter.</p>
+      
+<center><img src="mg1.gif" width="363" height="194"
+ alt="Undisplayed Graphic">
+      </center>
+      
+<center><b>FIGURE 2-1</b> BSVC User Interface at Start-Up</center>
+      <a id="I3" name="I3"><br>
+      <font size="+2"><b>File Menu</b></font></a>     
+<hr size="2" noshade="noshade" align="left"> 
+<p>This menu allows you to create a new setup, open an existing setup, save 
+       the current setup, load a program, and quit BSVC.  Normally, the first 
+    thing you do after the <tt>bsvc</tt> command is open the setup called 
+<tt>        BSVC.setup</tt> (provided on the web site). A simulator setup 
+consists     of a simulator and a list of devices attached to the simulator.</p>
+      
+<center><img src="mg2.gif" width="365" height="122"
+ alt="Undisplayed Graphic">
+      </center>
+      <font size="+1"><b>Opening an Existing Setup</b></font><br>
+           The file  <tt>BSVC.setup</tt> is a text file and can be edited 
+as  such   rather  than using the bsvc menu driven commands. The present setting
+ is<br>
+      <br>
+      <tt>BSVC Simulator Setup File<br>
+      <br>
+              UI_VERSION {2.0}<br>
+              SIMULATOR {sim68000}<br>
+              COMMAND {AttachDevice 0 RAM {BaseAddress = 0 Size = 100000}}<br>
+              COMMAND {AttachDevice 0 M68681 {BaseAddress = effc00 OffsetToFirstRegister
+       = 1 OffsetBetweenRegisters = 2 InterruptLevel = 4 PortAStandardInputOutputFlag
+       = 0 PortBStandardInputOutputFlag = 0 PortACommand = xterm -T "M68681
+  Port     A" -sb -sl 200 -l -lf "68kout.txt" -e xtermpipe PortBCommand =
+}}</tt><br>
+      <br>
+              This sets the memory to size $100000 bytes. The command that
+ brings    up  the  I/O window is<br>
+      <tt>xterm -T "M68681 Port A" -132 -sb -sl 100 -l -lf "68kout.txt" -e
+ xtermpipe</tt><br>
+              The title is set to <tt>"M68681 Port A"</tt>, <tt>-sb</tt>
+asks   for   a  scrollbar, <tt>-sl 200</tt> says save 200 lines in  scrolling, 
+<tt>   -l</tt>       says log the output, <tt>-lf</tt> gives the file name 
+to log  into as  <tt>   "68kout.txt"</tt>. Unfortunately, the logging appends 
+ to the file rather than creating a new one each time, so look at the bottom 
+ of the file for your results.<br>
+      <font size="+1"><b>Loading a Program</b></font> 
+<ul>
+            <li>Choose the "Load Program..." option</li>
+            <li>Choose the object file produced by the assembler; its name
+ has the tag     <tt>.h68</tt></li>
+      
+</ul>
+      <a id="I6" name="I6"><br>
+      <font size="+2"><b>Window Menu</b></font></a>     
+<hr size="2" noshade="noshade" align="left"> 
+<p>In addition to the main BSVC window that appears upon executing BSVC there
+       are two other windows that are very useful.  This menu allows you
+to   open     the memory viewer and the program listing windows.</p>
+      
+<center><img src="mg6.gif" width="365" height="69"
+ alt="Undisplayed Graphic">
+      </center>
+      <font size="+1"><b>Viewing the Simulator's Memory</b></font> 
+<ul>
+            <li>Choose the "Memory Viewer" option</li>
+            <li>Use the memory viewer to view the desired memory locations
+ (See "Memory      Viewer")</li>
+      
+</ul>
+      <font size="+1"><b>Source Level Debugging</b></font> 
+<ul>
+            <li>Choose the "Program Listing" option</li>
+            <li>Use the program listing to help with your debugging (See
+"Program  Listing")</li>
+      
+</ul>
+      <a id="I7" name="I7"><br>
+      <font size="+2"><b>Memory Viewer</b></font></a>     
+<hr size="2" noshade="noshade" align="left"> 
+<p>After the "Memory Viewer" option from the "Window" menu has been selected 
+       the memory viewer utility will appear as shown in Figure 2-4.  This 
+ utility      allows the simulator's memory to be dumped to a file, altered, 
+ and viewed.</p>
+      
+<center><img src="mg7.gif" width="264" height="220"
+ alt="Undisplayed Graphic">
+      </center>
+      
+<center><b>FIGURE 2-4</b> Memory Viewer</center>
+      <font size="+1"><b>File Menu</b></font> 
+<p>This menu allows you to dump memory to a file and close the memory viewer.</p>
+      
+<center><img src="mg8.gif" width="258" height="71"
+ alt="Undisplayed Graphic">
+      </center>
+      <b>Dumping Memory to a File</b> 
+<ul>
+            <li>Choose the "Dump..." option</li>
+            <li>Enter the starting and ending address of the memory dump
+in  the dialog      that appears</li>
+            <li>Select or enter a file name using the file selector</li>
+      
+</ul>
+      <font size="+1"><b>Edit Menu</b></font> 
+<p>This menu allows you to modify a single memory location or a block of
+memory.</p>
+      
+<center><img src="mg9.gif" width="258" height="62"
+ alt="Undisplayed Graphic">
+      </center>
+      <b>Changing a Memory Location</b> 
+<p>There are two ways to change a memory location.  The first way is to:</p>
+      
+<ul>
+                  
+  <ul>
+                  <li>Choose the "Change Memory Location..." option</li>
+                  <li>Enter the memory location and the value to change it
+ to in the dialog      that appears</li>
+                  
+  </ul>
+      
+</ul>
+      
+<p>The second way is to:</p>
+      
+<ul>
+                  
+  <ul>
+                  <li>Use the left mouse button to select a memory location 
+ to change</li>
+                  <li>Enter the value to change the location to in the dialog 
+ that appears</li>
+                  
+  </ul>
+      
+</ul>
+      <b>Filling a Memory Block</b> 
+<ul>
+            <li>Choose the "Fill Memory Block..." option</li>
+            <li>Enter the starting address of the block, the length of the
+ block and      the value to fill the block with in the dialog that appears</li>
+      
+</ul>
+      <font size="+1"><b>View Menu</b></font> 
+<p>This menu allows you to specify the starting address for the memory display.</p>
+      
+<center><img src="mg10.gif" width="258" height="79"
+ alt="Undisplayed Graphic">
+      </center>
+      <b>Viewing from a Specified Address</b> 
+<ul>
+            <li>Choose the "From Address..." option</li>
+            <li>Enter the address to start the memory display at in the dialog 
+ that      appears</li>
+      
+</ul>
+      <b>Viewing from the Start of Memory</b> 
+<ul>
+            <li>Choose the "From Start of Memory" option</li>
+      
+</ul>
+      <b>Viewing from the Value of a Register</b> 
+<ul>
+            <li>Choose the "From Register..." option</li>
+            <li>Select the register you want to start the memory display
+at  from the      dialog that appears</li>
+      
+</ul>
+      <font size="+1"><b>Scrolling through Memory</b></font> 
+<p>The arrow icons in the upper right hand corner of the window can be used
+       to scroll through memory a line or a screen at a time.</p>
+      
+<ul>
+            <li>Press the "Up Arrow" button to scroll up one line</li>
+            <li>Press the "Down Arrow" button to scroll down one line</li>
+            <li>Press the "Double-Up Arrow" button to scroll up one screen</li>
+            <li>Press the "Double-Down Arrow" button to scroll down one screen</li>
+      
+</ul>
+      
+<p>The up-arrow, down-arrow, page-up and page-down keys can also be used
+to scroll through memory.</p>
+      <font size="+1"><b>Notes</b></font> 
+<ol>
+            <li>In general it's a bad idea to view memory mapped I/O devices 
+ because       some devices do things depending on how many times a register 
+ has been    read   or written. If the Memory Viewer is used to view one of
+ these registers     it  could interfere with the simulation.</li>
+            <li>Addresses that do not map to a device will appear as "xx".</li>
+            <li>Having the memory viewer open while single-stepping through 
+ a program      will cause the simulation to run slower.</li>
+      
+</ol>
+      <a id="I8" name="I8"><br>
+      <font size="+2"><b>Program Listing</b></font></a>     
+<hr size="2" noshade="noshade" align="left"> 
+<p>After you select the "Program Listing" option from the "Window" menu the
+       window in Figure 2-5 should appear. This utility allows assembly listing 
+      files generated by an assembler to be loaded and viewed. The listing 
+ file    is produced by the assembler when you use the <tt>-l</tt> option 
+and ends with the    tag <tt>.lis</tt> . The listing is the most recent one 
+produced by the <tt>-l</tt> option of the <tt>68kasm</tt> command. If you 
+use <tt> 68kasm</tt> without the <tt>-</tt>l option, the listing you see may
+ not correspond to your current program. While you single-step  through a
+program the program  listing  will be automatically repositioned according 
+to the current value  of the program counter. This can be really useful when 
+debugging a program.   You can also set and clear breakpoints by clicking 
+on a source code line  with the left mouse button.</p>
+      
+<center><img src="mg11.gif" width="342" height="224"
+ alt="Undisplayed Graphic">
+      </center>
+      
+<center><b>FIGURE 2-5</b> Program Listing</center>
+      <font size="+1"><b>File Menu</b></font> 
+<p>This menu allows you to load an assembler listing and to close the program
+       listing.</p>
+      
+<center><img src="mg12.gif" width="335" height="71"
+ alt="Undisplayed Graphic">
+      </center>
+      <b>Loading a Listing</b> 
+<p>Since the program listing is automatically loaded whenever you load a program
+you should not need to use this option.  However, if you do then:</p>
+      
+<ul>
+            <li>Choose the "Load..." option</li>
+            <li>Select the listing file to load; its name has the tag <tt>.lis</tt></li>
+      
+</ul>
+      <font size="+1"><b>Edit Menu</b></font> 
+<p>This menu allows you to find a string and to clear all the breakpoints
+       that have been set.</p>
+      
+<center><img src="mg13.gif" width="335" height="80"
+ alt="Undisplayed Graphic">
+      </center>
+      <b>Finding a String</b> 
+<ul>
+            <li>Choose the "Find..." option</li>
+            <li>Enter the string (or regular expression) you wish to find 
+in  the dialog      that appears</li>
+      
+</ul>
+      <b>Clearing All Breakpoints</b> 
+<ul>
+            <li>Choose the "Clear Breakpoints" options</li>
+      
+</ul>
+      <font size="+1"><b>Notes</b></font> 
+<ol>
+            <li>Having the Program Listing dialog open while single-stepping 
+ through      a program will slow down the simulation.</li>
+            <li>Sometimes an incorrect line will be highlighted.</li>
+      
+</ol>
+      <a id="I9" name="I9"><br>
+      <font size="+2"><b>Register Manipulation</b></font></a>     
+<hr size="2" noshade="noshade" align="left"> 
+<p>Once a simulator is executing the register list will appear as shown in
+       Figure 2-6.  The values of the registers will be updated as you execute
+     a  program.</p>
+      <font size="+1"><b>Modifying a Register's Value</b></font> 
+<ul>
+            <li>Select a register to modify using the left mouse button</li>
+            <li>Select the "Alter..." option from the "Registers" menu</li>
+            <li>Enter the new hexadecimal value for the register</li>
+      
+</ul>
+      <font size="+1"><b>Clearing all the Registers</b></font> 
+<ul>
+            <li>Select the "Clear All" option from the "Registers" menu</li>
+      
+</ul>
+      
+<center><img src="mg14.gif" width="90" height="231"
+ alt="Undisplayed Graphic">
+      </center>
+      
+<center><b>FIGURE 2-6</b> Register List</center>
+      <a id="I10" name="I10"><br>
+      <font size="+2"><b>Simulator Statistics</b></font></a>     
+<hr size="2" noshade="noshade" align="left"> 
+<p>Some simulators keep simulation statistics. These statistics might include 
+       the number of instructions executed, the number of reads and writes 
+ to   memory,   and any other statistics the simulator designer wants. If 
+a simulator   keeps   statistics they will be displayed in the statistics 
+list as shown   in Figure   2-7.</p>
+      <font size="+1"><b>Clearing Statistics</b></font> 
+<ul>
+            <li>Select the "Clear All" option from the "Statistics" menu</li>
+      
+</ul>
+      
+<center><img src="mg15.gif" width="108" height="231"
+ alt="Undisplayed Graphic">
+      </center>
+      
+<center><b>FIGURE 2-7</b> Hector 1600 Simulator Statistics</center>
+      <a id="I11" name="I11"><br>
+      <font size="+2"><b>Program Execution and Control</b></font></a>   
+<hr size="2" noshade="noshade" align="left"> 
+<p>The program execution and control area of the user interface is shown in
+Figure 2-8. These controls allow setting breakpoints, single stepping, running,
+and system resetting.</p>
+      
+<center><img src="mg16.gif" width="275" height="19"
+ alt="Undisplayed Graphic">
+      </center>
+      
+<center><b>FIGURE 2-8</b> Execution Control Area</center>
+      <font size="+1"><b>Breakpoints</b></font> 
+<p>Breakpoints can be set or cleared using the breakpoint dialog displayed 
+       when the "Breakpoints" button is pressed. The breakpoint dialog is 
+shown      in Figure 2-9.  In general it's much easier to use the breakpoint 
+facility      in the program listing utility than to use this approach.</p>
+      <b>Adding Breakpoints</b> 
+<ul>
+            <li>Select the "Add" entry field</li>
+            <li>Enter the breakpoint's address and press return</li>
+      
+</ul>
+      <b>Removing Breakpoints</b> 
+<ul>
+            <li>Select the breakpoints to remove using the left mouse button</li>
+            <li>Press the "Remove" button</li>
+      
+</ul>
+      
+<center><img src="mg17.gif" width="124" height="175"
+ alt="Undisplayed Graphic">
+      </center>
+      
+<center><b>FIGURE 2-9</b> Breakpoint Dialog</center>
+      <font size="+1"><b>Single Stepping</b></font> 
+<ul>
+            <li>Pressing the "Single Step" button will execute the next instruction
+       and display a trace record in the trace window.</li>
+      
+</ul>
+      <font size="+1"><b>Running</b></font> 
+<ul>
+            <li>Pressing the "Run" button causes the simulator to execute 
+instructions        until a fatal error occurs, a breakpoint is reached, or
+execution is   stopped. You will normally choose "Reset" (to set the stack 
+pointer and program  counter) and then choose "Run".</li>
+      
+</ul>
+      <font size="+1"><b>Stopping Execution</b></font> 
+<ul>
+            <li>After the "Run" button is pressed its label changes to "Stop"</li>
+            <li>Pressing the "Stop" button tells the simulator to stop executing 
+ instructions</li>
+      
+</ul>
+      <font size="+1"><b>Reset</b></font> 
+<ul>
+            <li>Pressing the "Reset" button causes the simulator to perform 
+ a system      reset. This initializes the stack pointer to the value at memory
+ location     <tt>$00 0000</tt> and initializes the program counter to the
+ value at <tt>$00 0004</tt>.</li>
+      
+</ul>
+      <a id="I12" name="I12"><br>
+      <font size="+2"><b>Trace Window</b></font></a>     
+<hr size="2" noshade="noshade" align="left"> 
+<p>Every time an instruction is executed using the single step button a trace
+       record will be displayed in the trace window.  The actual contents
+of   a  trace  record are simulator specific. The trace window is shown in
+Figure     2-10.</p>
+      
+<center><img src="mg18.gif" width="275" height="211"
+ alt="Undisplayed Graphic">
+      </center>
+      
+<center><b>FIGURE 2-10</b> Trace Window </center>
+      <font size="+1"><b>Saving Contents</b></font> 
+<ul>
+            <li>Select the "Save Contents..." option from the "Trace" menu</li>
+            <li>Select or enter a file name using the file selector</li>
+      
+</ul>
+      <font size="+1"><b>Clearing Contents</b></font> 
+<ul>
+            <li>Select the "Clear Contents" option from the "Trace" menu</li>
+      
+</ul>
+      <font size="+1"><b>Inserting Registers</b></font> 
+<ul>
+            <li>Select the "Insert Registers" option from the "Trace" menu
+ to insert      the register list into the trace window</li>
+      
+</ul>
+      <font size="+1"><b>Inserting Statistics</b></font> 
+<ul>
+            <li>Select the "Insert Statistics" option from the "Trace" menu 
+ to insert      the statistics into the trace window</li>
+      
+</ul>
+      <font size="+1"><b>Setting Trace Preferences</b></font> 
+<ul>
+            <li>Select the "Trace Preferences..." option from the "Trace" 
+menu</li>
+            <li>Select the trace record entries to display using the dialog 
+ that appears</li>
+      
+</ul>
+      <a id="I13" name="I13"><br>
+      <font size="+2"><b>Bugs</b></font></a>     
+<hr size="2" noshade="noshade" align="left"> 
+<p>Although the user interface has been designed to handle most errors it's
+       not foolproof.</p>
+      
+<ol>
+            <li>If the simulator process dies for some reason the user interface 
+ will       freeze up.  This will hopefully be fixed in a future release.</li>
+            <li>If a program that never does any output is run as a simulator 
+ the user       interface will lockup (e.g., 'cat' instead of 'Sim68000').</li>
+            <li>Not all of the Tcl/Tk errors are trapped by the user interface 
+ in its       current incarnation. Therefore the default Tcl/Tk error dialog 
+ will be   displayed.</li>
+      
+</ol>
+      
+<hr width="100%" size="6" align="center"> 
+<h1 align="center"> 
+<center><a id="I1" name="I1">Chapter 3  Motorola 68000 Simulator and Assembler 
+        <br>
+      </a>     </center>
+      </h1>
+      
+<hr width="100%" size="6" align="center"> 
+<p>This chapter describes the Motorola 68000 simulator (Sim68000) and assembler
+       (68kasm) included in the BSVC distribution.</p>
+      <a id="I2" name="I2"><br>
+      <font size="+2"><b>Simulator</b></font></a>     
+<hr size="2" noshade="noshade" align="left"> 
+<p>The Motorola 68000 simulator included in the BSVC distribution simulates 
+       the 68000 in software.</p>
+      <font size="+1"><b>Notes</b></font> 
+<ul>
+            <li>The simulator has a few areas in which it does not behave 
+exactly  like      a Motorola 68000</li>
+                  
+  <ul>
+                  <li>Address and Bus errors do not generate a complete exception 
+ stack</li>
+                  <li>Some illegal instructions may be mistaken for real
+instructions</li>
+                  
+  </ul>
+            <li>Double bus errors cause the 68000 to halt and require a system 
+ reset</li>
+      
+</ul>
+      <a id="I3" name="I3"><br>
+      <font size="+2"><b>Simulator Devices</b></font></a>     
+<hr size="2" noshade="noshade" align="left"> 
+<p>The 68000 simulator provides two devices that can be attached to the microprocessor.
+        These devices are the M68681 Dual UART and RAM (the Windows 95 version
+     does  not support the DUART at this time, instead, it uses traps for
+I/O).  Each of these devices is described     below. </p>
+      <font size="+1"><b>M68681 Dual UART Device</b></font> 
+<p>The M68681 Dual Universal Asynchronous Receiver/Transmitter (DUART) device 
+       is modeled after the Motorola MC68681 DUART.  The dialog box shown 
+in   Figure    3-1 allows you to customize the M68681 device when it is attached 
+   to the   68000. </p>
+      
+<center><img src="mg19.gif" width="214" height="349"
+ alt="Undisplayed Graphic">
+      </center>
+      
+<center><b>FIGURE 3-1</b> M68681 Device Setup Dialog</center>
+      
+<p>Using this dialog you can select the:</p>
+      
+<ul>
+            <li>Base address of the device</li>
+            <li>Byte offset to the first register of the device</li>
+            <li>Offset between registers</li>
+            <li>Interrupt level</li>
+            <li>Port commands</li>
+            <li>Port input and output attachments</li>
+      
+</ul>
+      <b>Features</b> 
+<p>The M68681 device supports the following features:</p>
+      
+<ul>
+            <li>Two, independent, full-duplex asynchronous Receiver/Transmitter 
+ ports</li>
+            <li>Each port can be connect to a Unix process</li>
+            <li>Independently programmable baud rate for each Receiver and
+ Transmitter</li>
+                  
+  <ul>
+                  <li>18 Fixed rates: 50 to 38400 baud</li>
+                  
+  </ul>
+            <li>Programmable data format allowing five to eight data bits</li>
+            <li>Programmable channel modes</li>
+                  
+  <ul>
+                  <li>Normal (full-duplex)</li>
+                  <li>Automatic echo</li>
+                  
+  </ul>
+            <li>Versatile interrupt system</li>
+                  
+  <ul>
+                  <li>Single interrupt output with four maskable interrupting 
+ conditions</li>
+                  <li>Interrupt vector output on interrupt acknowledge</li>
+                  
+  </ul>
+      
+</ul>
+      <b>Communication Ports A and B</b> 
+<p>Each communication port comprises a full-duplex universal asynchronous 
+       receiver/transmitter (UART).  The baud rate for each receiver and each
+    transmitter   can be independently selected using the built in baud rate
+   generator.</p>
+      
+<p>The transmitter accepts parallel data from the CPU and sends it to the 
+       Unix process connected to the port.  The receiver accepts data from 
+ the    Unix  process connected to the port and transfers it to the CPU during 
+  read   operations.   If no process is connected to the port there will never
+  be  any data to read  and writes will send data to that giant-bit-bucket-in-the-sky.</p>
+      <b>Programming and Register Description</b> 
+<p>The operation of the DUART is programmed by writing control words into 
+       the appropriate registers.  Operational feedback is provided by the 
+ status      registers, which can be read by the CPU.  The DUART's register 
+ addresses     are described in Table 3-1.</p>
+      
+<p><b>TABLE 3-1</b>Register Addressing</p>
+      
+<table border="1">
+        <tbody>
+          <tr>
+            <td><note align="CENTER">                   </note>         
+        
+      <center><b>RS4</b></center>
+            </td>
+            <td><note align="CENTER">                   </note>         
+        
+      <center><b>RS3</b></center>
+            </td>
+            <td><note align="CENTER">                   </note>         
+        
+      <center><b>RS2</b></center>
+            </td>
+            <td><note align="CENTER">                   </note>         
+        
+      <center><b>RS1</b></center>
+            </td>
+            <td><note align="CENTER">                   </note>         
+        
+      <center><b>Read</b></center>
+            </td>
+            <td><note align="CENTER">                   </note>         
+        
+      <center><b>Write</b></center>
+            </td>
+          </tr>
+          <tr>
+            <td><note align="CENTER">                   </note>         
+        
+      <center>0</center>
+            </td>
+            <td><note align="CENTER">                   </note>         
+        
+      <center>0</center>
+            </td>
+            <td><note align="CENTER">                   </note>         
+        
+      <center>0</center>
+            </td>
+            <td><note align="CENTER">                   </note>         
+        
+      <center>0</center>
+            </td>
+            <td>Mode Register A (MR1A, MR2A)  </td>
+            <td>Mode Register A (MR1A, MR2A)  </td>
+          </tr>
+          <tr>
+            <td><note align="CENTER">                   </note>         
+        
+      <center>0</center>
+            </td>
+            <td><note align="CENTER">                   </note>         
+        
+      <center>0</center>
+            </td>
+            <td><note align="CENTER">                   </note>         
+        
+      <center>0</center>
+            </td>
+            <td><note align="CENTER">                   </note>         
+        
+      <center>1</center>
+            </td>
+            <td>Status Register A (SRA)  </td>
+            <td>Clock Select Register A (CSRA)  </td>
+          </tr>
+          <tr>
+            <td><note align="CENTER">                   </note>         
+        
+      <center>0</center>
+            </td>
+            <td><note align="CENTER">                   </note>         
+        
+      <center>0</center>
+            </td>
+            <td><note align="CENTER">                   </note>         
+        
+      <center>1</center>
+            </td>
+            <td><note align="CENTER">                   </note>         
+        
+      <center>0</center>
+            </td>
+            <td>Do not access  </td>
+            <td>Command Register A (CRA)  </td>
+          </tr>
+          <tr>
+            <td><note align="CENTER">                   </note>         
+        
+      <center>0</center>
+            </td>
+            <td><note align="CENTER">                   </note>         
+        
+      <center>0</center>
+            </td>
+            <td><note align="CENTER">                   </note>         
+        
+      <center>1</center>
+            </td>
+            <td><note align="CENTER">                   </note>         
+        
+      <center>1</center>
+            </td>
+            <td>Receiver Buffer A (RBA)  </td>
+            <td>Transmitter Buffer A (TBA)  </td>
+          </tr>
+          <tr>
+            <td><note align="CENTER">                   </note>         
+        
+      <center>0</center>
+            </td>
+            <td><note align="CENTER">                   </note>         
+        
+      <center>1</center>
+            </td>
+            <td><note align="CENTER">                   </note>         
+        
+      <center>0</center>
+            </td>
+            <td><note align="CENTER">                   </note>         
+        
+      <center>0</center>
+            </td>
+            <td><i>Not implemented</i></td>
+            <td>Auxiliary Control Register (ACR)  </td>
+          </tr>
+          <tr>
+            <td><note align="CENTER">                   </note>         
+        
+      <center>0</center>
+            </td>
+            <td><note align="CENTER">                   </note>         
+        
+      <center>1</center>
+            </td>
+            <td><note align="CENTER">                   </note>         
+        
+      <center>0</center>
+            </td>
+            <td><note align="CENTER">                   </note>         
+        
+      <center>1</center>
+            </td>
+            <td>Interrupt Status Register (ISR)  </td>
+            <td>Interrupt Mask Register (IMR)  </td>
+          </tr>
+          <tr>
+            <td><note align="CENTER">                   </note>         
+        
+      <center>0</center>
+            </td>
+            <td><note align="CENTER">                   </note>         
+        
+      <center>1</center>
+            </td>
+            <td><note align="CENTER">                   </note>         
+        
+      <center>1</center>
+            </td>
+            <td><note align="CENTER">                   </note>         
+        
+      <center>0</center>
+            </td>
+            <td><i>Not implemented</i></td>
+            <td><i>Not implemented</i></td>
+          </tr>
+          <tr>
+            <td><note align="CENTER">                   </note>         
+        
+      <center>0</center>
+            </td>
+            <td><note align="CENTER">                   </note>         
+        
+      <center>1</center>
+            </td>
+            <td><note align="CENTER">                   </note>         
+        
+      <center>1</center>
+            </td>
+            <td><note align="CENTER">                   </note>         
+        
+      <center>1</center>
+            </td>
+            <td><i>Not implemented</i></td>
+            <td><i>Not implemented</i></td>
+          </tr>
+          <tr>
+            <td><note align="CENTER">                   </note>         
+        
+      <center>1</center>
+            </td>
+            <td><note align="CENTER">                   </note>         
+        
+      <center>0</center>
+            </td>
+            <td><note align="CENTER">                   </note>         
+        
+      <center>0</center>
+            </td>
+            <td><note align="CENTER">                   </note>         
+        
+      <center>0</center>
+            </td>
+            <td>Mode Register B (MR1B, MR2B)  </td>
+            <td>Mode Register B (MR1B, MR2B)  </td>
+          </tr>
+          <tr>
+            <td><note align="CENTER">                   </note>         
+        
+      <center>1</center>
+            </td>
+            <td><note align="CENTER">                   </note>         
+        
+      <center>0</center>
+            </td>
+            <td><note align="CENTER">                   </note>         
+        
+      <center>0</center>
+            </td>
+            <td><note align="CENTER">                   </note>         
+        
+      <center>1</center>
+            </td>
+            <td>Status Register B (SRB)  </td>
+            <td>Clock Select Register B (CSRB)  </td>
+          </tr>
+          <tr>
+            <td><note align="CENTER">                   </note>         
+        
+      <center>1</center>
+            </td>
+            <td><note align="CENTER">                   </note>         
+        
+      <center>0</center>
+            </td>
+            <td><note align="CENTER">                   </note>         
+        
+      <center>1</center>
+            </td>
+            <td><note align="CENTER">                   </note>         
+        
+      <center>0</center>
+            </td>
+            <td>Do not access  </td>
+            <td>Command Register B (CRB)  </td>
+          </tr>
+          <tr>
+            <td><note align="CENTER">                   </note>         
+        
+      <center>1</center>
+            </td>
+            <td><note align="CENTER">                   </note>         
+        
+      <center>0</center>
+            </td>
+            <td><note align="CENTER">                   </note>         
+        
+      <center>1</center>
+            </td>
+            <td><note align="CENTER">                   </note>         
+        
+      <center>1</center>
+            </td>
+            <td>Receiver Buffer B (RBB)  </td>
+            <td>Transmitter Buffer B (TBB)  </td>
+          </tr>
+          <tr>
+            <td><note align="CENTER">                   </note>         
+        
+      <center>1</center>
+            </td>
+            <td><note align="CENTER">                   </note>         
+        
+      <center>1</center>
+            </td>
+            <td><note align="CENTER">                   </note>         
+        
+      <center>0</center>
+            </td>
+            <td><note align="CENTER">                   </note>         
+        
+      <center>0</center>
+            </td>
+            <td>Interrupt Vector Register (IVR)  </td>
+            <td>Interrupt Vector Register (IVR)  </td>
+          </tr>
+          <tr>
+            <td><note align="CENTER">                   </note>         
+        
+      <center>1</center>
+            </td>
+            <td><note align="CENTER">                   </note>         
+        
+      <center>1</center>
+            </td>
+            <td><note align="CENTER">                   </note>         
+        
+      <center>0</center>
+            </td>
+            <td><note align="CENTER">                   </note>         
+        
+      <center>1</center>
+            </td>
+            <td><i>Not implemented</i></td>
+            <td><i>Not implemented</i></td>
+          </tr>
+          <tr>
+            <td><note align="CENTER">                   </note>         
+        
+      <center>1</center>
+            </td>
+            <td><note align="CENTER">                   </note>         
+        
+      <center>1</center>
+            </td>
+            <td><note align="CENTER">                   </note>         
+        
+      <center>1</center>
+            </td>
+            <td><note align="CENTER">                   </note>         
+        
+      <center>0</center>
+            </td>
+            <td><i>Not implemented</i></td>
+            <td><i>Not implemented</i></td>
+          </tr>
+          <tr>
+            <td><note align="CENTER">                   </note>         
+        
+      <center>1</center>
+            </td>
+            <td><note align="CENTER">                   </note>         
+        
+      <center>1</center>
+            </td>
+            <td><note align="CENTER">                   </note>         
+        
+      <center>1</center>
+            </td>
+            <td><note align="CENTER">                   </note>         
+        
+      <center>1</center>
+            </td>
+            <td><i>Not implemented</i></td>
+            <td><i>Not implemented</i></td>
+          </tr>
+                  
+  </tbody> 
+</table>
+      
+<p>Mode registers 1 and 2 of each port are accessed through independent pointers.
+        The pointer is set to registers MR1A and MR1B by a system reset or
+ issuing      a "reset pointer" command via the corresponding command register.
+  Any   read   or write of the mode register while the pointer is at MR1A
+or MR1B   switches   the pointer to MR2A or MR2B.  Subsequent accesses will
+address   MR2A or MR2B   unless the pointer is reset to MR1A or MR1B.</p>
+      
+<p>Mode, command, clock select, and status registers are duplicated for each
+       port to provide independent operation and control.  Refer to the register 
+       bit formats in Table 3-2.</p>
+      
+<p>For information on programming the M68681 you should consult a programmer's
+       guide to the Motorola MC68681 DUART.</p>
+      
+<p><b>TABLE 3-2</b>Register Bit Formats</p>
+      
+<center><img src="mg20.gif" width="577" height="193"
+ alt="Undisplayed Graphic">
+      </center>
+      
+<center><img src="mg21.gif" width="577" height="229"
+ alt="Undisplayed Graphic">
+      </center>
+      
+<center><img src="mg22.gif" width="579" height="486"
+ alt="Undisplayed Graphic">
+      </center>
+      
+<center><img src="mg23.gif" width="582" height="265"
+ alt="Undisplayed Graphic">
+      </center>
+      
+<center><img src="mg24.gif" width="577" height="157"
+ alt="Undisplayed Graphic">
+      </center>
+      
+<center><img src="mg25.gif" width="577" height="157"
+ alt="Undisplayed Graphic">
+      </center>
+      
+<center><img src="mg26.gif" width="577" height="157"
+ alt="Undisplayed Graphic">
+      </center>
+      
+<center><img src="mg27.gif" width="577" height="157"
+ alt="Undisplayed Graphic">
+      </center>
+      <font size="+1"><b>RAM Device</b></font> 
+<p>The RAM device allows you to attach a specified amount of memory to the 
+       68000.  When the RAM device is attached to the simulator, using the 
+ Edit     Setup option, the dialog shown in Figure 3-2 is displayed.  This 
+ dialog   allows  you to enter the base address and size of the RAM module. 
+  Both of  these values are in hexadecimal and the base address is restricted 
+ to 6 hexidecimal   digits.</p>
+      
+<center><img src="mg28.gif" width="161" height="140"
+ alt="Undisplayed Graphic">
+      </center>
+      
+<center><b>FIGURE 3-2</b> RAM Device Setup Dialog</center>
+      <a id="I4" name="I4"><br>
+      <font size="+2"><b>Assembler</b></font></a>     
+<hr size="2" noshade="noshade" align="left"> 
+<p>The 68000 assembler is similar to many UNIX system compilers and assemblers. 
+        The assembler accepts files with the following line layout:</p>
+      
+<pre>      LABEL    OPCODE    OPERANDS    COMMENTS</pre>
+      
+<p>The <tt>LABEL</tt> field is optional, but if used it must start in the
+      first column  of the line.  Fields are separated by spaces or tabs.
+ An   example  assembly  language file is shown in Figure 3-3.</p>
+      
+<pre>         ORG        $2000        Start at location 2000 Hex<br>START    CLR.W      SUM          Clear variable SUM<br>         MOVE.W     COUNT,D0     Load COUNT value<br>LOOP     ADD.W      D0,SUM       Add D0 to SUM<br>         SUB.W      #1,D0        Decrement counter<br>         BNE        LOOP         Loop if counter not zero<br>         BREAK                   Tell the simulator to BREAK if running<br>         SUM        DS.W       1            Reserve one word for SUM<br>         COUNT      DC.W       25           Initial value for COUNT<br>         END<br></pre>
+      
+<center><b>FIGURE 3-3</b> Sample Assembly Language File</center>
+      
+<p>Once an assembly language file has been created it can be assembled with
+      a command like<br>
+      </p>
+      
+<pre><tt>       68kasm   -l   source.s<br></tt></pre>
+            The assembler will indicate if any syntax errors were found.
+ If  no  errors    were encountered the assembler creates an object file
+in Motorola    S-Record    format with a <tt>.h68</tt> suffix.  If errors
+were found, to get a better   idea of   the errors assemble the file using
+the <tt>-l</tt>  option as shown above.  This option   tells the   assembler 
+to produce a listing file with a <tt>.lis</tt> suffix in addition   to the 
+  <tt>.h68</tt>  file.  The listing file can be used to find syntax errors 
+as well as     logic errors while executing the program.  <br>
+            Once the file has been assembled with no errors, the object file
+  can   be   loaded into the simulator for execution.  The listing file can
+  also  be loaded   into BSVC's Program Listing window to facilitate debugging.<br>
+      <a id="I5" name="I5"><br>
+      <font size="+2"><b>Acknowledgments</b></font></a>     
+<hr size="2" noshade="noshade" align="left"> 
+<p>The Motorola 68000 simulator was developed by Bradford W. Mott at North 
+       Carolina State University.  The simulator is loosely based on the 68000
+     simulator  written by Jay Lloyd at NCSU.</p>
+      
+<p>The Motorola 68000 assembler was developed by Paul McKee at NCSU.</p>
+      <a id="I6" name="I6"><br>
+      <font size="+2"><b>Contacts</b></font></a>     
+<hr size="2" noshade="noshade" align="left"> 
+<p>If you have questions about the Motorola 68000 Simulator contact:</p>
+      
+<p> Bradford W. Mott</p>
+      
+<p><i>bwmott@eos.ncsu.edu</i></p>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+ <br>
+</body>
+</html>

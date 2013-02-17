@@ -1,0 +1,184 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="Author" content="John van Rees">
+   <meta name="GENERATOR" content="Mozilla/4.6 [en] (Win95; I) [Netscape]">
+   <title>Real Numbers and Characters</title>
+</head>
+<body>
+
+<dl>
+<center>
+<h4>
+<font face="Times New Roman,Times">REAL NUMBERS</font></h4></center>
+<font face="Times New Roman,Times">Any real number can be normalized to
+get</font>
+<br><font face="Times New Roman,Times">&plusmn;0.XXXX<sup>.</sup>B<sup>&plusmn;EXP</sup></font>
+<br><font face="Times New Roman,Times">or</font>
+<br><font face="Times New Roman,Times">&plusmn;X.XXX<sup>.</sup>B<sup>&plusmn;EXP</sup></font>
+<br><font face="Times New Roman,Times">Now XXXX and EXP are just two integers.&nbsp;
+Unfortunately, which B is used, which normalization is used, how many bits
+used to store XXXX (mantissa)&nbsp; and EXP (exponent) varies from machine
+to machine.&nbsp; The IEEE has set a standard to solidify this mess.&nbsp;
+Typical sizes used to store real numbers 32 bits (single precision), 64
+bits (double precision) and 128 bits (quadruple precision).</font>
+<br>&nbsp;
+<br>&nbsp;
+<h2>
+<font face="Times New Roman,Times">IBM mainframe</font></h2>
+<font face="Times New Roman,Times">Normalize to 0.XXXX in base 16.&nbsp;
+Store:</font>
+<br><font face="Times New Roman,Times">1 bit for sign. (0 is + and 1 is
+-).</font>
+<br><font face="Times New Roman,Times">7 bits in exponent (in excess-64).</font>
+<br><font face="Times New Roman,Times">24 bits (6 hex digits) mantissa.</font>
+<h4>
+<font face="Times New Roman,Times">Examples</font></h4>
+
+<li>
+<font face="Times New Roman,Times">-65.2(base 10)&nbsp; is stored as C2413333</font></li>
+
+<li>
+<font face="Times New Roman,Times">+0.04296875(base 10) is stored as 3FB00000</font></li>
+
+<li>
+<font face="Times New Roman,Times">C31A0F00 represents -416.9375(base 10)</font></li>
+
+<br>&nbsp;
+<h2>
+<font face="Times New Roman,Times">IEEE Format</font></h2>
+<font face="Times New Roman,Times">Used in 68000 and SPARC.&nbsp; Normalize
+to &plusmn;1.XXX<sup>.</sup>2<sup>&plusmn;exp&nbsp; </sup>Store:</font>
+<br><font face="Times New Roman,Times">1 bit for sign (0 is +)</font>
+<br><font face="Times New Roman,Times">8/11/15 bit for exponent (Excess-2<sup>N-1</sup>-1)</font>
+<br><font face="Times New Roman,Times">23/52/112 bits for mantissa</font>
+<br><font face="Times New Roman,Times">leading 1 is not stored anywhere.</font>
+<h4>
+<font face="Times New Roman,Times">Examples</font></h4>
+
+<li>
+<font face="Times New Roman,Times">-65.2 in single precision&nbsp; is
+stored
+as C2826666.</font></li>
+
+<li>
+<font face="Times New Roman,Times">+0.04296875 in s.p. is stored as 3D300000</font></li>
+
+<li>
+<font face="Times New Roman,Times">C2328000 represents -44.625</font></li>
+
+<li>
+<font face="Times New Roman,Times">How are the integer 7 and the real 7.0
+stored in 4 bytes.</font></li>
+
+<li>
+<font face="Times New Roman,Times">How are the integer -7 and the real
+-7.0 stored in 4 bytes.</font></li>
+
+<h4>
+<font face="Times New Roman,Times">Special Cases in IEEE floating point</font>
+</h4>
+<font face="Times New Roman,Times">When exponent = 0000000 it means -2<sup>N-1
+</sup>+2
+(not -2<sup>N-1</sup>+1&nbsp;&nbsp; as it normally would ) and a leading
+0 not 1 is assumed for the exponent 0000000.&nbsp; They do this to allow
+for some even tinier numbers.</font>
+<br><font face="Times New Roman,Times">0&nbsp; 0000010&nbsp; 000..00 is
+1.0*2<sup>-125</sup></font>
+<br><font face="Times New Roman,Times">0&nbsp; 0000001&nbsp; 000...00 is
+1.0* 2<sup>-126</sup>.</font>
+<br><font face="Times New Roman,Times">0&nbsp; 0000000&nbsp; 000...00 is
+0</font>
+<br><font face="Times New Roman,Times">0&nbsp; 0000000&nbsp; 100...00 is
+0.1*2<sup>-126</sup>= 1*2<sup>-127</sup>.</font>
+<br><font face="Times New Roman,Times">0&nbsp; 0000000&nbsp; 010...00 is
+0.01*2<sup>-126</sup>= 1*2<sup>-128</sup>.</font>
+<br><font face="Times New Roman,Times">0&nbsp; 0000000&nbsp; 000...01 is
+0.0..01*2<sup>-126</sup>= 1*2<sup>-149</sup>.</font>
+<br><font face="Times New Roman,Times">When exponent is 1111...1</font>
+<br><font face="Symbol">+&yen;&nbsp; </font><font face="Times New Roman,Times">
+is&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;</font><font face="Symbol">&nbsp;&nbsp;0&nbsp; 11111111&nbsp; 000...0
+</font><br><font face="Symbol">-&yen; </font><font face="Times New Roman,Times"
+>is </font><font face="Symbol">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1&nbsp; 11111111&nbsp; 
+000...0</font>
+<br><font face="Times New Roman,Times">Not a number = NaN is&nbsp; X 11111111&nbsp;
+XXX...X&nbsp;&nbsp; One of right-most X's not 0.</font>
+<br>&nbsp;
+<br>&nbsp;
+<h4>
+<font face="Times New Roman,Times">Comparison (32 bits)</font></h4>
+<font face="Times New Roman,Times">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Mainframe&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+IEEE</font>
+<p><font face="Times New Roman,Times">range&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+bigger&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+smaller</font>
+<p><font face="Times New Roman,Times">precision&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+less &nbsp;&nbsp&nbsp;&nbsp;&nbsp;&nbsp;&nbsp&nbsp;&nbsp;&nbsp&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp&nbsp;&nbsp;&nbsp&nbsp;&nbsp;&nbsp;&nbsp;&nbsp&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+more </font>
+<br>&nbsp;
+<p><font face="Times New Roman,Times">Note 0 is always hard to normalize
+as there is no non-0 digit to lead with.&nbsp; So it is always a special
+case.</font>
+<br><font face="Symbol"></font>&nbsp;</dl>
+
+<h4> CHARACTERS</h4>
+Simply choose a unique N-bit code for each desired character.  It is
+desirable to have 0-9 in sequence, A-Z in sequence and a-z in sequence.
+Also an easy relationship between A-Z and a-z would be nice.  These are
+collating sequences.
+
+<h3> Three Standards</h3>
+<ul>
+<li> ACSII- American Standard Code for Information Interchange-
+<ol>
+<li> N=7, 8th bit for parity bit
+<li> most common now
+<li> Internet standard
+<li> 0-9, A-Z and a-z are grouped.
+<li> 00-1F are control characters eg. 00=null, 07=bell,0D=return</ol>
+<li> EBCDIC - Extended Binary Coded Decimal Interchange Code-
+<ol>
+<li> N=8
+<li> based on old decimal (BCD) machine
+<li> great for cards
+<li> 0-9 OK, A_Z has gaps, a-z has gaps, but relationship between them
+<li> control characters (00-3F) eg. 2F bell,0D return
+</ol>
+<li>UNICODE-
+<ol> <li>new one 
+<li> N=16 bits
+<li> room for many alphabets for international use
+<li> JAVA uses this one</ol></ul>
+
+<H4> Other Data Types </h4>
+<ul>
+<li> Boolean or  Logical - no hardware support - many possible
+conventions: eg. 0-0 is false, 1-1 is true, ow - maybe
+                 0-0 is false  ow is true
+
+<li> Addresses/pointers  use Unsigned integers
+<li> Arrays/Records combinations of more fundamental types</ul>
+
+<pa><b> There is no indication what a sequence of 0/1's stands for.</b>
+
+<pa> Eg.   A 32 bit word in 68000 contains:
+<br> 442B3130.   What is stored there?
+<ol>
+<li> If 4 ASCII characters, it is D+10.
+<li> If unsigned integer, it is 1,143,681,328.
+<li> if signed number, it is 1,143,681,328.
+<li> if real number, it is approximately 684.7686
+<li> if an instruction, it is CHK.l($3130),D2  (almost)
+<li) it is not one of the above
+</ol>
+
+
+</body>
+</html>

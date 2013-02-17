@@ -1,0 +1,609 @@
+<!DOCTYPE html PUBLIC "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+                            
+  <meta http-equiv="Content-Type"
+ content="text/html; charset=iso-8859-1">
+                            
+  <meta name="GENERATOR"
+ content="Mozilla/4.7 [en] (X11; U; SunOS 5.7 sun4u) [Netscape]">
+  <title>68000 ASSEMBLER MANUAL</title>
+</head>
+  <body text="#000099" bgcolor="#ffffff" link="#0000ef" vlink="#51188e"
+ alink="#ff0000">
+            
+<center> 
+<h1><font color="#000000"> 68000 ASSEMBLER MANUAL</font></h1>
+      <font color="#000000">(Modified from the BSVC documentation buy D.
+Meek, 9 Apr 2002)</font><br>
+        </center>
+          
+<hr size="4"> 
+<h1><font color="#000000"> Table of Contents</font></h1>
+          <font color="#000000">1. Introduction</font><font
+ color="#000000"><br>
+      </font><font color="#000000"><br>
+      </font><font color="#000000">2. Command Line</font><br>
+      <font color="#000000">&nbsp;&nbsp;&nbsp; 2.1 General Form</font><br>
+      <font color="#000000">&nbsp;&nbsp;&nbsp; 2.2 Examples</font><br>
+      <br>
+      <font color="#000000">3. Source Code Format</font><br>
+      <font color="#000000">&nbsp;&nbsp;&nbsp; 3.1 Source Line Format</font><br>
+      <font color="#000000">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; 3.1.1.
+Label Field</font><br>
+      <font color="#000000">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; 3.1.2.
+Operation    Field</font><br>
+      <font color="#000000">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; 3.1.3.
+Operand    Field</font><br>
+      <font color="#000000">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; 3.1.5.
+Symbols</font><br>
+      <font color="#000000">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; 3.1.6.
+Expressions</font><br>
+      <font color="#000000">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+3.1.6.1&nbsp;Constants</font><br>
+      <font color="#000000">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+3.1.6.2 Operators in Expressions</font><br>
+      <font color="#000000">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; 3.1.7.
+Addressing    Mode Specifications</font><br>
+      <font color="#000000">&nbsp;&nbsp;&nbsp; 3.2 Branch Instructions</font><br>
+      <br>
+      <font color="#000000">4. Assembler Directives</font><br>
+      <font color="#000000">&nbsp;&nbsp;&nbsp; 4.1 </font><font
+ color="#000000"><tt>      ORG</tt> - Set Origin</font><br>
+      <font color="#000000">&nbsp;&nbsp;&nbsp; 4.2 Symbol Definition Directives</font><font
+ color="#000000"><br>
+      </font><font color="#000000">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+4.2.1.    </font><font color="#000000"><tt>EQU</tt> - Equate Symbol</font><font
+ color="#000000"><br>
+      </font><font color="#000000">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+4.2.2.    </font><font color="#000000"><tt>SET</tt> - Set Symbol</font><font
+ color="#000000"><br>
+      </font><font color="#000000">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+4.2.3.    </font><font color="#000000"><tt>REG</tt> - Define Register Set</font><font
+ color="#000000"><br>
+      </font><font color="#000000">&nbsp;&nbsp;&nbsp; 4.3 Data Storage Directives</font><font
+ color="#000000"><br>
+      </font><font color="#000000">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+4.3.1.    </font><font color="#000000"><tt>DC</tt> - Define Constant</font><font
+ color="#000000"><br>
+      </font><font color="#000000">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+4.3.2.    </font><font color="#000000"><tt>DCB</tt> - Define Constant Block</font><font
+ color="#000000"><br>
+      </font><font color="#000000">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+4.3.3.    </font><font color="#000000"><tt>DS</tt> - Define Storage</font><font
+ color="#000000"><br>
+      </font><font color="#000000">&nbsp;&nbsp;&nbsp; 4.4 </font><font
+ color="#000000"><tt>      END</tt> - End of Source File</font><font
+ color="#000000"><br>
+      </font><font color="#000000">&nbsp;&nbsp;&nbsp; 4.5 </font><font
+ color="#000000"><tt>      INCLUDE</tt> directive</font><font
+ color="#000000"><br>
+      </font><font color="#000000">&nbsp;&nbsp;&nbsp; 4.6 </font><font
+ color="#000000"><tt>      PAGE</tt> directive</font><font
+ color="#000000"><br>
+      </font><font color="#000000"><br>
+      </font><font color="#000000">5. Listing File Format</font><font
+ color="#000000"><br>
+      </font><font color="#000000"><br>
+      </font><font color="#000000">6. Object Code File Format</font>    
+<hr size="4"> 
+<h2><font color="#000000"> 1. Introduction</font></h2>
+        <font color="#000000"> The program described here, 68000 Assembler, 
+ is  a  basic two-pass assembler for the 68000 and 68010 microprocessors. 
+It supports   the complete instruction set of both processors as well as a
+modest but capable  set of assembler directives. The program produces formatted
+  listing files  as well as object code files in S-record format. </font>
+<p><font color="#000000">The program was written in VAX-11 C by Paul McKee 
+   during the fall semester, 1986. The program should be portable (with reasonable 
+   changes) to any C language implementation that supports 32-bit integers. 
+  </font></p>
+        
+<p><font color="#000000">Version 2, by Mark Hollomon, added support for include 
+   files and reworked the command line interface to take advantage of the 
+MS-DOS   environment. V2 development was done using the Microsoft QuickC programming
+  environment version 2.0</font><br>
+       </p>
+        
+<h2><font color="#000000"> 2. Command Line</font></h2>
+        <font color="#000000"> [This section has been modified to describe
+ the   command  line for 68kasm. (Sara Baase, 7/22/98)] </font><br>
+       
+<h3><font color="#000000"> 2.1 General Form</font></h3>
+        <font color="#000000"> The 68000 Assembler is run by typing a command 
+  line  of the following form: </font><br>
+       
+<pre><font color="#000000">&nbsp;&nbsp;&nbsp;&nbsp; 68kasm [-l] &lt;infile.ext&gt;</font></pre>
+        <font color="#000000"> Infile is the name of the source file. (By 
+convention,    the extension for 68000 assembly source files is s, for example, 
+prog.s.)     </font> 
+<p><font color="#000000">Note that the assembler makes no assumption as to 
+   the extension of the source file. Thus if the name `program' is specified
+    to be the source file then the file `program' with no extension will
+be   the  file for which the assembler will look. </font></p>
+        
+<p><font color="#000000">The program will print "68000 Assembler by PGM" when
+it begins work. If any errors occur, the program will print "ERROR in line
+X" or "WARNING in line X" (this information is also placed in the listing 
+   file). Upon conclusion, it will print the number of errors encountered 
+and   warnings generated during the assembly. </font><br>
+      </p>
+      
+<p><font color="#000000">The output of the Assembler will be a code file that
+has the extension </font><font color="#000000"><tt>.h68</tt>. If the </font><font
+ color="#000000"><tt>   -l</tt> option is used, the Assembler will also produce
+a listing file with extension </font><font color="#000000"><tt>   .lis</tt>.
+The listing file is used by the simulator if when a program listing is asked
+for. </font></p>
+        
+<p></p>
+      
+<h3><font color="#000000">2.2 Examples</font></h3>
+          
+<pre><font color="#000000">&nbsp;&nbsp;&nbsp;&nbsp; 68kasm prog.s</font></pre>
+        <font color="#000000"> The source file is "prog.s". The object file 
+ will   be "prog.h68". There will be no listing file. </font><br>
+       
+<pre><font color="#000000">&nbsp;&nbsp;&nbsp;&nbsp; 68kasm -l prog.s</font></pre>
+        <font color="#000000"> The source file is "prog.s". The object file 
+ will   be "prog.h68", the listing file "prog.lis". </font><br>
+        
+<pre><font color="#000000">&nbsp;&nbsp;&nbsp;&nbsp; 68kasm -l asmt1/prog.s</font></pre>
+        <font color="#000000"> The source file is "asmt1/prog.s". The object
+  file   will be "asmt1/prog.h68" and the listing file "asmt1/prog.lis".
+Note   that   the object file and listing file will be placed in the same
+directory   as  the source file. </font><font color="#000000"><br>
+        </font><font color="#000000">&nbsp; </font><font color="#000000"><br>
+        </font><font color="#000000">&nbsp; </font> 
+<h2><font color="#000000"> 3. Source Code Format</font></h2>
+          
+<h3><font color="#000000"> 3.1 Source Line Format</font></h3>
+        <font color="#000000"> The input to the assembler is a file containing
+   instructions,  assembler directives, and comments. Each line of the file
+  may be up to 256  characters long. It is recommended, however, that the
+source   lines be no longer that 80 characters, as this will guarantee that
+the lines   of the listing file do not exceed 132 characters in length. The
+assembler   treats uppercase  and lowercase identically. </font> 
+<p><font color="#000000">Each line of the source code consists of the following 
+   fields: </font><br>
+       </p>
+       
+<pre><font color="#000000">&nbsp;&nbsp;&nbsp;&nbsp; LABEL&nbsp;&nbsp; OPERATION&nbsp; OPERAND,OPERAND&nbsp;&nbsp; COMMENT</font></pre>
+        <font color="#000000"> For example, </font><br>
+       
+<pre><font color="#000000">&nbsp;&nbsp;&nbsp;&nbsp; LOOP&nbsp;&nbsp;&nbsp; MOVE.L&nbsp; (A0)+,(A1)+&nbsp;&nbsp;&nbsp; Sample source line</font></pre>
+        <font color="#000000">Sometimes there is one operand or zero operands.
+  The fields may be separated by any combination of  spaces and tabs. Except
+  for the comment field and quoted strings, there  must  be no spaces or
+tabs   within a field. </font><br>
+       
+<h4><font color="#000000">3.1.1. Label Field</font></h4>
+        <font color="#000000"> Labels are symbol names (see 3.1.5). Labels
+ may be distinguished  in one of two ways: (1) They may begin in column 1,
+ or (2) they may end in  a colon, which does not become part of the label
+but simply serves to mark  its end. A line may consist of a label alone.
+When a label is encountered  in the source code, it is defined to have a
+value equal to the current location  counter.</font> 
+<h4><font color="#000000">3.1.2. Operation Field</font></h4>
+        <font color="#000000"> The operation field specifies the instruction
+  that   is to be assembled or the assembler directive that is to be performed.
+  A  size code (.B, .W, .L, or .S) may be appended to the operation code
+if   allowed,   to specify Byte, Word, Long, or Short operations, respectively.
+  The operation   field must not begin in column 1, because the operation
+would  then be confused   with a label. </font><br>
+       
+<h4><font color="#000000">3.1.3. Operand Field</font></h4>
+        <font color="#000000"> The operation may be followed by one or more 
+ operands   depending on the operation. Operand are separated by commas </font><br>
+       
+<h4><font color="#000000">3.1.4. Comment Field</font></h4>
+        <font color="#000000"> The comment field usually consists of everything 
+   on a source line after the operand field. No special character is needed 
+  to introduce the comment, and it may contain any characters desired. </font> 
+       
+<p><font color="#000000">A comment may also be inserted in the source file 
+   in another way: An asterisk ("*") at the beginning of the line or after 
+ the  label field will cause the rest of the line to be ignored, i.e., treated
+   as a comment. </font><br>
+       </p>
+       
+<h4><font color="#000000">3.1.5. Symbols</font></h4>
+        <font color="#000000"> Symbols appear in the source code as labels, 
+ constants,   and operands. The first character of a symbol must be either 
+ a letter (A-Z)   or a period ("."). The remaining characters may be letters, 
+ dollar signs  ("$"), periods ("."), or underscores("_"). A symbol may be 
+of any length,  but <b>only the first 8 characters</b> are significant. Remember 
+ case is ignored,  so </font><font color="#000000"><tt>VAR</tt>, </font><font
+ color="#000000"><tt>      Var</tt>, </font><font color="#000000"><tt>var</tt>
+are considered the   same.   </font><br>
+       
+<h4><font color="#000000">3.1.6. Expressions</font></h4>
+        <font color="#000000"> An expression may be used in the source program
+   anywhere  a number is called for. An expression consists of one or more
+ operands  (numbers  or symbols), combined with unary or binary operators.
+ The value  of the expression and intermediate values are computed to 32
+bits,  with no  account being made of any overflow that may occur. (Division
+by zero, however,  will cause an error.) </font><br>
+       
+<h4><font color="#000000">3.1.6.1 Constants</font></h4>
+      <font color="#000000">Numbers are limited to 32 bits in size. The assembler
+   gives a warning if you try to exceed this size.</font><br>
+      <br>
+        <b><font color="#000000">Decimal Numbers</font></b><br>
+        <font color="#000000"> A decimal number consists of a sequence of 
+decimal    digits (0-9).<br>
+      &nbsp;</font><br>
+       <b><font color="#000000">Hexadecimal Numbers</font></b><br>
+        <font color="#000000"> A hexadecimal number consists of a dollar
+sign   ("$")  followed by a sequence of hexadecimal digits (0-9 and A-F).</font><br>
+      <br>
+       <b><font color="#000000">Binary Numbers</font></b><br>
+        <font color="#000000"> A binary number consists of a percent sign 
+("%")    followed by a sequence of binary digits (0 and 1).</font><br>
+      <br>
+       <b><font color="#000000">Octal Numbers</font></b><br>
+        <font color="#000000"> An octal number consists of a commercial at
+ sign   ("@") followed by a sequence of octal digits (0-7).</font><br>
+      <br>
+       <b><font color="#000000">ASCII Constants</font></b><br>
+        <font color="#000000"> An ASCII constant consists of one to four
+ASCII    characters  enclosed in single quote marks. If it is desired to
+put a single    quote mark  inside an ASCII constant, then two consecutive
+single quotes   may be used to represent one such character. </font> 
+<p><font color="#000000">If the ASCII constant consists of one character,
+    then it will be placed in the bottom byte of the 32 bit value; two characters
+    will be placed in the bottom word, with the first character in the higher-order 
+    position. If four characters are used, then all four bytes will contain 
+  characters, with the first in the highest-order location. However, if three 
+  characters are used, then they will be placed in the three highest-order 
+ bytes of the 32-bit value, with 0 in the low byte (this is to accommodate 
+ the high-byte-first addressing used on the 68000). </font></p>
+        
+<p><font color="#000000">Note that ASCII constants in expressions are different 
+   from strings in </font><font color="#000000"><tt>DC</tt> directives, as 
+ the latter may be of any length.  </font><br>
+       </p>
+       
+<h4><font color="#000000">3.1.6.2 Operators in Expressions</font></h4>
+        <font color="#000000"> The operators allowed in expressions are shown 
+  in  the following table, in order of decreasing precedence. Within each 
+group,   the operators are of equal precedence and are evaluated in left-to-right
+   order (except for group 2, which is evaluated right-to-left). </font><br>
+       
+<pre><font color="#000000">Operators in Expressions</font></pre>
+        <font color="#000000"> 1. () Parenthesized subexpressions</font>
+<p><font color="#000000">2. - Unary minus (two's complement), ~ Bitwise <b> 
+     not</b> (one's complement) </font></p>
+        
+<p><font color="#000000">3. &lt;&lt; Shift left (x&lt;&lt;y produces x shifted
+   left by y bits and zero fill), &gt;&gt; Shift right </font></p>
+        
+<p><font color="#000000">4. &amp; Bitwise <b>and</b>, ! Bitwise <b>or</b> 
+      </font></p>
+        
+<p><font color="#000000">5. * Multiplication, / Integer division, \ Modulus
+    (x\y produces the remainder when x is divided by y) </font></p>
+        
+<p><font color="#000000">6. + Addition, - Subtraction</font><br>
+       </p>
+       
+<h4><font color="#000000">3.1.7. Addressing Mode Specifications</font></h4>
+        <font color="#000000"> The 68000 and 68010 provide 14 general addressing
+    modes. The formats used to specify these modes in assembly language programs
+    are listed in the table below. The following symbols are used to describe
+    the operand formats: </font><br>
+       
+<pre><font color="#000000">Dn&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = Data Register</font><font
+ color="#000000"><br></font><font color="#000000">An&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = Address Register (SP may used instead of A7)</font><font
+ color="#000000"><br></font><font color="#000000">Xn&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = Data or Address register</font><font
+ color="#000000"><br></font><font color="#000000">.s&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = Index register size code</font><font
+ color="#000000"><br></font><font color="#000000">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; (either .W or .L, .W will be assumed if omitted)</font><font
+ color="#000000"><br></font><font color="#000000">&lt;ex8&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = Expression that evaluates to an 8-bit value</font><font
+ color="#000000"><br></font><font color="#000000">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; (may be empty, in which case 0 will be used)</font><font
+ color="#000000"><br></font><font color="#000000">&lt;ex16&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = Expression that evaluates to a 16-bit value</font><font
+ color="#000000"><br></font><font color="#000000">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; (may be empty, in which case 0 will be used)</font><font
+ color="#000000"><br></font><font color="#000000">&lt;ex&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = Any expression</font><font
+ color="#000000"><br></font><font color="#000000">PC&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = Program Counter</font></pre>
+          
+<pre><font color="#000000"><b>Mode&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Assembler Format<br><br></b></font><font
+ color="#000000">Data Register Direct&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Dn</font><font
+ color="#000000"><br></font><font color="#000000">Address Register Direct&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; An</font><font
+ color="#000000"><br></font><font color="#000000">Address Register Indirect&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; (An)</font><font
+ color="#000000"><br></font><font color="#000000">Add. Reg. Indirect with Predecrement&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -(An)</font><font
+ color="#000000"><br></font><font color="#000000">Add. Reg. Indirect with Postincrement&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; (An)+</font><font
+ color="#000000"><br></font><font color="#000000">Add. Reg. Indirect with Displacement&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;ex16&gt;(An)</font><font
+ color="#000000"><br></font><font color="#000000">Add. Reg. Indirect with Index&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;ex8&gt;(An,Xn.s)</font><font
+ color="#000000"><br></font><font color="#000000">Absolute (2 sizes, chosen by assembler)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;ex&gt;</font><font
+ color="#000000"><br></font><font color="#000000">Program Counter with Displacement&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;ex16&gt;(PC)</font><font
+ color="#000000"><br></font><font color="#000000">Program Counter with Index&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;ex8&gt;(PC,Xn.s)</font><font
+ color="#000000"><br></font><font color="#000000">Immediate&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; #&lt;ex&gt;<br>Implied<br>Quick<br></font></pre>
+        <font color="#000000"> In addition to the general addressing modes, 
+ the   following register names may be used as operands in certain instructions 
+  (e.g., MOVEC or EORI to CCR):</font><br>
+       
+<pre><font color="#000000">&nbsp;&nbsp;&nbsp;&nbsp; SR&nbsp;&nbsp;&nbsp; = Status Register</font><font
+ color="#000000"><br></font><font color="#000000">&nbsp;&nbsp;&nbsp;&nbsp; CCR&nbsp;&nbsp; = Condition Code Register</font><font
+ color="#000000"><br></font><font color="#000000">&nbsp;&nbsp;&nbsp;&nbsp; USP&nbsp;&nbsp; = User Stack Pointer</font><font
+ color="#000000"><br></font><font color="#000000">&nbsp;&nbsp;&nbsp;&nbsp; VBR&nbsp;&nbsp; = Vector Base Register (68010)</font><font
+ color="#000000"><br></font><font color="#000000">&nbsp;&nbsp;&nbsp;&nbsp; SFC&nbsp;&nbsp; = Source Function Code Register (68010)</font><font
+ color="#000000"><br></font><font color="#000000">&nbsp;&nbsp;&nbsp;&nbsp; DFC&nbsp;&nbsp; = Destination Function Code Register (68010)</font></pre>
+          
+<h3><font color="#000000"> 3.2 Branch Instructions</font></h3>
+        <font color="#000000"> The branch instructions (</font><font
+ color="#000000"><tt>      Bcc</tt>, </font><font color="#000000"><tt>BRA</tt>,
+and </font><font color="#000000"><tt>      BSR</tt>) are unique  in that
+they can take a "</font><font color="#000000"><tt>      .S</tt>" size code.
+This suffix directs the assembler  to assemble these    as short branch instructions,
+i.e., one-word instructions  with a range  of  -128 to +127 bytes. If the
+"</font><font color="#000000"><tt>.S</tt>"  size  code is used, and the 
+destination is actually outside this range, then the  assembler will print
+ an error message. If the "</font><font color="#000000"><tt>      .L</tt>"
+size code is used, the assembler will use a  long branch, which    is a two-word
+instruction with a range of -32768 to +32767  bytes. If neither    size code
+is specified, then the assembler will use a short  branch if possible   (the
+branch destination must be known on the first pass  to be within the   short
+branch range); otherwise it will use long branch. </font><br>
+       
+<h2><font color="#000000">4. Assembler Directives</font></h2>
+          
+<h3><font color="#000000"> 4.1 ORG - Set Origin</font></h3>
+        <font color="#000000"> The assembler maintains a 32-bit location
+counter,     whose value is initially zero and which is incremented by some
+amount whenever    an instruction is assembled or a data storage directive
+is carried out.  The  value of this location counter may be set with the
+</font><font color="#000000"><tt>      ORG</tt> directive. The format of
+the </font><font color="#000000"><tt>    ORG</tt>   directive is </font><br>
+       
+<pre><font color="#000000">&nbsp;&nbsp;&nbsp;&nbsp; &lt;label&gt;&nbsp; ORG&nbsp;&nbsp;&nbsp;&nbsp; &lt;expression&gt;</font></pre>
+        <font color="#000000"> where </font><font color="#000000"><tt>&lt;expression&gt;</tt></font><font
+ color="#000000">         is an expression containing no forward location
+counter. </font> 
+<h3><font color="#000000"> 4.2 Symbol Definition Directives</font></h3>
+          
+<h4><font color="#000000"> 4.2.1. EQU - Equate Symbol</font></h4>
+        <font color="#000000"> The equate directive is used to define symbols 
+  whose  value will not change within the program. The format of this directive 
+  is   </font><br>
+       
+<pre><font color="#000000">&nbsp;&nbsp;&nbsp;&nbsp; &lt;label&gt;&nbsp; EQU&nbsp;&nbsp;&nbsp;&nbsp; &lt;expression&gt;</font></pre>
+        <font color="#000000"> where </font><font color="#000000"><tt>&lt;expression&gt;</tt></font><font
+ color="#000000">         is an expression containing no forward references,
+i.e., its value  must   be known on the first pass at the point where the
+</font><font color="#000000"><tt>      EQU</tt> directive appears. The &lt;label&gt;
+must be specified, since   it  tells what symbol is being defined. If an
+attempt is made to redefine   a symbol  that was defined with </font><font
+ color="#000000"><tt>EQU</tt>    , either as  a label or using any symbol
+definition directive, an error  message will be  printed.</font><br>
+       
+<h4><font color="#000000">4.2.2. SET - Set Symbol</font></h4>
+        <font color="#000000"> The </font><font color="#000000"><tt>SET</tt> 
+   directive  is similar in function and format  to the equate directive,
+ with  one important  difference: symbols defined using  </font><font
+ color="#000000"><tt>    SET</tt>   may be redefined later using another
+</font><font color="#000000"><tt>    SET</tt>   directive (but not using
+a </font><font color="#000000"><tt>  EQU</tt>    or  </font><font
+ color="#000000"><tt>REG</tt> directive). The  format of  this directive
+is </font> 
+<pre><font color="#000000">&nbsp;&nbsp;&nbsp;&nbsp; &lt;label&gt;&nbsp; SET&nbsp;&nbsp;&nbsp;&nbsp; &lt;expression&gt;</font></pre>
+          
+<h4><font color="#000000"> 4.2.3. REG - Define Register Set</font></h4>
+        <font color="#000000"> The </font><font color="#000000"><tt>REG</tt> 
+   directive  is used to define set of registers  to use with the </font><font
+ color="#000000"><tt>      MOVEM</tt> command. The same syntax is used in
+both cases.</font><br>
+       
+<pre><font color="#000000">&nbsp;&nbsp;&nbsp;&nbsp; &lt;label&gt;&nbsp;&nbsp;REG&nbsp;&nbsp;&nbsp;&nbsp; &lt;register expression&gt;</font></pre>
+        
+<p><font color="#000000"> The register expression is of the form RI/RI/RI...</font><font
+ color="#000000">        where RI is either a register name or a range of
+registers. The upper   and  lower bounds of the range are delimited by a
+hyphen (-). So, for example,    the line </font><br>
+       </p>
+       
+<pre><font color="#000000">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WORKSET&nbsp;&nbsp;REG&nbsp;&nbsp;&nbsp;&nbsp; D0/D3-D7/A2-A4/A6</font></pre>
+        <font color="#000000"> defines the label&nbsp;</font><font
+ color="#000000"><tt>      WORKSET</tt></font><font color="#000000"> to mean
+registers </font><font color="#000000"><tt>      D0</tt>, </font><font
+ color="#000000"><tt>D3</tt>,  </font><font color="#000000"><tt>      D4</tt>,
+</font><font color="#000000"><tt>D5</tt>, </font><font color="#000000"><tt> 
+     D6</tt>, </font><font color="#000000"><tt>D7</tt>, </font><font
+ color="#000000"><tt>      A2</tt>, </font><font color="#000000"><tt>A3</tt>,
+</font><font color="#000000"><tt>      A4</tt>, and </font><font
+ color="#000000"><tt>A6</tt>. </font> 
+<p><font color="#000000">The label </font><font color="#000000"><tt>WORKSET</tt> 
+      </font><font color="#000000">could then be used in a </font><font
+ color="#000000"><tt>      MOVEM</tt> instruction such as </font></p>
+       
+<pre><font color="#000000">&nbsp;&nbsp;&nbsp;&nbsp; MOVEM&nbsp;&nbsp;&nbsp;WORKSET,-(SP)</font></pre>
+        <font color="#000000"> The label must be defined before it is used. 
+ </font><br>
+       
+<h3><font color="#000000">4.3 Data Storage Directives</font></h3>
+          
+<h4><font color="#000000"> 4.3.1. DC - Define Constant</font></h4>
+        <font color="#000000"> The define constant directive is used to store 
+  strings  and lists of constants in memory. The format of a </font><font
+ color="#000000"><tt>      DC</tt> directive is </font><br>
+       
+<pre><font color="#000000">&nbsp;&nbsp;&nbsp;&nbsp; &lt;label&gt;&nbsp; DC.&lt;size&gt;&nbsp;&nbsp;&nbsp; &lt;item&gt;,&lt;item&gt;,...</font></pre>
+        <font color="#000000"> The label will be defined to be the address
+ of   the start of the list of data. The size code specifies that a list
+of  bytes   (</font><font color="#000000"><tt> .B</tt>), words (</font><font
+ color="#000000"><tt>     .W</tt>), or longwords (</font><font
+ color="#000000"><tt>.L</tt>) is being   defined; if omitted, word size 
+is used. </font> 
+<p><font color="#000000">A list of items follows the directive; each item 
+   may be an expression or a string. If an item is an expression, the expression
+    is evaluated and stored as the size indicated, i.e., a byte, a word,
+or   a  longword. An error is generated if the value will not fit as either
+a  signed  or unsigned value in the specified size. If an item is a string,
+delimited  by single quotes, then the string will be stored in successive
+entities of  the size specified; if words or longwords are being generated,
+and the string  does not fit into an whole number of words or longwords,
+then the string will be padded with zeros at the end to make a whole number
+of words or longwords.  Strings and expressions may intermixed in a single
+</font><font color="#000000"><tt>   DC</tt> directive. </font></p>
+        
+<p><font color="#000000">If words (</font><font color="#000000"><tt>DC.W</tt> 
+     ) or longwords (</font><font color="#000000"><tt>DC.L</tt>) are being 
+ generated,   then the start of the list of constants will be aligned on a
+ word boundary   by incrementing the location counter by one, if necessary. 
+ This is not performed   for </font><font color="#000000"><tt>DC.B</tt> directives, 
+ so that strings  of bytes may be contiguous in memory. If an instruction 
+follows a </font><font color="#000000"><tt>   DC.B</tt> directive, the assembler 
+will automatically adjust the location  counter (if necessary) to place the 
+instruction on a word boundary. </font></p>
+        
+<p><font color="#000000">An example of a </font><font color="#000000"><tt> 
+     DC</tt> directive that defines a null-terminated string:</font><br>
+       </p>
+       
+<pre><font color="#000000">&nbsp;&nbsp;&nbsp;&nbsp; TEXT&nbsp;&nbsp;&nbsp;&nbsp; DC.B&nbsp;&nbsp;&nbsp;&nbsp; 'DC Example',$0A,$00</font></pre>
+        <font color="#000000"> This directive results in the following data 
+ at  location  </font><font color="#000000"><tt>TEXT</tt>:</font><br>
+       
+<pre><font color="#000000">&nbsp;&nbsp;&nbsp;&nbsp; 44 43 20 45 78 61 6D 70 6C 65 0A 00 (hexadecimal)</font></pre>
+          
+<h4><font color="#000000"> 4.3.2. DCB - Define Constant Block</font></h4>
+        <font color="#000000"> The define constant block directive generates
+  a  block  of bytes, words, or longwords that are all initialized to the
+same   value by the assembler. The format of the directive is</font><br>
+       
+<pre><font color="#000000">&nbsp;&nbsp;&nbsp;&nbsp; &lt;label&gt;&nbsp; DCB.&lt;size&gt;&nbsp;&nbsp; &lt;length&gt;,&lt;value&gt;</font></pre>
+        <font color="#000000"> The label will be defined to be the address
+ of   the start of the block. The size code specifies that a block of bytes
+ (</font><font color="#000000"><tt>    .B</tt>),  words (</font><font
+ color="#000000"><tt>  .</tt><tt>W</tt></font><font color="#000000">    ),
+or longwords (</font><font color="#000000"><tt>  .L</tt>) is being set  up;
+if omitted, word size is used.  </font> 
+<p><font color="#000000">The length argument is an expression that tells the
+number of bytes, words, or longwords that are to be in the block. This value
+must be known on the first pass at the point where the </font><font
+ color="#000000"><tt>      DCB</tt> directive  appears, and it must be non-negative.
+The value argument   is an expression  whose value is to be placed in each
+data item in the block;   it needn't be  known on the first pass. A warning
+message will be printed   if the value will  not fit (as a signed or unsigned
+number) in the data size  selected. </font></p>
+        
+<p><font color="#000000">If word or longword size is selected, then the start 
+   of the block will be placed on a word boundary by incrementing the location 
+   counter by one, if necessary. If an instruction follows a </font><font
+ color="#000000"><tt>      DCB.B</tt> directive, the assembler will automatically
+adjust the location    counter (if necessary) to place the instruction on
+a word boundary. </font><br>
+       </p>
+       
+<h4><font color="#000000">4.3.3. DS - Define Storage</font></h4>
+        <font color="#000000"> The define storage directive generates an
+uninitialized     block of bytes, words, or longwords. The format of the
+directive is</font><br>
+       
+<pre><font color="#000000">&nbsp;&nbsp;&nbsp;&nbsp; &lt;label&gt;&nbsp; DS.&lt;size&gt;&nbsp;&nbsp;&nbsp; &lt;length&gt;</font></pre>
+        <font color="#000000"> The label will be defined to equal the address 
+  of  the start of the block. The size code specifies that a block of bytes 
+  (</font><font color="#000000"><tt> .B</tt>),  words (</font><font
+ color="#000000"><tt>     .</tt><tt>W</tt></font><font color="#000000"> ),
+or longwords (</font><font color="#000000"><tt>     .L</tt>) is being set
+up; if omitted, word size is used.  </font> 
+<p><font color="#000000">The length argument is an expression that tells the
+number of bytes, words, or longwords that are to be in the block. This value
+must be known on the first pass at the point where the </font><font
+ color="#000000"><tt>      DS</tt> directive  appears, and it must be non-negative.
+The effect of  the  </font><font color="#000000"><tt>DS</tt> directive is
+to increase the  value  of the location counter by &lt;length&gt; times one
+ (if </font><font color="#000000"><tt>      DS.B</tt> is used), two (if </font><font
+ color="#000000"><tt>DS.W</tt>    is  used), or four (if </font><font
+ color="#000000"><tt>DS.L</tt> is used).   </font></p>
+        
+<p><font color="#000000">If word or longword size is selected, then the start 
+   of the block will be placed on a word boundary by incrementing the location 
+   counter by one, if necessary. Thus, </font><font color="#000000"><tt>DS.W
+   0</tt> can be used to force the location counter to be aligned on a word
+  boundary without allocating any space. If an instruction follows </font><font
+ color="#000000"><tt>      DS.B</tt> directive, the assembler will automatically
+increment the location   counter (if necessary) to align the instruction
+on a word boundary. </font></p>
+       
+<h3><font color="#000000">4.4 END - End of Source File</font></h3>
+        <font color="#000000"> The end directive is used to mark the end
+of  the   source file. The </font><font color="#000000"><tt>END</tt> directive 
+ must  appear or an "unexpected end of file" error will occur. The format 
+is simply  </font><br>
+       
+<pre><font color="#000000">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; END</font></pre>
+        <font color="#000000"> The assembler will ignore anything in the
+source    file after the </font><font color="#000000"><tt>END</tt> directive.
+</font><br>
+       
+<h3><font color="#000000">4.5 INCLUDE directive</font></h3>
+        <font color="#000000"> The </font><font color="#000000"><tt>INCLUDE</tt> 
+    directive is used to make another file   seem as if it were a part of
+ the  source file. When the&nbsp;</font><font color="#000000"><tt>INCLUDE</tt></font><font
+ color="#000000">     directive is   found, processing stops on the source
+file and starts immediately  on the  file named in the directive. Processing
+continues on the included  file until the  end of the included file is found
+(the last line of the included  file must have an end-of-line character or
+it will not be included in the  source). Processing then resumes on the 
+original file at the line immediately  after the&nbsp;</font><font
+ color="#000000"><tt> INCLUDE</tt></font><font color="#000000">    directive.
+The syntax  is: </font><br>
+       
+<pre><font color="#000000">&nbsp;&nbsp;&nbsp;&nbsp; INCLUDE function.src&nbsp;&nbsp;&nbsp;&nbsp; use common funcs</font></pre>
+        <font color="#000000">Note that if the  same label is defined both
+ in the source file and the  include file an error  will occur. The last
+line  of an include file must have an end-of-line character, or that line
+will be ignored.</font><br>
+       
+<h3><font color="#000000">4.6 PAGE directive</font></h3>
+        <font color="#000000"> The </font><font color="#000000"><tt>PAGE</tt> 
+    directive will cause the printer to to skip  to the top of the next page. 
+  This is useful for creating a more easily read  listing file. </font><br>
+       
+<h2><font color="#000000">5. Listing File Format</font></h2>
+        <font color="#000000"> The assembler produces a listing file which
+ shows    the source code alongside the object code produced by the assembler.
+ A typical   listing file line might appear as follows (not to scale): </font><br>
+       
+<pre><font color="#000000">&nbsp;&nbsp;&nbsp;&nbsp; 0000102E&nbsp; 22D8&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 200 LOOP MOVE.L (A0)+,(A1)+ Sample</font></pre>
+        <font color="#000000"> The eight digit hexadecimal number at the
+left   is  the assembler's location counter; the generated instruction word,
+</font><font color="#000000"><tt>      $22D8</tt>, is placed at that address.
+The next number 200 is the source    file line number, and the remainder
+of the line is the source line. Remember    that if the source lines are
+no longer than 80 columns, then the listing   file lines will not exceed
+132 columns. </font> 
+<p><font color="#000000">If an error is encountered or a warning is generated 
+   for a given source line, then in the listing that line will be followed 
+ by  a line that describes the error. At the end of the listing, the program 
+ prints  the total number of errors and warnings. </font></p>
+        
+<h2><font color="#000000"> 6. Object Code File Format</font></h2>
+        <font color="#000000"> The 68000 Assembler produces an object code
+ output    file in S-record format. </font> 
+<p><font color="#000000">The S-record format is designed to allow files containing 
+   any data to be interchanged in text file format with checksum error detection.
+   The first line of the object file is an S0 (header) record and the last
+ line  is an S9 (termination) record. The lines in between are S1, S2, or
+S3 records,  depending on the whether the address of the first byte in a
+record requires  2, 3, or 4 bytes to be represented. No record is longer
+than 80 characters.  </font></p>
+        
+<p> </p>
+        
+<hr size="4"> 
+<h2><font color="#000000"> BUGS</font></h2>
+        <font color="#000000"> This list is not up-to-date. Some of these 
+bugs   may  have been fixed. </font> 
+<p><font color="#000000">1. Don't do word operations on address registers.
+    (eg. adda.w #1,a0) </font></p>
+        
+<p><font color="#000000">2. LEA only loads WORD size addresses </font></p>
+        
+<p><font color="#000000">3. Oct. 93: Assembler does not support absolute
+short addressing modes, i.e.:</font><br>
+       </p>
+       
+<pre><font color="#000000">&nbsp;&nbsp;&nbsp;&nbsp; LEA&nbsp;&nbsp;&nbsp;&nbsp; a.w,A6</font><font
+ color="#000000"><br></font><font color="#000000">&nbsp;&nbsp;&nbsp;&nbsp; SUB.W&nbsp;&nbsp; a.w,D3</font></pre>
+          <br>
+</body>
+</html>

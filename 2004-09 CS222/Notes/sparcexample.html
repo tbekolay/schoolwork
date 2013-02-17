@@ -1,0 +1,71 @@
+
+<HTML>
+<HEAD>
+  <META NAME="GENERATOR" CONTENT="Adobe PageMill 2.0 Mac">
+  <TITLE>Example 68k Program</TITLE>
+</HEAD>
+<BODY>
+
+<H2 ALIGN=CENTER>SPARCAplusB.s</H2>
+Get a copy of 
+<a
+href="http://www.cs.umanitoba.ca/~cs222/Programs/SparcAplusB.s">SparcAplusB.s</a>.
+
+<h3> Commands and Instructions</h3>
+<ol>
+<li>
+Any line that starts with an "!" is a comment.  Put there so that you can
+read and understand the program.  They are vital for you the programmer.
+
+<li>
+The next 4 lines starting with ".section" never change and tells the
+computer that everything up to ".text" is an instruction section.  It is a
+read only section.  It also tells the computer to start excuting at
+"main".
+ 
+
+<li>
+The next set of comments gives an identification to the listing. 
+Up to this point can be put in a template.
+<li>
+The next set of comment is a program description.
+
+<li>
+The next 3 instructions prints the ID banner for the output.
+
+<li>
+The next three instructions print out a prompt.  Note register %o0 is used
+for both strout and decin.
+
+<li>
+The next three instruction reads a value and puts it in register L0.
+
+<li>
+The next 6 instructions prints out a prompt, reads a value and puts it in
+register L1.
+
+<li>
+The next instruction adds the two numbers and puts the result in L2.
+
+<li>
+The next 10 instructions prints a heading and the sum
+
+<li>
+The next 3 instructions print out the Normal Termination meassage.
+
+<li>
+The epilogue statements returns control to the system.
+
+<li>The data section is used to set up memory.  The ".section data" must
+be there exactly as is.  It is part of the template is is the epilogue.
+
+<li>
+ascii is like dc.b and asciiz is like dc.b with an automatic null
+terminator added. 
+</ol>
+
+<h3>Assembling and Running the Program</h3>
+How to assemble and run a program can be found in lab 1 and 2. 
+
+</BODY>
+</HTML>

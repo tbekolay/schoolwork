@@ -1,0 +1,282 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+  <title>74.222 Introduction to Assembly Language: Assignment 1</title>
+</head>
+  <body>
+              
+<div align="center"> 
+<h3>74.222 - Assembly Language Programming - Spring 2004</h3>
+ </div>
+ 
+<h2> 
+<center></center>
+ </h2>
+ 
+<h2> 
+<center>Assignment &nbsp;1</center>
+ <br>
+ </h2>
+                
+<h3>Due dates: (in class, no lates)</h3>
+<h4>L01: Monday, January 26</h4>
+<h4>L02: Tuesday, January 27</h4>
+          The answers to questions 1, 2, and 3 are to be hand written. Include 
+the  source and output listings for question 4.<br>
+        
+<hr width="100%" size="2" align="left">
+<ol>
+  
+  <!-- question 1 -->
+  <li>(20 marks)</li>
+ In this question, you
+are working  with an 8-bit byte as the   memory unit.
+<br>Perform the specified
+conversions using the signed integer representations shown in the tables below.<br>
+  <ol type="a">
+    <!-- part a -->
+    <li>Convert the following decimal values into hexadecimal (2 hex   digits 
+ each).        
+<p> 
+<table border="1">
+          <tbody>
+            <tr>
+              <th>Decimal</th>
+              <th>signed magnitude</th>
+              <th>excess-128</th>
+              <th>ones complement</th>
+              <th>twos complement </th>
+            </tr>
+            <tr>
+              <td>-88</td>
+              <td><br>
+              </td>
+              <td><br>
+              </td>
+              <td><br>
+              </td>
+              <td><br>
+              </td>
+            </tr>
+            <tr>
+              <td>-12</td>
+              <td><br>
+              </td>
+              <td><br>
+              </td>
+              <td><br>
+              </td>
+              <td><br>
+              </td>
+            </tr>
+            <tr>
+              <td>-0</td>
+              <td><br>
+              </td>
+              <td><br>
+              </td>
+              <td><br>
+              </td>
+              <td><br>
+              </td>
+            </tr>
+            <tr>
+              <td>1</td>
+              <td><br>
+              </td>
+              <td><br>
+              </td>
+              <td><br>
+              </td>
+              <td><br>
+              </td>
+            </tr>
+            <tr>
+              <td>88</td>
+              <td><br>
+              </td>
+              <td><br>
+              </td>
+              <td><br>
+              </td>
+              <td><br>
+              </td>
+            </tr>
+                        
+  </tbody> 
+</table>
+        </p>
+	<!-- part b -->
+        <li>Convert the following hexadecimal values (one byte) into decimal 
+  values. Indicate the sign of zero where appropriate.<br>
+<p>        
+<table border="1">
+          <tbody>
+            <tr>
+              <th>Hex Byte</th>
+              <th>signed magnitude</th>
+              <th>excess-128</th>
+              <th>ones complement</th>
+              <th>twos complement </th>
+            </tr>
+            <tr>
+              <td>80</td>
+              <td><br>
+              </td>
+              <td><br>
+              </td>
+              <td><br>
+              </td>
+              <td><br>
+              </td>
+            </tr>
+            <tr>
+              <td>01<br>
+              </td>
+              <td><br>
+              </td>
+              <td><br>
+              </td>
+              <td><br>
+              </td>
+              <td><br>
+              </td>
+            </tr>
+            <tr>
+              <td>1C</td>
+              <td><br>
+              </td>
+              <td><br>
+              </td>
+              <td><br>
+              </td>
+              <td><br>
+              </td>
+            </tr>
+            <tr>
+              <td>DD</td>
+              <td><br>
+              </td>
+              <td><br>
+              </td>
+              <td><br>
+              </td>
+              <td><br>
+              </td>
+            </tr>
+            <tr>
+              <td valign="top">FF<br>
+              </td>
+              <td valign="top"><br>
+              </td>
+              <td valign="top"><br>
+              </td>
+              <td valign="top"><br>
+              </td>
+              <td valign="top"><br>
+              </td>
+            </tr>
+                        
+  </tbody> 
+</table>
+</p>
+    <!-- end of question 1 -->
+    </ol>
+                                                           <br>
+        <!-- question 2 -->
+	<li>(20 marks)<br>
+	<ol type="a">
+	<!-- part a -->
+<li>Find the 32-bit twos complement representation (8 hexadecimal  digits)
+  for the following signed integers. Show your work.<br>
+	<!-- list for part a -->
+	<ol type="i">
+        <li> -12
+        <li> 1,044,765,400
+        <li> -2,147,483,648
+        <li> 1,010,101
+        <li> -58,000
+	</ol>
+	<!-- end of list -->
+        <br>
+	<!-- part b -->
+        <li>Find signed decimal integer represented by the following 
+       32-bit twos complement representations? Show your work.<br>
+	<!-- list for part b -->
+	<ol type="i">
+        <tt>
+	  <li>0000 001A
+          <li>4444 4444
+          <li>FF00 0000
+          <li>6B23 EBBB
+          <li>E234 5678
+	</tt>
+	</ol>
+	<!-- end of list -->
+        <br>
+	<!-- end of question 2 -->
+	</ol>
+
+
+	<!-- question 3 -->
+        <li>(20 marks)<br>
+	<ol type="a">
+	<!-- part a -->
+<li>Find the IEEE single precision format (32 bits) of the following    decimal
+numbers. Show your work.<br>
+	<!-- list for part a -->
+	<ol type="i">
+          <li> 1.5
+          <li>  812.25
+          <li> -0.05078125
+          <li>  1812.5
+          <li> -0.000375              
+	</ol>
+	<!-- end of list -->
+<p>
+<!-- part b -->
+<li>Find the decimal value (to 7 significant digits) of the following  
+IEEE single precision format numbers. Show your work.<br>
+	<!-- list for part b -->
+	<ol type="i">
+        <tt>
+          <li>8100 0000
+          <li>C344 0000
+          <li>02DD 0000
+          <li>C142 8000
+          <li>41CC 0000
+	</tt>
+	</ol>
+	<!-- end of list -->
+</ol>
+<!-- end of question 3 -->
+<p>
+<!-- question 4 -->
+        <li>(10 marks)</li>
+ Use the following Java methods to verify your conversions
+in questions       2 and 3:<br>
+        <br>
+        <tt>&nbsp; String Integer.toHexString(int&nbsp;i)   &nbsp; //convert
+  a  32-bit  int to a hex string</tt><br>
+       <tt>&nbsp; int Float.floatToIntBits(float x)   &nbsp; //view a 32-bit&nbsp;float 
+   as a 32-bit&nbsp;int</tt><tt><br>
+        </tt><tt>&nbsp; float Float.intBitsToFloat(int i)   &nbsp; //view 
+a  32-bit&nbsp;int   as a 32-bit float</tt><tt><br>
+        </tt><br>
+        Note, use <tt>1.5F</tt> in Java to specify the constant <tt>1.5</tt>
+  as  a <tt><b>float</b></tt> (<tt>1.5</tt> is a <tt><b>double</b></tt> constant), 
+and use notation   like <tt>0x44444444</tt> to represent a 32-bit <tt><b>int</b></tt> 
+in hex.<br>
+      <tt>&nbsp; int i = Float.floatToIntBits(1.5F);</tt><tt><br>
+      </tt><tt>&nbsp; </tt><tt>String str = </tt><tt>Integer.toHexString(i));</tt><br>
+      gives the hex equivalent of <tt>1.5F</tt>.<br>
+      <tt>&nbsp; int i = 0x81000000;</tt><tt><br>
+      </tt><tt>&nbsp; float x = Float.intBitsToFloat(i);</tt><br>
+      gives the float equivalent of hex <tt>81000000</tt><br>
+        <br>
+                                      <br>
+ <br>
+
+</li>
+</body>
+</html>

@@ -1,0 +1,113 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+  <title>74.222 Assignment 4</title>
+</head>
+  <body>
+
+<div align="center">
+<h3>74.222 - Assembly Language Programming - Spring 2004</h3>
+
+<h2>Assignment 4</h2>
+</div>
+
+<h3>Due dates: Thursday, Mar. 25 (L02), Friday, Mar. 26 (L01)</h3>
+<h3>Handing in:</h3>
+
+<ul>
+  <li>Observe <a href="../AssnStand.html">Assignment Standards</a>
+  <li>Include an <a href="http://www.cs.umanitoba.ca/newsite/honesty.html">honesty declaration</a>.
+  <li>Question 1: 68K programming
+  <ul>
+    <li>Use the 68000 Simulator <tt>BSVC</tt> for Question 1.
+    <li>Use the routines in <tt>68kIO.s</tt> for all I/O.
+    <li>Print the source program once (the <tt>.s</tt> file)
+	and print the output file
+        <tt>68kout.txt</tt> for each test run of your program.
+  </ul>
+  <li>Question 2: SPARC programming
+  <ul>
+    <li>Use the routines in <tt>SparcIO.c</tt> for all I/O.
+    <li>Print the source program once (the <tt>.s</tt> file)
+	and use file redirection for the program input and to
+	obtain the output in a file.
+  </ul>
+</ul>
+
+
+<hr width="100%" size="2" align="left">
+
+<ol>
+<!-- Question 1 -->
+<li>
+Write a 68K Simulator program that will determine whether or not a string
+of characters constitutes a <em>palindrome</em>. A palindrome is a phrase
+or sentence that reads the same forwards or backwards, i.e. the sequence
+of characters is the same in either the forward or backward directions.
+When determining whether or not a string of characters is a palindrome we
+<em>ignore</em> punctuation, spaces and case. That is, the letters 'a' and 
+'A' are considered the same. Note that a string that contains nothing but
+punctuation and spaces is a palindrome.
+<p>
+For example the sentences
+<pre>Al lets Della call Ed Stella?
+Racecar 11, 9-11 racecar!!</pre>
+are palindromes.
+<p>
+Use the <tt> include</tt>  files 
+<a href="A4Q1D1.txt">A4Q1D1.txt</a>,
+<a href="A4Q1D2.txt">A4Q1D2.txt</a>,
+<a href="A4Q1D3.txt">A4Q1D3.txt</a>,
+<a href="A4Q1D4.txt">A4Q1D4.txt</a>,
+<a href="A4Q1D5.txt">A4Q1D5txt</a>,
+<a href="A4Q1D6.txt">A4Q1D6.txt</a>,
+ which define a string named <tt>instr</tt>.
+Note that there is a null byte at both the beginning and the end
+of the string. You may find this useful in your algorithm.
+</p>
+<p>
+Echo the input string using <tt>strout</tt>. Enclose the string in
+quotation marks when you echo it. The <tt>charout</tt> function is 
+useful for this purpose. Print a message on the same line as the input
+string that indicates whether or not the string is a palindrome.
+</p>
+
+<!-- Question 2 -->
+<li>
+<p>
+Write a SPARC Assembly Language program that will implement signed
+multiplication using the shift and add algorithm and signed division
+using the shift and subtract algorithm. The multiplication algorithm
+will accept two signed 16-bit integers and produce the signed 32-bit
+product. The division algorithm will a signed 32-bit dividend and a
+signed 16-bit divisor and produce a 32-bit quotient.
+</p>
+<p>
+Your program will have a main loop which will accept a single letter
+task as input from the keyboard. The task will one of M, D or Q representing
+Multiply, Divide or Quit. You can assume that the input for the task will
+consist of only these three letters. The main processing loop will keep
+accepting tasks until Quit is specified.
+</p>
+<p>
+When Multiply or Divide is specified, the program should accept two signed
+integers from the keyboard, then perform the specified operation and print
+the answer. You can assume that all number input will fit into the sizes
+specified above. For the Divide operation, your program should check for
+division by zero and print an appropriate error message.
+</p>
+<p>
+Be sure to echo all input and print the answer in an appropriate format. For
+example, your output may look like this:
+<pre>
+Enter a task: M
+Enter the first value: 12
+Enter the second value: -2
+12 x -2 = -24</pre>
+</p>
+<p>
+Use the input contained in <a href="A4Q2.txt">A4Q2.txt</a>.
+</p>
+</ol>
+</body>
+</html>

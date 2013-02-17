@@ -1,0 +1,15 @@
+NAME             Trevor Bekolay
+STUDENT NUMBER   6796723
+COURSE           74.222
+INSTRUCTOR       Prof. Van Rees
+ASSIGNMENT	      4
+QUESTION	      1
+
+Reading in two strings:
+abcdefghijklmopqrstuvwxyz
+ijklmn
+ijklmn is not a substring of abcdefghijklmopqrstuvwxyz
+
+
+End of Processing
+

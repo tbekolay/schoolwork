@@ -1,0 +1,67 @@
+
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="GENERATOR" content="Mozilla/4.6 [en] (Win95; I) [Netscape]">
+   <title>Shifts, Divides and Multiplies</title>
+</head>
+<body>
+
+<center>
+<h2>Shifts </h2></center>
+<pre>
+The following instructions cause Dj to be shifted to the left.   The high
+order bits disappear except for the last one which can be found in the C
+bit.  So it can be tested.  The low order bits are replaced by 0.
+The first L stands for Logical and the A stands for Arithmetical.  The S
+stands for shift and the second L stands for Left. LSL and ASL are identical.
+
+68K
+LSL  Di,Dj  1-31 bits
+LSL  #n,Dj  1-8 bits
+LSL  &lt;ea&gt;   1 bit
+ASL  Di,Dj  1-31 bits
+ASL  #n,Dj  1-8 bits
+ASL  &lt;ea&gt   1 bit
+
+The following instructions cause Dj to be shifted to the right.   The high
+order bits disappear except for the last one which can be found in the C
+bit.  So it can be tested.  The R stands for right.  In LSR the high
+order bits are replaced by 0 whereas in ASR the high order bits are
+replaced by the sign bit.  #n must be a value between 1 and 8 inclusive
+in all cases.
+LSR  Di,Dj  1-31 bits
+LSR  #n,Dj  1-8 bits
+LSR  &lt;ea&gt   1 bit
+ASR  Di,Dj  1-31 bits
+ASR  #n,Dj  1-8 bits
+ASR  &lt;ea&gt   1 bit
+
+There is also a rotate command where the high order bits are cycled back
+to become the low order bits.  L is left and R is right
+
+ROL  Di,Dj  1-31 bits
+ROL  #n,Dj  1-8 bits
+ROL  &lt;ea&gt   1 bit
+ROR  Di,Dj  1-31 bits
+ROR  #n,Dj  1-8 bits
+ROR  &lt;ea&gt   1 bit
+
+
+</pre>
+
+
+<h2>Logical Operators </h2></center>
+Just as in the SPARC we have logical operators .
+<pre>
+AND   &lt;ea&gt,Dn     or       AND Dn,&lt;ea&gt
+ANDI  #data,Dn
+OR    &lt;ea&gt,Dn     or       OR  Dn,&lt;ea&gt
+ORI   #data,Dn
+EOR   &lt;ea&gt,Dn
+EORI  #data,Dn
+</pre>
+
+</body>
+</html>

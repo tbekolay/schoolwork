@@ -1,0 +1,3 @@
+key	dc.w	26
+crypt	dc.b	'This is an encrypted message',null
+

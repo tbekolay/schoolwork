@@ -1,0 +1,12 @@
+NAME             Trevor Bekolay
+STUDENT NUMBER   6796723
+COURSE           74.222
+INSTRUCTOR       John van Rees
+ASSIGNMENT	      2
+QUESTION	      5
+Please enter a string of bits (up to 31): 000011110000111100001111
+000F0F0F
+986895
+
+End of Processing
+

@@ -1,0 +1,94 @@
+
+<HTML>
+<HEAD>
+  <META NAME="GENERATOR" CONTENT="Adobe PageMill 2.0 Mac">
+  <TITLE>Example 68k Program</TITLE>
+</HEAD>
+<BODY>
+
+<H2 ALIGN=CENTER>68kAplusB.s</H2>
+Get a copy of 
+<a
+href="http://www.cs.umanitoba.ca/~cs222/Labs/lab1/68kAplusB.s">68kAplusB.s</a>.
+
+<h3> Commands and Instructions</h3>
+<ol>
+<li>
+Any line that starts with an "*" is a comment.  Put there so that you can
+read and understand the program.  They are vital for you the programmer.
+
+<li>
+The next 6 lines are an identification banner so that you can tell whose
+listing of assignment 1 is whose.  You type it once (with your
+information)  and keep it in the template so it is never retyped.  Indeed,
+everything up to and including "* your program starts here" is part of the
+template.
+
+<li>
+The first 4 indented lines never change (for this course) and are also 
+part of the template.  These lines are used to
+tell the control unit where the stack pointer is and where the starting
+address of the program is loaded into memory.  The stack pointer is in
+memory address 0 and the address of the beginning of the program is in
+memory address 4.  The stack starts at 100000 and the program starts at
+1000.  This is fairly standard.
+
+<li>
+The next section contains the "include" directive.  This is not an
+instruction, but rather causes the linker to include the contents of the
+named file to be inserted in this point.  This file contains all the
+programming to do I/O in a reasonable fashion. 
+
+<li>
+The next 7 non-comment lines initializes our simulated I/O device.  Treat
+it as magic and never change it.
+
+<li>
+The "equ" section gives some symbolic names for key coinstant values.
+
+<li>
+After "* your program starts here" we put our program.  Here we put a
+description of the program and a resister usage section.
+
+<li>
+The 3 lines of "Print Identification" prints out your banner on your
+output.<br>
+The 5 lines of "read A" causes the computer to read a value and put it
+in register d4.<br>
+The 5 lines of "read B" causes the computer to read a value and put it in
+register d3.<br>
+The line "calculate A+B" causes the computer to add the values in d3
+and d4 and put them in d4.<br>
+The 5 lines of "print a heading and A+B" causes the computer to print out
+some identifying text and the answer.
+the 4 lines of "end of processing" is a standard wrap-up message which is
+part of the template.
+
+<li>
+The next 11 non-comment lines set up the memory management for the
+program using assembler directives.  The identifier starting in column 1
+gives a symbolic name to the memory location that the control unit chooses
+to store that memory in the directive.  "dc.b" declares that a bunch of
+bytes will be stored and will be initialized to the value in the following
+single quotes, including possibly carriage control(cr), line feed(lf) and
+null terminator.
+
+<li>
+"end" stops the compiler.  Put your "include 68kIO.s just before the end
+statement.
+</ol>
+
+<h3>Assembling and Running the Program</h3>
+How to assemble and run a program can be found in lab 2. 
+
+
+
+ 
+
+
+
+
+
+
+</BODY>
+</HTML>

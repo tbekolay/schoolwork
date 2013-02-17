@@ -1,0 +1,104 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="Author" content="John van Rees">
+   <meta name="GENERATOR" content="Mozilla/4.6 [en] (Win95; I) [Netscape]">
+   <title>Operation of Machine Language</title>
+</head>
+<body>
+<h3><align=center> Basic Operation of Machine Language</h3>
+Read 3.1(P59-61), 3.3,3.5 4.1-4.4 in Ford & Topp
+<p> The control unit executes instructions from top to bottom.  For each
+instruction it does the following:
+<ol>
+<li> FETCH instruction
+<ul>
+<li> get ML instruction FROM MEMORY
+<li> decode that instruction
+</ul>
+<li> EXECUTE instruction
+<ul>
+<li> often read data FROM MEMOERY (sometimes data is part of instruction)
+<li> perform operation (+, -  etc.)
+<li> often store data TO MEMORY
+</ul></ol>
+
+<p> FETCH is the big time hog.  Getting data from instruction is
+considered part of the FETCH and is especially slow.  Storing data is also
+slow.  A/L operations are quick.
+<br> The getting and storing of data is referred to as the "Von Neumann
+Bottleneck". 
+
+
+<h3><align=center> HARDWARE MODEL </h3>
+<h4>Memory</h4>
+<ul>
+<li> Addresses are 24 bits in 68000, 32 bits (680x0).
+<LI> Each BYTE=8 bits has its own address.
+<LI> Word = 16 bits, Longword (LONG) =32 bits in 68k
+<LI> Bit 0 is least significant (rightmost) bit. Bit 7/15/31 is most
+signifcant for various sizes
+<LI> The 2/4/8 bytes of a thing are stored in consecutive memory
+locations.<BR>
+Eg. ABCD1234 in address 500<BR>
+<table>
+<tr><td>BIG Endian <td>Little Endian</tr>
+<tr><td>500 501 502 503 <td> 500 501 502 503</tr>
+<tr><td> AB  CD  12  34 <td>  34 12 CD AB</tr>
+<tr><TD>68K  <td> 80x86</tr>
+<tr><td>SPARC <td>DEC ALPHA</tr>
+<TR><TD>IBM/370 <td> DEC VAX</tr>
+<tr><td>RS/6000</tr>
+<tr><td>natural order?  <td>00000005 stored at addr x in 4 bytes is<BR>
+                     0005 stored at addr x in 2 bytes is<BR>
+                     05 stored at addr x in 1 byte.<tr></UL>
+</table>
+<H4> NOTATION</H4>
+<table>
+<tr><td>LSB of<td>&nbsp;<td> 34 </tr>
+<tr><td>MSB of<td> ABCD1234  is <td>   AB</tr>
+<tr><td>LSW of<td>&nbsp;<td> 1234</tr>
+<tr><td>MSW of<td>&nbsp;<td> ABCD</tr>
+</table>
+
+<H4> Boundary Alignment </H4>
+Physical data path sizes between CPU and memory vary (8,16,32,64 are
+common)  Consider a 16 bit data path.  Memory can fetch only WORDs.<br>
+WORD at 0000, at 0002, at 0004&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;no problem.<BR>
+<BR>
+If CPU needs BYTE at 0002 or 0003, the control unit can ignore lowest bits
+of word at 0002.  OK<BR>
+If CPU needs LONG word at 0002, it does 2 consecutive fetches.  OK<BR>
+If CPU needs WORD at 0003, then it fetches WORDs at 0002 and 0004 take
+them apart and reassemble them.  BAD!  It is slow or impossible.<BR><BR>
+
+<b>SO</B> a block of N bytes should be stored at a multiple of N.<BR><BR>
+68000- WORD/LONGWORD <B> must </b> be stored at even addresses.
+
+
+
+<h3>Assembly Process</h3>
+Pass I
+Assembler loads program at some specified address .  It sets PC or
+programmer counter, a register to this address and then sequentially runs
+through the program figuring out how long each instruction is and adding
+that to program counter.  When a symbolic name is reached it stores name
+and address(i.e. PC value) in symbol table.  If an include file statement
+is reached(68k) or an outside function is referenced(SPARC), the linker is
+called to load in the file's content starting at
+this location.  Then pass 1 continues. 
+<p>Pass II 
+Starting at the specified address, the control unit runs through the
+program translating assembly instructions to machine instructions in a
+1-1 fashion.  Symbolic names are replaced by addreesses by looking them
+up in symbol table.
+<p>
+Run Time Environment<br>
+Today it is multi-users, multi-threaded,which means programs must be
+relocatable in memory as they will be swapped in and out of memory even in
+personal one-user lap-top machines.
+
+  
+</body>
+</html>

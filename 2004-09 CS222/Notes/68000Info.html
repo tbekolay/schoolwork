@@ -1,0 +1,416 @@
+<!DOCTYPE html PUBLIC "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+  <meta http-equiv="Content-Type"content="text/html; charset=iso-8859-1">
+  <meta name="Generator" content="Microsoft Word 97/98">
+  <meta name="GENERATOR"content="Mozilla/4.6 (Macintosh; I; PPC) [Netscape]">
+  <title>68000 Information</title>
+  
+  <style type="text/css">
+    h2{text-align: center; font-family: Arial, Helvetica;}
+    .date{text-align: right; font-family: Times, "Times New Roman";}
+    .underline, dt{text-decoration: underline; font-family: Times, "Times New Roman";}
+    dd, pre{font-family: Courier, "Courier New"; white-space: pre;}
+    li{font-family: Times, "Times New Roman";}
+  </style>
+</head>
+
+<body>
+                                                  
+<h2>Summary of 68000</h2>
+                                                  
+<div class="date">24 Apr 2003</div>
+                                                  
+<hr width="100%" size="2">
+
+<h3>Registers</h3>
+
+<div class="underline">General purpose</div>
+                                          
+<ul>
+  <li>There are eight 4-byte data registers, <tt>D0</tt> to <tt>D7</tt></li>
+  <li>There are seven 4-byte address registers, <tt>A0</tt> to <tt>A6</tt></li>                               
+</ul>
+
+<div class="underline">Special purpose</div>
+   
+<ul>
+  <li>There are two 4-byte stack pointers, <tt>A7</tt> (user stack pointer) and
+  <tt>A7'</tt>(system stack pointer)</li>
+  <li>There is one 4-byte program counter (<tt>PC</tt>)</li>                               
+</ul>
+                                                       
+<h3>Addressing Modes</h3>
+
+There are 14 addressing modes:
+
+<dl>
+<dt>Data Register Direct</dt>
+  <dd>add  d1,d3           data registers d1 + d3 =&gt; d3</dd>
+
+<dt>Address Register Direct</dt>
+  <dd>movea  a1,a3         address register a1 =&gt; a3</dd>
+
+<dt>Address Register Indirect</dt>
+  <dd>move  (a1),d3        put the value pointed at by a1 into d3</dd>
+
+<dt>Address Register Indirect with Postincrement</dt>
+  <dd>move.x  (a1)+,d3     value pointed at by a1 =&gt; d3 and increment a1 by operand</dd>
+  <dd>                     length: 1 if x is b, 2 if x is w, 4 if x is l</dd>
+
+<dt>Address Register Indirect with Predecrement</dt>
+  <dd>move.x  -(a1),d3     decrement a1 by the operand length: 1 if x is b, 2 if x is w,</dd>
+  <dd>                     4 if x is l and then value pointed at by a1 =&gt; d3</dd>
+
+<dt>Address Register Indirect with Displacement</dt>
+  <dd>move  d1,8(a1)       put d1 at the address "contents of a1 plus 8".</dd>
+  <dd>                     8 is called the displacement.</dd>
+
+<dt>Address Register Indirect with Displacement and Index</dt>
+  <dd>move  d1,8(a1,d2)    put d1 at the address "contents of a1</dd>
+  <dd>                     + contents of d2 + 8"</dd>
+
+<dt>Absolute Short Address</dt>
+  <dd>move  d1,$1000       put d1 at address $1000 (only 16-bit addresses allowed)</dd>
+
+<dt>Absolute Long Address</dt>
+  <dd>move  d1,$10000      put d1 at address $10000 (32-bit addresses allowed)</dd>
+  
+<dt>Program Counter with Displacement</dt>
+  <dd>move  $80(PC),d3     value pointed at by the program counter + $80 =&gt; d3</dd>
+  
+<dt>Program Counter with Index</dt>
+  <dd>move  $80(PC,a1),d3  value pointed at by the program counter</dd>
+  <dd>                     + contents of  a1 + $80 =&gt; d3</dd>
+  
+<dt>Immediate</dt>
+  <dd>move  #$1000,d3      $1000 =&gt; d3</dd>
+  
+<dt>Quick Immediate</dt>
+  <dd>moveq  #4,d3         4 =&gt; d3 (immediate value is limited to one byte</dd>
+  <dd>                     two's complement value -128..127)</dd>
+  <dd>addq  #1,d3          d3 + 1 =&gt; d3 (immediate value is limited to 1..8)</dd>
+  
+<dt>Implicit</dt>
+  <dd>rts                  replace the PC by the value popped off the stack (A7 changes)</dd>
+ 
+</dl>
+
+
+
+<h3>Operands</h3>
+
+There are three operand sizes:<br>
+<tt>&nbsp;&nbsp;&nbsp;.b</tt> for a byte<br>
+<tt>&nbsp;&nbsp;&nbsp;.w</tt> for a word, 2 bytes<br>
+<tt>&nbsp;&nbsp;&nbsp;.l</tt> for a long word, 4 bytes<br>
+If no extension is specified, <tt>.w</tt> is assumed.
+This can lead to confusing problems if you are trying to work with 32-bit integers.
+<p>
+For branches, <tt>.s</tt> is used instead of <tt> .b</tt> to indicate a byte offset.   
+
+
+
+<h3>Instruction set</h3>
+(modified from http://www.finitive.fsnet.co.uk/atari/68000.htm)
+
+<pre>
+
+
+                                                               Condition Codes
+                                                               ---------------
+                                          Assembler   Data
+Instruction Description                    Syntax     Size        X N Z V C
+-----------------------                   ---------   ----        ---------
+
+ABCD     Add BCD with extend                Dx,Dy      B--        * U * U *
+                                         -(Ax),-(Ay)
+ADD      ADD binary                        Dn,&lt;ea&gt;     BWL        * * * * *
+                                           &lt;ea&gt;,Dn
+ADDA     ADD binary to An                  &lt;ea&gt;,An     -WL        - - - - -
+ADDI     ADD Immediate                  #&lt;data&gt;,&lt;ea&gt;   BWL        * * * * *
+ADDQ     ADD 3-bit immediate           #&lt;data3&gt;,&lt;ea&gt;   BWL        * * * * *
+ADDX     ADD eXtended                       Dy,Dx      BWL        * * * * *
+                                         -(Ay),-(Ax)
+AND      Bit-wise AND                      &lt;ea&gt;,Dn     BWL        - * * 0 0
+                                           Dn,&lt;ea&gt;
+ANDI     Bit-wise AND with Immediate    #&lt;data&gt;,&lt;ea&gt;   BWL        - * * 0 0
+ASL      Arithmetic Shift Left          #&lt;data3&gt;,Dy    BWL        * * * * *
+             shift 1 to 63 bit positions    Dx,Dy
+             shift 1 bit position           &lt;ea&gt;
+ASR      Arithmetic Shift Right              ...       BWL        * * * * *
+Bcc      Conditional Branch                &lt;label&gt;     BW-        - - - - -
+     examples: BEQ, BNE, BGT, BGE, BLT, BLE for =, !=, &gt;, &gt;=, &lt;, &lt;=
+BRA      Unconditional BRAnch              &lt;label&gt;     BW-        - - - - -
+BCHG     Test a Bit and CHanGe             Dn,&lt;ea&gt;     B-L        - - * - -
+                                        #&lt;data&gt;,&lt;ea&gt;
+BCLR     Test a Bit and CLeaR                ...       B-L        - - * - -
+BSET     Test a Bit and SET                  ...       B-L        - - * - -
+BTST     Bit TeST                            ...       B-L        - - * - -
+BSR      Branch to SubRoutine              &lt;label&gt;     BW-        - - - - -
+CHK      CHecK Dn Against Bounds           &lt;ea&gt;,Dn     -W-        - * U U U
+CLR      CLeaR                              &lt;ea&gt;       BWL        - 0 1 0 0
+CMP      CoMPare                           &lt;ea&gt;,Dn     BWL        - * * * *
+CMPA     CoMPare Address                   &lt;ea&gt;,An     -WL        - * * * *
+CMPI     CoMPare Immediate              #&lt;data&gt;,&lt;ea&gt;   BWL        - * * * *
+CMPM     CoMPare Memory                  (Ay)+,(Ax)+   BWL        - * * * *
+DBcc     Looping Instruction              Dn,&lt;label&gt;   -W-        - - - - -
+DIVS     DIVide Signed                     &lt;ea&gt;,Dn     -W-        - * * * 0
+DIVU     DIVide Unsigned                   &lt;ea&gt;,Dn     -W-        - * * * 0
+EOR      Exclusive OR                      Dn,&lt;ea&gt;     BWL        - * * 0 0
+EORI     Exclusive OR Immediate         #&lt;data&gt;,&lt;ea&gt;   BWL        - * * 0 0
+EXG      Exchange any two registers         Rx,Ry      --L        - - - - -
+EXT      Sign EXTend                         Dn        -WL        - * * 0 0
+ILLEGAL  ILLEGAL-Instruction Exception     ILLEGAL                - - - - -
+JMP      JuMP to Affective Address          &lt;ea&gt;                  - - - - -
+JSR      Jump to SubRoutine                 &lt;ea&gt;                  - - - - -
+LEA      Load Effective Address            &lt;ea&gt;,An     --L        - - - - -
+LINK     Allocate Stack Frame           An,#&lt;dispLk&gt;              - - - - -
+LSL      Logical Shift Left             #&lt;data3&gt;,Dy    BWL        * * * 0 *
+             shift 1 to 63 bit positions    Dx,Dy
+             shift 1 bit position           &lt;ea&gt;
+LSR      Logical Shift Right                 ...       BWL        * * * 0 *
+MOVE     Between Effective Addresses      &lt;ea&gt;,&lt;ea&gt;    BWL        - * * 0 0
+MOVE     To CCR                           &lt;ea&gt;,CCR     -W-        I I I I I
+MOVE     To SR                             &lt;ea&gt;,SR     -W-        I I I I I
+MOVE     From SR                           SR,&lt;ea&gt;     -W-        - - - - -
+MOVE     USP to/from Address Register      USP,An      --L        - - - - -
+                                           An,USP
+MOVEA    MOVE Address                      &lt;ea&gt;,An     -WL        - - - - -
+MOVEM    MOVE Multiple              &lt;reg. list&gt;,&lt;ea&gt;   -WL        - - - - -
+                                    &lt;ea&gt;,&lt;reg. list&gt;
+MOVEP    MOVE Peripheral                  Dn,x(An)     -WL        - - - - -
+                                          x(An),Dn
+MOVEQ    MOVE 8-bit immediate           #&lt;data8&gt;,Dn    --L        - * * 0 0
+MULS     MULtiply Signed                   &lt;ea&gt;,Dn     -W-        - * * 0 0
+MULU     MULtiply Unsigned                 &lt;ea&gt;,Dn     -W-        - * * 0 0
+NBCD     Negate BCD                         &lt;ea&gt;       B--        * U * U *
+NEG      NEGate                             &lt;ea&gt;       BWL        * * * * *
+NEGX     NEGate with eXtend                 &lt;ea&gt;       BWL        * * * * *
+NOP      No OPeration                        NOP                  - - - - -
+NOT      Form one's complement              &lt;ea&gt;       BWL        - * * 0 0
+OR       Bit-wise OR                       &lt;ea&gt;,Dn     BWL        - * * 0 0
+                                           Dn,&lt;ea&gt;
+ORI      Bit-wise OR with Immediate     #&lt;data&gt;,&lt;ea&gt;   BWL        - * * 0 0
+PEA      Push Effective Address             &lt;ea&gt;       --L        - - - - -
+RESET    RESET all external devices         RESET                 - - - - -
+ROL      ROtate Left                   #&lt;data3&gt;,Dy     BWL        - * * 0 *
+             rotate 1 to 63 bit positions   Dx,Dy
+             rotate 1 bit position          &lt;ea&gt;
+ROR      ROtate Right                        ...       BWL        - * * 0 *
+ROXL     ROtate Left with eXtend             ...       BWL        * * * 0 *
+ROXR     ROtate Right with eXtend            ...       BWL        * * * 0 *
+RTE      ReTurn from Exception               RTE                  I I I I I
+RTR      ReTurn and Restore                  RTR                  I I I I I
+RTS      ReTurn from Subroutine              RTS                  - - - - -
+SBCD     Subtract BCD with eXtend           Dx,Dy      B--        * U * U *
+                                         -(Ax),-(Ay)
+Scc      Set to -1 if True, 0 if False      &lt;ea&gt;       B--        - - - - -
+STOP     Enable &amp; wait for interrupts      #&lt;data&gt;                I I I I I
+SUB      SUBtract binary                   Dn,&lt;ea&gt;     BWL        * * * * *
+                                           &lt;ea&gt;,Dn
+SUBA     SUBtract binary from An           &lt;ea&gt;,An     -WL        - - - - -
+SUBI     SUBtract Immediate             #&lt;data&gt;,&lt;ea&gt;   BWL        * * * * *
+SUBQ     SUBtract 3-bit immediate      #&lt;data3&gt;,&lt;ea&gt;   BWL        * * * * *
+SUBX     SUBtract eXtended                  Dy,Dx      BWL        * * * * *
+                                         -(Ay),-(Ax)
+SWAP     SWAP words of Dn                    Dn        -W-        - * * 0 0
+TAS      Test &amp; Set MSB &amp; Set N/Z-bits      &lt;ea&gt;       B--        - * * 0 0
+TRAP     Execute TRAP Exception           #&lt;vector&gt;               - - - - -
+TRAPV    TRAPV Exception if V-bit Set       TRAPV                 - - - - -
+TST      TeST for negative or zero          &lt;ea&gt;       BWL        - * * 0 0
+UNLK     Deallocate Stack Frame              An                   - - - - -
+
+                           --------------------------
+                           
+                           
+Symbol   Meaning
+------   -------
+   *     Set according to result of operation
+   -     Not affected
+   0     Cleared
+   1     Set
+   U     Outcome (state after operation) undefined
+   I     Set by immediate data
+
+Effective Address Operand
+ &lt;data&gt;    Immediate data (byte, word, long)
+ &lt;data3&gt;   Immediate data (1 to 8)
+ &lt;data8&gt;   Immediate data (-128 to 127)
+ &lt;label&gt;   Assembler label
+&lt;vector&gt;   TRAP instruction Exception vector (0-15)
+&lt;reg.list&gt; MOVEM instruction register specification list
+&lt;dispLk&gt;   LINK instruction 16-bit zero or negative displacement
+
+                           --------------------------
+                           
+                           
+                           
+Addressing Modes                                   Syntax
+----------------                                   ------
+Data Register Direct                                 Dn
+Address Register Direct                              An
+Address Register Indirect                           (An)
+Address Register Indirect with Post-Increment       (An)+
+Address Register Indirect with Pre-Decrement        -(An)
+Address Register Indirect with Displacement         w(An)
+Address Register Indirect with Index               b(An,Rx)
+Absolute Short                                        w
+Absolute Long                                         l
+Program Counter with Displacement                   w(PC)
+Program Counter with Index                         b(PC,Rx)
+Immediate                                            #x
+Status Register                                      SR
+Condition Code Register                              CCR
+
+Legend
+------
+   Dn    Data Register        (n is 0-7)
+   An    Address Register     (n is 0-7)
+    b    08-bit constant
+    w    16-bit constant
+    l    32-bit constant
+    x    8-, 16-, 32-bit constant
+   Rx    Index Register Specification, one of:
+            Dn.W  Low 16 bits of Data Register
+            Dn.L  All 32 bits of Data Register
+            An.W  Low 16 bits of Address Register
+            An.L  All 32 bits of Address Register
+                                
+                           --------------------------
+                           
+                           
+
+         Condition Codes for Bcc, DBcc and Scc Instructions.
+         ---------------------------------------------------
+           Condition Codes set after CMP D0,D1 Instruction.
+(Note the reversal: CMP D0,D1; BLT label; branches if D1 &lt; D0!)
+
+Relationship      Unsigned                         Signed
+------------      --------                         ------
+D1 &lt;  D0          CS - Carry Bit Set               LT - Less Than
+D1 &lt;= D0          LS - Lower or Same               LE - Less than or Equal
+D1  = D0          EQ - Equal (Z-bit Set)           EQ - Equal (Z-bit Set)
+D1 != D0          NE - Not Equal (Z-bit Clear)     NE - Not Equal (Z-bit Clear)
+D1 &gt;  D0          HI - HIgher than                 GT - Greater Than
+D1 &gt;= D0          CC - Carry Bit Clear             GE - Greater than or Equal
+                    
+                  PL - PLus (N-bit Clear)          MI - Minus (N-bit Set)
+                  VC - V-bit Clear (No Overflow)   VS - V-bit Set (Overflow)
+                  RA - BRanch Always</tt></font>
+
+DBcc Only    -     F - Never Terminate (DBRA is an alternate to DBF)
+                   T - Always Terminate
+Scc Only     -    SF - Never Set
+                  ST - Always Set
+
+
+</pre>
+
+
+                               
+<h3>Notes on some instructions</h3>
+
+The branches on condition code bits NZVC clear and set are: <tt> bpl, bmi, bne, beq, bvc, bvs, bcc, bcs</tt>.
+<p>
+<tt>muls &nbsp;&lt;ea&gt;,Dn</tt> &nbsp; multiplies two 16-bit numbers, one is at <tt>&lt;ea&gt;</tt>
+and the other is the lower word of <tt> Dn</tt>. The 32-bit product is stored in <tt>Dn</tt>,
+so the original higher word of <tt> Dn</tt> is lost.
+<p>
+<tt>divs &nbsp;&lt;ea&gt;,Dn</tt> &nbsp; divides the 16-bit divisor at
+<tt>&lt;ea&gt;</tt> into the 32-bit value in <tt>Dn</tt>.
+The quotient is stored in the lower word of <tt>Dn</tt> and the
+remainder is stored in the upper word of <tt>Dn</tt>.
+<p>
+<tt>dbra&nbsp; Dn,label&nbsp;</tt> decrements <tt>Dn</tt>
+and branches to label if <tt>Dn&#8800;-1</tt>; control passes to the next
+statement if <tt>Dn=-1</tt>.
+<p>
+The increment for a <tt>.b</tt> is 2 when using the predecrement
+and postincrement modes with the stack pointer. This keeps the stack
+pointer word aligned (the increment for a <tt>.b</tt> is 1 for these
+modes with other registers).
+                     
+<h3>Steps in running a program</h3>
+                              
+<ol>
+  <li>Sign on an X Windows terminal.</li>
+  
+  <li><tt>cd</tt> to the directory where your 68000 programs are.</li>
+  
+  <li>Assemble a program with a command like <tt>68kasm -l source.s</tt></li>
+
+  <li>If you get assembly errors, look at the <tt>source.lis</tt> file with a text editor.
+      It indicates the errors.</li>
+  
+  <li>When you get no errors in assembly, you are ready to run the 68000 simulator called <tt>bsvc</tt>.
+      The executable is in a file called <tt>source.h68</tt></li>
+      
+  <li>Type <tt>bsvc</tt> to get the simulator started.</li>
+  
+  <li>Under <tt>File</tt>, choose <tt>Open Setup...</tt>, and open the     
+      <tt>BSVC.setup</tt> file. This creates a machine with  a certain
+      amount of  memory  and an I/O device. It opens an I/O window called
+      <tt>M68681 Port A</tt>.</li>
+      
+  <li>Under <tt>File</tt>, choose <tt>Load Program... </tt>. Load  the executable
+      <tt>source.h68</tt>. Press the <tt>Reset</tt> button
+      to get the stack pointer and program counter initialized.
+      Press <tt>Run</tt> to execute your program.  You can
+      run your program several times with the sequence <tt>Reset, Run</tt>.</li>
+
+  <li>The contents of the I/O window are logged to a file called <tt>68kout.txt</tt>,
+      so your output is conveniently stored there.</li>
+
+  <li>Under <tt>File</tt>, choose <tt>Quit</tt> when you are finished running your program.</li>
+                              
+</ol>
+
+
+<h3>Miscellaneous Hints</h3>
+                             
+<ol>
+
+  <li>Don't start your program at <tt>$00 0000</tt>. The reset button expects 
+      the initial stack pointer at <tt>$00 0000</tt> and the initial
+      program counter at <tt>$00 0004</tt>.</li>
+      
+ <li>If you are going to use the stack (<tt>jsr</tt> uses the stack) you have
+     to initialize the stack pointer. The reset button can do it
+     or do it in your code by putting a value in A7.</li>
+     
+ <li>Addresses in the simulator are 24 bits even though a register holds 32 bits.</li>
+ 
+ <li><tt>sim68000</tt> runs in supervisor state (allowing priviledged instructions). 
+     Thus, <tt>A7'</tt> is used for the stack pointer.</li>
+     
+ <li>The assembler will sometimes replace your instruction by another. When working with 
+     address registers, you should use <tt>movea</tt>, <tt>cmpa</tt>, <tt>adda</tt>, 
+     <tt>suba</tt> instructions. <tt>cmp.l (a2),a1</tt> should give an error
+     message, but the assembler treats it as <tt>cmpa.l (a2),a1</tt>;    
+    <tt>add.l #1,a1</tt> should give an error, but the assembler treats it
+    as <tt>addq.l #1,a1</tt>.</li>
+    
+ <li>The input/output routines are put into your program with a statement <tt>include 68kIO.s</tt>
+     near the end of your program.</li>
+     
+ <li>There are two other copies of the <tt>bsvc</tt> package available.
+     On ccu, type <tt>source /home/u12/gedetil/bsvc/setup.csh</tt>.
+     On silver, you can use, <tt>source /usr/local/bsvc/setup.csh</tt>
+     but the logging of output doesn't work.</li>
+     
+ <li>ACN's information page about BSVC is:
+     <tt>http://www.umanitoba.ca/campus/acn/unix/software/bsvc.html</tt></li>
+     
+ <li>Several interrupts are handled: bus error (address outside 
+     the machine memory), address error (address with the wrong alignment; for 
+     example, an odd address in a word instruction), illegal interrupt (occurs 
+     when you use the <tt>illegal</tt> instruction), divide by zero error (occurs 
+     when you attempt to divide by zero).<br></li>
+     
+ <li>There are many more possible interrupts and they aren't handled properly.
+     Usually such interrupts will make the machine go into an infinite loop.</li>
+                           
+</ol>
+</body>
+</html>

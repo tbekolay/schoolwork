@@ -1,0 +1,13 @@
+NAME             Trevor Bekolay
+STUDENT NUMBER   6796723
+COURSE           74.222
+INSTRUCTOR       Prof. Van Rees
+ASSIGNMENT	      4
+QUESTION	      3
+Reading in 15 values . . .
+234, 23, 44, 10, 12, 26, 10, 111, 90, 12345, 5, 1893, 987, 45, 99, 
+Minimum value is 5
+
+
+End of Processing
+

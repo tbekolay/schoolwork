@@ -1,0 +1,654 @@
+<!DOCTYPE html PUBLIC "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+                                                                        
+                                  
+  <meta http-equiv="Content-Type"
+ content="text/html; charset=iso-8859-1">
+                                                                        
+                                  
+  <meta name="Generator" content="Microsoft Word 97/98">
+                                                                        
+                                  
+  <meta name="GENERATOR"
+ content="Mozilla/4.6 (Macintosh; I; PPC) [Netscape]">
+  <title>SPARC Information</title>
+</head>
+  <body>
+                                          
+<center><b><font face="Arial,Helvetica"><font size="+1">Summary of SPARC</font></font></b></center>
+                                          
+<div align="right"><font face="Times">23 May 2003</font></div>
+                                          
+<hr width="100%" size="2"> 
+<center> 
+<h3> <font face="Times">Registers</font></h3>
+                                        </center>
+                                         <u><font face="Times">General purpose</font></u> 
+          
+<ul>
+                                                                        
+  <li>       <font face="Times">  There are 32 registers (each holding  
+  1  word          = 4  bytes = 32 bits),     <tt>%r0</tt> to <tt>%r31</tt></font></li>
+                                                                        
+  <li>        <font face="Times"> They are grouped into 4 groups   of  8 
+registers            each:</font></li>
+                                         
+</ul>
+                                         <tt><u>Register number</u> <u>group
+     name</u> <u>assembler    syntax</u>&nbsp; <u>Conventional Use</u></tt> 
+<br>
+                                        <tt>&nbsp;&nbsp;&nbsp; 0 to&nbsp; 
+7&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Global&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; %g0 to
+%g7&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Temporary values</tt> <br>
+                                        <tt>&nbsp;&nbsp;&nbsp; 8 to 15&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+Out&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; %o0 to %o7 &nbsp; &nbsp;&nbsp; 
+Function parameters outside function</tt>                     <br>
+                                        <tt>&nbsp;&nbsp; 16 to 23&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+Local&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; %L0 to %L7&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+Local values inside function</tt> <br>
+                                        <tt>&nbsp;&nbsp; 24 to 31&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+In&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; %i0 to %i7&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+Function parameters inside function</tt> 
+<ul>
+         <li>Note: the <tt>Out</tt> registers use letter "oh" and a number.<br>
+         </li>
+         <li><font face="Times">  Register <tt>%g0</tt> always   contains 
+zero;    it  cannot          be altered.</font></li>
+                                                                        
+  <li>        <font face="Times"> There is only one set of global   registers 
+     that  are shared by all programs. They should be used as temporaries 
+  and   NOT   used for passing parameters.</font></li>
+                                                                        
+  <li>        <font face="Times"> There are 2 to 32 other sets  of  16  registers. 
+            At  any time, you have a window into these sets. The     </font><tt> 
+           Local</tt><font face="Times">          registers <tt>%L0</tt> to
+     <tt>    %L7</tt>               and the     </font><tt>  In</tt><font
+ face="Times">       registers      <tt>    %i0</tt>         to <tt>  %i7</tt>
+are the current   set.     <tt>%o0</tt>     to      <tt>%o7</tt>  are   the
+        </font><tt>       In</tt><font face="Times">      registers from
+the    next  set.</font></li>
+                                                                        
+  <li>        <font face="Times"> SAVE/RESTORE instructions switch    to 
+the  next/previous             set.</font></li>
+                                                                        
+  <li>        <font face="Times"><tt> %i7</tt> and <tt>%o7</tt>   are   used 
+  for  return  addresses.  Do NOT  change them in your program unless  you 
+   want  some fireworks!</font></li>
+                                                                        
+  <li>        <font face="Times"><tt> %i6</tt> and <tt>%o6</tt>   are   used 
+  for  frame/stack   pointers.  Aliases used in the assembler are      <tt>%fp</tt> 
+          =     <tt> %i6</tt>,     <tt>%sp</tt> = <tt>%o6</tt>. <tt>%sp</tt> 
+   is  always   a  multiple of 8; <tt>%fp</tt> is the old <tt>%sp</tt> during
+     execution.</font></li>
+                                         
+</ul>
+                                         <u><font face="Times">Special purpose</font></u> 
+          
+<ul>
+                                                                        
+  <li>       <font face="Times"><tt>  %pc</tt> - Program Counter  is  the
+  address           of  the currently   executing instruction, always a multiple
+  of 4.</font></li>
+                                                                        
+  <li>        <font face="Times"><tt> %npc</tt> - next Program  Counter  
+is the  address   of the  instruction being fetched</font><font
+ face="Times">, always  a multiple  of 4</font><font face="Times"> .</font></li>
+                                                                        
+  <li>        <font face="Times"><tt> %y</tt> - holds high order   4  bytes 
+  of product             in multiply   and of dividend in divide.</font></li>
+                                                                        
+  <li>        <font face="Times"> PSR - Processor State Register   includes 
+     iCC          (integer   Condition Code: NZVC bits), CWP (Current Window 
+    Pointer,        which    selects the  register set)</font></li>
+                                         
+</ul>
+                                          
+<center> 
+<h4> <font face="Times">Instruction Formats</font></h4>
+                                        </center>
+                                         <font face="Times">Most instructions 
+  fall   into   the   following      three    patterns:</font>      
+<p><font face="Times"><u>Load/Store</u>:</font> <br>
+                                        <tt>&nbsp;&nbsp; load&nbsp; [%reg1+const13],%reg2&nbsp;&nbsp;&nbsp;&nbsp; 
+store&nbsp; %reg1,[%reg2+const13]</tt> <br>
+                                        <tt>&nbsp;&nbsp; load&nbsp; [%reg1+%reg2],%reg3&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+store&nbsp; %reg1,[%reg2+%reg3]</tt> </p>
+                                        
+<p><font face="Times"><u>Arithmetic/Logical/Shift instructions</u>:</font> 
+                                  <br>
+                                        <tt>&nbsp;&nbsp; opcode&nbsp; %reg1,%reg2,%reg3</tt> 
+             <br>
+                                        <tt>&nbsp;&nbsp; opcode&nbsp; %reg1,const13,%reg2</tt> 
+               </p>
+                                        
+<p><font face="Times"><u>Branch instructions</u>:</font> <br>
+                                        <tt>&nbsp;&nbsp; branch&nbsp; address</tt> 
+   </p>
+                                        
+<p><u>General comments</u> </p>
+                                        
+<ul>
+                                                                        
+  <li>       <tt> const13</tt><font face="Times">  is a 13-bit signed   
+integer    (-4096  to 4095).</font></li>
+                                                                        
+  <li>        <tt> address</tt><font face="Times"> In branches,      </font><tt> 
+ address</tt><font face="Times">      is a 22-bit signed  integer but two 
+        zero  bits are added to the end so it  represents a 24-bit,  program 
+   counter      relative  displacement. In CALL, </font><tt>  address</tt><font
+ face="Times">                          is a  30-bit (increased to 32) absolute
+   address.</font></li>
+                                                                        
+  <li>        <font face="Times"> The assembler changes [%reg]  to  [%reg+%g0].</font></li>
+                                         
+</ul>
+                                         <font face="Times"><u>Examples</u>:</font> 
+    <tt><br>
+                                &nbsp;&nbsp; LD&nbsp;&nbsp; [%i3+%L1],%L3&nbsp;&nbsp;&nbsp;&nbsp; 
+!loads     word at address %i3+%L1 into %L3 <br>
+                                </tt>        <tt>&nbsp;&nbsp; ST&nbsp;&nbsp;
+%L2,[%L1]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; !stores %L2 at
+address in %L1 <br>
+                                </tt>        <tt>&nbsp;&nbsp; ADD&nbsp; %L1,%L2,%L3&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+!%L2+%L2 -&gt; %L3 <br>
+                                </tt>        <tt>&nbsp;&nbsp; ADD&nbsp; %g1,48,%g1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+!%g1+48 -&gt; %g1 &nbsp;</tt> 
+<center> 
+<h4> <font face="Times">Basic Instruction Set</font></h4>
+                                        </center>
+                                         <u>Load/Store</u> (the only instructions 
+    that   access    memory)<br>
+                                        <tt>&nbsp;&nbsp; LDUB&nbsp;&nbsp; 
+[...],%L0&nbsp;&nbsp;&nbsp;&nbsp; !LoaD   Unsigned Byte (clear 3 high order 
+bytes)</tt><br>
+                                        <tt>&nbsp;&nbsp; LDSB&nbsp;&nbsp; 
+[...],%L0&nbsp;&nbsp;&nbsp;&nbsp; !LoaD   Signed Byte (sign extended in 3 
+high order bytes)</tt><br>
+                                        <tt>&nbsp;&nbsp; LDUH&nbsp;&nbsp; 
+[...],%L0&nbsp;&nbsp;&nbsp;&nbsp; !LoaD   Unsigned Halfword (2 bytes) (clear 
+2 high order bytes)</tt><br>
+                                        <tt>&nbsp;&nbsp; LDSH&nbsp;&nbsp; 
+[...],%L0&nbsp;&nbsp;&nbsp;&nbsp; !LoaD   Signed Halfword (2 bytes) (sign 
+extended in 2 high order bytes)</tt><br>
+                                        <tt>&nbsp;&nbsp; LD&nbsp;&nbsp;&nbsp;&nbsp; 
+[...],%L0&nbsp;&nbsp;&nbsp;&nbsp; !LoaD a word (4 bytes)</tt><br>
+                                        <tt>&nbsp;&nbsp; LDD&nbsp;&nbsp;&nbsp;
+[...],%L0&nbsp;&nbsp;&nbsp;&nbsp; !LoaD Doubleword (even/odd pair of registers)</tt>
+<p><tt>&nbsp;&nbsp; STB&nbsp;&nbsp;&nbsp; %L0,[...]&nbsp;&nbsp;&nbsp;&nbsp; 
+!STore Byte (low order byte)</tt><br>
+                                        <tt>&nbsp;&nbsp; STH&nbsp;&nbsp;&nbsp;
+%L0,[...]&nbsp;&nbsp;&nbsp;&nbsp; !STore Half (2 low order bytes)</tt><br>
+                                        <tt>&nbsp;&nbsp; ST&nbsp;&nbsp;&nbsp;&nbsp; 
+%L0,[...]&nbsp;&nbsp;&nbsp;&nbsp; !STore Word (4 bytes)</tt><br>
+                                        <tt>&nbsp;&nbsp; STD&nbsp;&nbsp;&nbsp;
+%L0,[...]&nbsp;&nbsp;&nbsp;&nbsp; !STore Double (even/odd pair of registers)</tt><br>
+                                        After a load, the data occupies the 
+ entire    register     <br>
+                                        All addresses must be aligned on
+addresses      of  multiples      of  2/4/8    for   half/word/double.  
+</p>
+                                        
+<p><u>Arithmetic/Logical/Shift</u> <br>
+                                        <tt>&nbsp;&nbsp; ADD&nbsp;&nbsp;&nbsp;
+Op1,Op2,Op3&nbsp;&nbsp; !ADD:    Op1   + Op2 -&gt; Op3</tt> <br>
+                                        <tt>&nbsp;&nbsp; SUB&nbsp;&nbsp;&nbsp;
+Op1,Op2,Op3&nbsp;&nbsp; !SUBtract:      Op1 - Op2 -&gt; Op3</tt> <br>
+                                        <tt>&nbsp;&nbsp; AND&nbsp;&nbsp;&nbsp;
+Op1,Op2,Op3&nbsp;&nbsp; !bitwise     AND: Op1 ^ Op2 -&gt; Op3</tt> <br>
+                                        <tt>&nbsp;&nbsp; ANDN&nbsp;&nbsp; 
+Op1,Op2,Op3&nbsp;&nbsp; !bitwise     ADD,   Op2 inverted: Op1 ^ (~Op2) -&gt; 
+Op3</tt> <br>
+                                        <tt>&nbsp;&nbsp; OR&nbsp;&nbsp;&nbsp;&nbsp; 
+Op1,Op2,Op3&nbsp;&nbsp; !bitwise   OR: Op1 v Op2 -&gt; Op3</tt> <br>
+                                        <tt>&nbsp;&nbsp; ORN&nbsp;&nbsp;&nbsp;
+Op1,Op2,Op3&nbsp;&nbsp; !bitwise     OR, Op2 inverted: Op1 v (~Op2) -&gt;
+Op3</tt> <br>
+                                        <tt>&nbsp;&nbsp; XOR&nbsp;&nbsp;&nbsp;
+Op1,Op2,Op3&nbsp;&nbsp; !bitwise     exclusive OR: Op1 xor Op2 -&gt; Op3</tt>
+<br>
+                                        <tt>&nbsp;&nbsp; XNOR&nbsp;&nbsp; 
+Op1,Op2,Op3&nbsp;&nbsp; !bitwise     exclusive    NOR, Op2 inverted: Op1 xor
+(~Op2) -&gt; Op3</tt>                    <br>
+                                        <tt>&nbsp;&nbsp; SLL&nbsp;&nbsp;&nbsp;
+Op1,Op2,Op3&nbsp;&nbsp; !shift    left  logical: put result of shifting Op1
+   by Op2 bits into Op3</tt>                         <br>
+                                        <tt>&nbsp;&nbsp; SRL&nbsp;&nbsp;&nbsp;
+Op1,Op2,Op3&nbsp;&nbsp; !shift    right  logical: put result of shifting
+Op1 by Op2 bits into Op3</tt>                         <br>
+                                        <tt>&nbsp;&nbsp; SRA&nbsp;&nbsp;&nbsp;
+Op1,Op2,Op3&nbsp;&nbsp; !shift    right  arithmetic: put result of shifting
+   Op1 by Op2 bits into Op3</tt>                <br>
+                                 <tt>&nbsp;&nbsp; UMUL &nbsp; Op1,Op2,Op3&nbsp;&nbsp; 
+!Unsigned      MULtiply:      Op1 * Op2 -&gt; %y,Op3</tt><br>
+                                 <tt>&nbsp;&nbsp; SMUL&nbsp;&nbsp; Op1,Op2,Op3&nbsp;&nbsp;
+!Signed     MULtiply:        Op1 * Op2 -&gt; %y,Op3</tt><br>
+                                 <tt>&nbsp;&nbsp; UDIV &nbsp; Op1,Op2,Op3&nbsp;&nbsp; 
+!<tt>     Unsigned     DIVide:     %y,Op1 / Op2 -&gt; Op3</tt></tt><br>
+                                 <tt>&nbsp;&nbsp; SDIV &nbsp; Op1,Op2,Op3&nbsp;&nbsp; 
+!<tt>     Signed    DIVide:         %y,Op1 / Op2 -&gt; Op3</tt></tt> <br>
+                                        All operations use the full 4 bytes 
+ in  the   register.      <tt>    op1</tt>         and   <tt>   op3</tt> are
+ registers    while <tt>      op2</tt>       can be a register     or a <tt>
+  const13</tt>       . Shifts    can be from   0  to 31 bits. A shift  right
+   arithmetic      extends the   sign,  while a  shift  right logical fills
+  in with   zeros.    Multiply and   divide use the  <tt> %y</tt>   register
+ and another  register      to give  a 64-bit quantity.  You can multiply
+ by 1 before dividing  to   set the <tt>     %y</tt>  register correctly.<br>
+                                        To set the condition code (iCC),
+add   "cc"   to  any   of  the   above    (except     the  shifts). For example,
+  <br>
+                                        <tt>&nbsp;&nbsp; SUBcc&nbsp; %L1,%L2,%g0&nbsp;&nbsp;
+!subtract      %L2   from  %L1 and set the condition code</tt>    </p>
+                                  
+<p><tt><u>SETHI/NOP</u></tt> <br>
+                                        This instruction has a special format.
+   <br>
+                                        <tt>&nbsp;&nbsp; SETHI&nbsp; const22,%reg&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+!put 22-bit const in the high-order 22 bits of %reg</tt> <br>
+                                        The low-order 10 bits of %reg are 
+set   to  zero.    The   assembler      functions      <tt>  %hi(const32)</tt> 
+and <tt> %lo(const32)</tt>           give  the    high-order  22   bits and 
+ the low-order 10 bits of  the   32-bit   constant   <tt>     const32</tt> 
+  . To  place a 32-bit constant    X into %reg,  use code   <br>
+                                        <tt>&nbsp;&nbsp; SETHI&nbsp; %hi(X),%reg&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+!set high-order 22 bits</tt> <br>
+                                        <tt>&nbsp;&nbsp; OR&nbsp;&nbsp;&nbsp;&nbsp; 
+%reg,%lo(X),%reg&nbsp;&nbsp; !OR in low-order 10 bits</tt> <br>
+                                        The assembler has a synthetic instruction&nbsp; 
+<tt>    SET&nbsp; X,%reg</tt>           &nbsp; that is replaced by the above 
+       two   instructions.      The <tt> NOP</tt>         instruction  is 
+really       <tt>  SETHI  0,%g0</tt>  .  </p>
+                                        
+<p><tt><u>SAVE/RESTORE</u></tt> <br>
+                                     These are similar to <tt>ADD</tt> but
+ they   also   switch    to  the   next/previous        register set. In
+<tt>SAVE</tt>  ,  <tt> %sp</tt>        becomes    <tt>%fp</tt>,    <tt>out</tt>
+ registers        become  <tt> in</tt>  registers,   and we get a new   
+set of <tt>local</tt>     and <tt>out</tt>     registers.     The addition
+  part is typically used   to modify   the stack pointer  <tt>       %sp</tt>
+as in<br>
+                                     <tt>&nbsp;&nbsp; SAVE&nbsp;&nbsp;&nbsp;
+%sp,-96,%sp&nbsp;&nbsp; !allocate       96 bytes on stack and switch register
+  windows</tt><br>
+                                     In <tt>RESTORE</tt>, the <tt>in</tt> 
+registers     become the   <tt>    out</tt>         registers      and the 
+previous <tt>   in</tt> and  <tt> local</tt>     registers     are retrieved.</p>
+                                     
+<p><u>Branch</u> </p>
+                                     
+<p>   <tt>&nbsp;&nbsp; BA&nbsp;&nbsp;&nbsp;&nbsp; address&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+!Branch Always (unconditional branch)</tt><br>
+                                        <tt>&nbsp;&nbsp; BE&nbsp;&nbsp;&nbsp;&nbsp; 
+address&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; !Branch Equal (also BEQ, BZ)<br>
+             </tt><tt>&nbsp;&nbsp; BNE&nbsp;&nbsp;&nbsp; address&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+!Branch Not Equal (also BNZ)</tt><br>
+                                        <tt>&nbsp;&nbsp; BL&nbsp;&nbsp;&nbsp;&nbsp; 
+address&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; !Branch Less (also BLT)<br>
+             </tt><tt>&nbsp;&nbsp; BLE&nbsp;&nbsp;&nbsp; address&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+!Branch Less or Equal</tt><tt><br>
+                </tt><tt>&nbsp;&nbsp; BG&nbsp;&nbsp;&nbsp;&nbsp; address&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+!Branch Greater (also BGT)</tt> <br>
+                                        <tt>&nbsp;&nbsp; BGE&nbsp;&nbsp;&nbsp;
+address&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; !Branch Greater or Equal</tt><br>
+                                        The conditional branches are used 
+after    operations      with   signed    arithmetic.      There are other 
+branches    for unigned   arithmetic.     The branches for the condition code
+bits NZVC   clear and set are: <tt>BPOS, BNEG, BNZ, BZ, BVC, BVS, BCC, BCS</tt>.
+Notice the order of the compare. Here,<br>
+                                     <tt>&nbsp; &nbsp;CMP &nbsp; &nbsp; &nbsp;%L0,%L1<br>
+                                     &nbsp; &nbsp;BL &nbsp; &nbsp; &nbsp; 
+LABEL<br>
+                                     </tt>branches if <tt>%L0</tt> &lt; <tt>%L1</tt> 
+     (what    you   would    expect    from  way we use the mathematical symbol
+  &lt;). In the 68000 the order is reversed.<br>
+                                        All branches (including <tt>CALL</tt> 
+and   <tt>    RET</tt>        )  take   place     after  the execution of 
+  the following    instruction.    The  position    immediately      after 
+  the branch is called   the "delay   slot"  and the instruction    there 
+  is  called  the "delay   instruction".   Any instruction  that does not 
+  depend   on whether  the   branch is taken   or not can be placed  in the 
+  delay   slot. If   there are   no such instructions,    put a <tt>NOP</tt> 
+   in the delay   slot. Never     place another branch   in the delay slot. 
+  Also,  do not use the  synthetic   instruction   <tt> SET</tt>      in the
+  delay slot since it is two machine  instructions.  </p>
+                                        
+<p><u>Calling library routines</u> <br>
+                                        Use <tt>CALL address</tt>. Place
+the   parameters      (up   to  six)   in  %o0   to  %o5  before the call.
+A scalar   result,  if   any, will  be returned     in %o0.   Any  standard
+ C library   routine  can   be called.   Below is an example    using   <tt>
+ printf</tt>   . <br>
+                                        <tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+SET&nbsp;&nbsp;&nbsp;&nbsp; outstr,%o0&nbsp;&nbsp;&nbsp; !put address of
+string in %o0</tt> <br>
+                                        <tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+CALL&nbsp;&nbsp;&nbsp; printf&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; !transfer
+          to printf</tt>                     <br>
+                                        <tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+MOV   &nbsp;&nbsp;&nbsp; %L0,%o1&nbsp;&nbsp; &nbsp; &nbsp; !done before CALL</tt> 
+                  <br>
+                                        <tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+...</tt>         <br>
+                                        <tt>outstr: .asciz&nbsp; "Register
+ %L1   contains     %d\n"</tt>           <br>
+                                        An example using <tt>scanf</tt> follows.
+    <br>
+                                        <tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+SET&nbsp;&nbsp;&nbsp;&nbsp; format,%o0&nbsp;&nbsp;&nbsp; !put address of
+format in %o0</tt><br>
+                                        <tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+SET&nbsp;&nbsp;&nbsp;&nbsp; data,%o1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; !put address
+          of data in %o1</tt><br>
+                                        <tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+CALL&nbsp;&nbsp;&nbsp; scanf&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; !transfer
+          to scanf</tt><br>
+                                        <tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+NOP&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+!don't put SET here because it is two instructions</tt> <br>
+                                        <tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+...</tt>         <br>
+                                        <tt>format: .asciz&nbsp;&nbsp;&nbsp;
+"%d"</tt>        <br>
+                                        <tt>data: &nbsp; .word</tt> <br>
+                                        &nbsp; </p>
+                                        
+<center> 
+<h4> <font face="Times">Assembly Language Syntax</font></h4>
+                                        </center>
+                                          
+<ul>
+                                                                        
+  <li>       <font face="Times">  Comments: <tt>!</tt> comments  to  the
+  end  of         the line, <tt>/*</tt>    several lines of comments <tt>*/</tt></font></li>
+                                                                        
+  <li>        <font face="Times"> Labels are case sensitive and  terminated 
+      with         a  colon <tt>:</tt> . They may contain <tt>_</tt>, <tt> 
+ $</tt> ,  and            <tt>    .</tt>  characters, but labels that  begin 
+  with&nbsp;<font face="Times"><tt>                            _</tt>, <tt>$</tt>, 
+  and <tt> .</tt></font></font><font face="Times">                      are
+  special, so do not use that form yourself.</font></li>
+                                                                        
+  <li>        <tt> 0x</tt><font face="Times"> is the prefix for  hexadecimal; 
+          </font><tt>    0xFFFFFFFF</tt><font face="Times"> is the integer 
+ -1.</font></li>
+                                                                        
+  <li>        <font face="Times"> Assembler directives begin with   a    
+ <tt> .</tt></font></li>
+                                                                        
+  <li>        <font face="Times"> Special symbols such as register    names 
+    begin           with a <tt>%</tt> .</font></li>
+                                                                        
+  <li>        <font face="Times"> Either single quotes <tt>'string'</tt> 
+   or        double quotes <tt>"string"</tt>  can be used for characters 
+ or  strings.</font></li>
+                                         
+</ul>
+                                         <u>Assembly directives, pseudo-ops</u> 
+<br>
+                                        Alignment: <br>
+                                        <tt>&nbsp;&nbsp; .align 2</tt>, <tt>.align
+     4</tt>      ,  <tt>    .align    8</tt>      .  <br>
+                                        Selecting code segment or data segment: 
+   <tt>    .text</tt>           is  for   read-only    memory, while  <tt>.data</tt> 
+     is for read/write     memory.   <br>
+                                        <tt>&nbsp;&nbsp; .section&nbsp; ".text"&nbsp;&nbsp;&nbsp; 
+!for   the   code   (read only)</tt>     <br>
+                                        <tt>&nbsp;&nbsp; .section&nbsp; ".data"&nbsp;&nbsp;&nbsp; 
+!for   the   data   (read/write)</tt><br>
+                                        Allocating blocks of memory (uninitialized):
+      <br>
+                                        <tt>&nbsp;&nbsp; .skip&nbsp; 60&nbsp;&nbsp;&nbsp; 
+!allocate      60  bytes</tt><br>
+         <tt>.skip</tt> can have an operand with an expression of constants 
+ such   as <tt>.skip &nbsp;4*25</tt>, but will not take a symbolic constant 
+ such  as <tt> .skip &nbsp;4*blockSize</tt>.<br>
+         Allocating and initializing memory: <br>
+                                        <tt>&nbsp;&nbsp; .byte&nbsp;&nbsp;
+0x05,0x06,0x07&nbsp; !allocates      three    bytes</tt> <br>
+                                        <tt>&nbsp;&nbsp; .half&nbsp;&nbsp;
+0x0505&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; !allocates 2
+ bytes</tt> <br>
+                                        <tt>&nbsp;&nbsp; .word&nbsp;&nbsp;
+0x05050000&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; !allocates 4 bytes</tt> <br>
+                                        <tt>&nbsp;&nbsp; .ascii&nbsp; "String"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+!allocates 6 bytes</tt> <br>
+                                        <tt>&nbsp;&nbsp; .asciz&nbsp; "String"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+!allocates 7 bytes, includes a terminating 0x00</tt> <br>
+                                        Declaring global symbols: <br>
+                                        <tt>&nbsp;&nbsp; .global&nbsp; symbol<br>
+                               </tt>Symbolic names for constants: <br>
+                               <tt>&nbsp; &nbsp;xvalue = 5</tt><br>
+                                
+<p><u>Synthetic instructions</u> <br>
+                                        For the convenience of the programmer,
+   the   assembler      provides     many   synthetic    instructions that
+ are  translated   to machine     instructions.      <br>
+                                        <tt>&nbsp;&nbsp;&nbsp; <u>Synthetic 
+ instruction</u>            &nbsp;&nbsp; <u>   Machine instruction</u>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+ <u>Comments</u></tt> <br>
+                                        <tt>&nbsp;&nbsp;&nbsp;&nbsp; BCLR&nbsp;&nbsp;&nbsp; 
+%reg1,%reg2&nbsp;&nbsp;&nbsp;&nbsp; ANDN&nbsp;&nbsp;&nbsp; %reg2,%reg1,%reg2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+clear bits</tt> <br>
+                                        <tt>&nbsp;&nbsp;&nbsp;&nbsp; BCLR&nbsp;&nbsp;&nbsp; 
+const13,%reg&nbsp;&nbsp;&nbsp; ANDN&nbsp;&nbsp;&nbsp; %reg,const13,%reg</tt> 
+             <br>
+                                        <tt>&nbsp;&nbsp;&nbsp;&nbsp; BSET&nbsp;&nbsp;&nbsp; 
+%reg1,%reg2&nbsp;&nbsp;&nbsp;&nbsp; OR&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; %reg2,%reg1,%reg2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+set bits</tt> <br>
+                                        <tt>&nbsp;&nbsp;&nbsp;&nbsp; BSET&nbsp;&nbsp;&nbsp; 
+const13,%reg&nbsp;&nbsp;&nbsp; OR&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; %reg,const13,%reg</tt> 
+             <br>
+                                        <tt>&nbsp;&nbsp;&nbsp;&nbsp; BTOG&nbsp;&nbsp;&nbsp; 
+%reg1,%reg2&nbsp;&nbsp;&nbsp;&nbsp; XOR&nbsp;&nbsp;&nbsp;&nbsp; %reg2,%reg1,%reg2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+toggle bits</tt> <br>
+                                        <tt>&nbsp;&nbsp;&nbsp;&nbsp; BTOG&nbsp;&nbsp;&nbsp; 
+const13,%reg&nbsp;&nbsp;&nbsp; XOR&nbsp;&nbsp;&nbsp;&nbsp; %reg,const13,%reg</tt> 
+             <br>
+                                        <tt>&nbsp;&nbsp;&nbsp;&nbsp; BTST&nbsp;&nbsp;&nbsp; 
+%reg1,%reg2&nbsp;&nbsp;&nbsp;&nbsp; ANDcc&nbsp;&nbsp; %reg2,%reg1,%g0 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+test bits</tt> <br>
+                                        <tt>&nbsp;&nbsp;&nbsp;&nbsp; BTST&nbsp;&nbsp;&nbsp; 
+const13,%reg&nbsp;&nbsp;&nbsp; ANDcc&nbsp;&nbsp; %reg,const13,%g0</tt> <br>
+                                        <tt>&nbsp;&nbsp;&nbsp;&nbsp; CALL&nbsp;&nbsp;&nbsp; 
+address&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; JMPL&nbsp;&nbsp;&nbsp; 
+address,%o7&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+call subroutine</tt> <br>
+                                        <tt>&nbsp;&nbsp;&nbsp;&nbsp; CLR&nbsp;&nbsp;&nbsp;&nbsp;
+%reg&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; OR&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+%g0,%g0,%reg&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+clear</tt> <br>
+                                        <tt>&nbsp;&nbsp;&nbsp;&nbsp; CLR&nbsp;&nbsp;&nbsp;&nbsp;
+[%reg]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ST&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+%g0,[%reg]</tt> <br>
+                                        <tt>&nbsp;&nbsp;&nbsp;&nbsp; CLRH&nbsp;&nbsp;&nbsp; 
+[%reg]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; STH&nbsp;&nbsp;&nbsp;&nbsp; 
+%g0,[%reg]</tt> <br>
+                                        <tt>&nbsp;&nbsp;&nbsp;&nbsp; CLRB&nbsp;&nbsp;&nbsp; 
+[%reg]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; STB&nbsp;&nbsp;&nbsp;&nbsp; 
+%g0,[%reg]</tt> <br>
+                                        <tt>&nbsp;&nbsp;&nbsp;&nbsp; CMP&nbsp;&nbsp;&nbsp;&nbsp;
+%reg1,%reg2&nbsp;&nbsp;&nbsp;&nbsp; SUBcc&nbsp;&nbsp; %reg1,%reg2,%g0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+compare</tt> <br>
+                                        <tt>&nbsp;&nbsp;&nbsp;&nbsp; CMP&nbsp;&nbsp;&nbsp;&nbsp;
+%reg,const13&nbsp;&nbsp;&nbsp; SUBcc&nbsp;&nbsp; %reg,const13,%g0</tt> <br>
+                                        <tt>&nbsp;&nbsp;&nbsp;&nbsp; DEC&nbsp;&nbsp;&nbsp;&nbsp;
+%reg&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; SUB&nbsp;&nbsp;&nbsp;&nbsp;
+%reg,1,%reg&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+decrement</tt> <br>
+                                        <tt>&nbsp;&nbsp;&nbsp;&nbsp; DEC&nbsp;&nbsp;&nbsp;&nbsp;
+const13,%reg&nbsp;&nbsp;&nbsp; SUB&nbsp;&nbsp;&nbsp;&nbsp; %reg,const13,%reg</tt> 
+                  <br>
+                                        <tt>&nbsp;&nbsp;&nbsp;&nbsp; DECcc&nbsp;&nbsp;
+%reg&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; SUBcc&nbsp;&nbsp;
+%reg,1,%reg</tt> <br>
+                                        <tt>&nbsp;&nbsp;&nbsp;&nbsp; DECcc&nbsp;&nbsp;
+const13,%reg&nbsp;&nbsp;&nbsp; SUBcc&nbsp;&nbsp; %reg,const13,%reg</tt> <br>
+                                        <tt>&nbsp;&nbsp;&nbsp;&nbsp; INC&nbsp;&nbsp;&nbsp;&nbsp;
+%reg&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ADD&nbsp;&nbsp;&nbsp;&nbsp;
+%reg,1,%reg&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+increment</tt> <br>
+                                        <tt>&nbsp;&nbsp;&nbsp;&nbsp; INC&nbsp;&nbsp;&nbsp;&nbsp;
+const13,%reg&nbsp;&nbsp;&nbsp; ADD&nbsp;&nbsp;&nbsp;&nbsp; %reg,const13,%reg</tt> 
+                  <br>
+                                        <tt>&nbsp;&nbsp;&nbsp;&nbsp; INCcc&nbsp;&nbsp;
+%reg&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ADDcc&nbsp;&nbsp;
+%reg,1,%reg</tt> <br>
+                                        <tt>&nbsp;&nbsp;&nbsp;&nbsp; INCcc&nbsp;&nbsp;
+const13,%reg&nbsp;&nbsp;&nbsp; ADDcc&nbsp;&nbsp; %reg,const13,%reg</tt> <br>
+                                        <tt>&nbsp;&nbsp;&nbsp;&nbsp; MOV&nbsp;&nbsp;&nbsp;&nbsp;
+%reg1,%reg2&nbsp;&nbsp;&nbsp;&nbsp; OR&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; %g0,%reg1,%reg2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+move</tt> <br>
+                                        <tt>&nbsp;&nbsp;&nbsp;&nbsp; MOV&nbsp;&nbsp;&nbsp;&nbsp;
+const13,%reg&nbsp;&nbsp;&nbsp; OR&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; %g0,const13,%reg</tt> 
+                  <br>
+                                        <tt>&nbsp;&nbsp;&nbsp;&nbsp; MOV&nbsp;&nbsp;&nbsp;&nbsp;
+%y,%reg    &nbsp;&nbsp; &nbsp; &nbsp;&nbsp; RD &nbsp;&nbsp;&nbsp;&nbsp; %y,%reg</tt><br>
+                               <tt>&nbsp;&nbsp;&nbsp;&nbsp; MOV&nbsp;&nbsp;&nbsp;&nbsp; 
+%reg,%y     &nbsp;&nbsp; &nbsp; &nbsp;&nbsp; WR &nbsp;&nbsp;&nbsp;&nbsp; %g0,%reg,%y</tt><br>
+                               <tt>&nbsp;&nbsp;&nbsp;&nbsp; MOV&nbsp;&nbsp;&nbsp;&nbsp; 
+const13,%y      &nbsp; &nbsp;&nbsp; WR&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; %g0,const13,%y</tt><br>
+                               <tt>&nbsp;&nbsp;&nbsp;&nbsp; NEG&nbsp;&nbsp;&nbsp;&nbsp; 
+%reg&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; SUB&nbsp;&nbsp;&nbsp;&nbsp; 
+%g0,%reg,%reg&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+twos complement</tt> <br>
+                                        <tt>&nbsp;&nbsp;&nbsp;&nbsp; NEG&nbsp;&nbsp;&nbsp;&nbsp;
+%reg1,%reg2       &nbsp;&nbsp;&nbsp; SUB&nbsp;&nbsp;&nbsp;&nbsp; %g0,%reg1,%reg</tt><tt><br>
+                  </tt><tt>&nbsp; &nbsp;&nbsp; NOP &nbsp;&nbsp;&nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; SETHI
+  &nbsp; 0,%g0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+&nbsp; &nbsp; &nbsp; &nbsp; no operation</tt><br>
+                  <tt>&nbsp; &nbsp;&nbsp; NOT&nbsp;&nbsp;&nbsp;&nbsp; %reg&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+XNOR&nbsp;&nbsp;&nbsp; %reg,%g0,%reg&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+ones complement</tt> <br>
+                                        <tt>&nbsp;</tt><tt>&nbsp;&nbsp;&nbsp; 
+NOT&nbsp;&nbsp;&nbsp;&nbsp; %reg1,%reg2  &nbsp;&nbsp;&nbsp; XNOR&nbsp;&nbsp;&nbsp; 
+%reg1,%g0,%reg2</tt><br>
+                                    <tt>&nbsp;&nbsp; &nbsp; RESTORE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+RESTORE %g0,%g0,%g0</tt> <br>
+                                        <tt>&nbsp;&nbsp;&nbsp;&nbsp; RET&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+JMPL&nbsp;&nbsp;&nbsp; %i7+8,%g0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+return from subroutine</tt><br>
+                                        <tt>&nbsp;&nbsp;&nbsp;&nbsp; RETL 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+JMPL&nbsp;&nbsp;&nbsp; %o7+8,%g0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+return from leaf subroutine</tt><br>
+                                    <tt>&nbsp;&nbsp;&nbsp;&nbsp; SET&nbsp;&nbsp;&nbsp;&nbsp;
+const32,%reg&nbsp;&nbsp;&nbsp; SETHI&nbsp;&nbsp; %hi(const32),%reg &nbsp;
+&nbsp; &nbsp; &nbsp; set address     into register</tt> <br>
+                                        <tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+OR&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; %reg,%lo(const32),%reg</tt> <br>
+                                        <tt>&nbsp;&nbsp;&nbsp;&nbsp; TST&nbsp;&nbsp;&nbsp;&nbsp;
+%reg&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  ORcc&nbsp;&nbsp;&nbsp;
+%reg,%g0,%g0</tt> &nbsp;</p>
+                                        
+<center> 
+<h4> Sample Program</h4>
+                                        </center>
+                                         <tt>!====== Standard Prologue ======</tt> 
+   <br>
+                                        <tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+.section&nbsp;&nbsp;&nbsp;&nbsp; ".text"&nbsp;&nbsp;&nbsp;&nbsp; !section
+       of code</tt> <br>
+                                        <tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+.global&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; main&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+!entry point of your program                 (loader expects this)</tt><br>
+                                        <tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+.align&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 4&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+!align on word              boundary</tt> <br>
+                                        <tt>main:&nbsp;&nbsp; save&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+%sp,-96,%sp !storage for system routines</tt> <br>
+                                        <tt>!===============================</tt> 
+  
+<p><tt>!call printf to print a message</tt> <br>
+                                        <tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+set&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; string,%o0&nbsp;
+!parameter for printf</tt> <br>
+                                        <tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+call&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; printf</tt> <br>
+                                        <tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+nop&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+!always fill the delay slot</tt> </p>
+                                        
+<p><tt>!====== Standard Epilogue =======</tt> <br>
+                                        <tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ret&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+!return to system</tt> <br>
+                                        <tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+restore&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+!delay slot - done before ret</tt> <br>
+                                        <tt>!================================</tt> 
+   </p>
+                                        
+<p><tt>!the data section</tt> <br>
+                                        <tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+.section&nbsp;&nbsp;&nbsp;&nbsp; ".data"</tt> <br>
+                                        <tt>string: .asciz&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+"Hello    World\n"</tt></p>
+                                       
+<center> 
+<h4><font face="Times">How to run a program</font></h4>
+                                       </center>
+                                       To run an assembler program in <tt>source.s</tt> 
+        using    the   I/O   library     <tt>  SparcIO.c</tt> use <tt>cc source.s
+    SparcIO.c</tt>           .<br>
+                                       This uses the C compiler called <tt>cc</tt> 
+   to  do  the   assembly     and   the  compilation of the two files <tt> 
+ source.s</tt>         and   <tt>SparcIO.c</tt>              . (The files
+    <tt>source.s</tt>     and  <tt>SparcIO.c</tt> must be in the same directory
+    for the above form   of the  command).  If you get errors, correct them.
+   If there   are no errors,   run    the   program    by typing <tt>a.out</tt> 
+  .<br>
+                            To save a session to a file called <tt>prog.scr</tt> 
+ ,  use   a  sequence   of commands like<br>
+                                       <tt>&nbsp; script prog.scr</tt><tt><br>
+                                       </tt><tt>&nbsp; cc source.s SparcIO.c</tt><tt><br>
+                                       </tt><tt>&nbsp; a.out</tt><br>
+                                      <tt>&nbsp; exit</tt><br>
+                        Another way to get a record of output is by using 
+I/O   redirection.       If  your  input is in a file <tt>input.txt</tt> and
+you   want the output     in  a file <tt>  output.txt</tt>, use a sequence 
+of commands  like<br>
+                        <tt>&nbsp; cc source.s SparcIO.c</tt><tt><br>
+                        </tt><tt>&nbsp; a.out &lt; input.txt &gt; output.txt</tt><br>
+                        To ask the compiler to produce an assembled version 
+ of  a  C  program,     use    <tt> cc -S prog.c</tt> . An assembly language
+  translation    will appear    in   <tt>  prog.s</tt>  .<br>
+                                      
+<center> 
+<h4><font face="Times">Using the debugger</font></h4>
+     </center>
+     
+<center>(SPARC Architecture, Assembly Language, and C, R. P. Paul, page 63)</center>
+     To run the debugger, use <tt>gdb a.out</tt>    .  Follow    a  sequence 
+    as below<br>
+    <tt>&nbsp; &nbsp;b main &nbsp; &nbsp; &nbsp; set a  breakpoint      at
+  the   label   main<br>
+                            &nbsp; &nbsp;disp/i $pc &nbsp; for each single
+ step,    display     the   instruction     and the pc<br>
+                            &nbsp; &nbsp;r &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+&nbsp;run      the   program     to the breakpoint main<br>
+                            &nbsp; &nbsp;ni &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+take   one   step<br>
+                            &nbsp; &nbsp;p %L0 &nbsp; &nbsp; &nbsp; &nbsp;show
+   the   contents     of  %L0<br>
+                            &nbsp; &nbsp;ni<br>
+                            &nbsp; &nbsp;p %L0 &nbsp; &nbsp; &nbsp; &nbsp;show
+   the   contents     of  %L0<br>
+                            &nbsp; &nbsp;...<br>
+                           &nbsp; &nbsp;c &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp;run      at  full   speed   to the next breakpoint<br>
+                            &nbsp; &nbsp;q &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+&nbsp;quit      the   debugger</tt><br>
+                            The command <tt>ni</tt> takes one step, but does
+  not   go  into   any   function     calls (useful if you hit an I/0 function);
+   the command   <tt>  si</tt>   takes    one step and does go into function
+   calls. A <tt>      &lt;return&gt;</tt>     repeats    the last command.
+ You  use <tt> r</tt>     once, thereafter use <tt>   c</tt> to  go  to the
+ next  breakpoint at full   speed. <br>
+    <br>
+   <br>
+  <br>
+ <br>
+</body>
+</html>

@@ -1,0 +1,15 @@
+NAME             Trevor Bekolay
+STUDENT NUMBER   6796723
+COURSE           74.222
+INSTRUCTOR       Prof. Van Rees
+ASSIGNMENT	      4
+QUESTION	      1
+
+Reading in two strings:
+the end of the world is near.
+the wo
+the wo is a substring of the end of the world is near. at position 12
+
+
+End of Processing
+

@@ -1,0 +1,161 @@
+<HTML>
+<HEAD>
+  <META NAME="GENERATOR" CONTENT="Adobe PageMill 2.0 Mac">
+  <TITLE>Assembler Directives</TITLE>
+</HEAD>
+<BODY>
+
+<H2 ALIGN=CENTER>Assembler Directives</H2>
+
+<p><h4><b>1. Source Code Control</b></h4>
+In SPARC machines, the code and data are usually stored
+separately. 
+<BLOCKQUOTE>
+  <PRE>.section &quot;.text&quot;  !the following lines are instructions
+.section &quot;.data&quot;  !the following lines are data</PRE>
+</BLOCKQUOTE>
+
+<P>Although it is common to have all of the code at the beginning and all
+of the data at the end, it is preferable in many cases to interleave them,
+to improve readability. For example,</P>
+
+<BLOCKQUOTE>
+  <PRE>! Print a heading
+
+      set  head,%o0
+      call printf
+      nop
+
+! Here's the heading
+
+      .section &quot;.data&quot;  !switch to data
+head: .asciz   &quot;The solution is:\n&quot;
+      .section &quot;.text&quot;  !switch back to code again
+
+! Now continue processing
+
+      add  %g0,%g0,%L4  !Initialize count to 0.</PRE>
+</BLOCKQUOTE>
+
+<H4>2. Boundary Alignment</H4>
+
+In SPARC, use</P>
+<BLOCKQUOTE>
+  <PRE>.align  N</PRE>
+</BLOCKQUOTE>
+
+<P>where N is 2, 4, 8, or 16, to indicate that the next item should be placed
+at an address that is a multiple of N.  Use ".align   4" to align the
+instructions.</P>
+
+
+<H4>3. Storage Allocation</H4>
+
+<P>To allocate uninitialized storage for variables, use</P>
+<pre>
+   .skip N ;allocate N bytes of uninitialized storage</PRE>
+</pre>
+
+<P>To place particular initial values in memory (constants or initialized
+variables) use</P>
+
+<pre>
+   .byte  value,value,... ;Each value occupies 1 byte
+   .half  value,value,... ;Each value occupies 2 bytes
+   .word  value,value,... ;Each value occupies 4 bytes
+   .ascii 'characters..'  ;Each ascii character occupies a byte
+   .asciz 'characters..'  ;Each ascii character occupies a byte,
+                          ;and a null byte (0) is added at the end.</PRE>
+</pre>
+
+
+<H4>4. Symbol Definition</H4>
+
+<P>In any assembler, symbols (identifiers) may be defined in two ways:</P>
+
+<OL>
+  <LI>By using a symbol as a label, it stands for the address into which
+  the following code or data will be placed (the value of the &quot;location
+  counter&quot;).
+  <LI>By defining a symbol and giving it a value directly. 
+  <TT>symbol = value<BR>
+  </TT>where the &quot;value&quot; may be any constant, or any expression
+  which combines constants to give a constant answer. The character 
+  &quot;.&quot; stands for the address into  which the following code or
+  data will be placed (the value of the &quot;location counter&quot;).  In
+  real 68k this is possible using the character &quot;*&quot;, but this
+  seems not to have been implemented in our 68k assembler. </OL>
+
+
+<P> 
+Symbolic constants are not allowed in the expressions in  the data
+section.
+<BLOCKQUOTE>
+<PRE>	
+TheArray:  .skip  4*10 ;Each element takes 4 bytes
+size       =      .-TheArray
+</BLOCKQUOTE>
+The last statement is not used much in SPARC.
+
+<h2>Standard Library Routines</h2>
+
+USE:
+<pre>CALL    NAME</pre> to call any subporogram from the standard
+C-language library.  Before execution of the "call", place the parameters
+in registers %o0, %o1,..%o5.  This will handle 97% of calls.  The other 3% we
+will deal with later.  Remember  that "call" is a branch instruction and
+it has a delay slot so fill it.
+Remember to assemble your program properly use:
+<pre>  cc  Mycode.s MASlib.c</pre>
+
+<P>Here is a short description of the available routines:</P>
+
+<P><TABLE WIDTH="450" BORDER="1" CELLSPACING="2" CELLPADDING="0" HEIGHT=
+"355">
+<TR>
+<TD WIDTH="24%" HEIGHT="17"><P ALIGN=CENTER>&nbsp;<B>Name</B></TD>
+<TD WIDTH="76%"><P ALIGN=CENTER><B>Purpose</B></TD></TR>
+<TR>
+<TD HEIGHT="17">newline</TD>
+<TD>Write a newline character. Start a new output line.</TD></TR>
+<TR>
+<TD HEIGHT="17">decin</TD>
+<TD>Read a decimal integer, store it in %o0</TD></TR>
+<TR>
+<TD HEIGHT="17">hexin</TD>
+<TD>Read a hexadecimal integer, store it in %o0</TD></TR>
+<TR>
+<TD HEIGHT="17">decout</TD>
+<TD>Write the integer in %o0 in decimal</TD></TR>
+<TR>
+<TD HEIGHT="17">hexout</TD>
+<TD>Write the integer in %o0 in hexadecimal</TD></TR>
+<TR>
+<TD HEIGHT="30">strout</TD>
+<TD>Write the string whose address is in %o0. Write characters until a null
+character (ascii code 0) is encountered.</TD></TR>
+<TR>
+<TD HEIGHT="69">strin</TD>
+<TD>Read in a string of characters into a &quot;buffer&quot; (place in memory)
+whose address is in %o0, Reading stops when a newline character is read
+(it is not stored in the buffer).  The null terminator is stored in the
+buffer automatically. </TD></TR>
+<TR>
+<TD HEIGHT="17">charout</TD>
+<TD>Write out the character whose ascii code is in %o0</TD></TR>
+<TR>
+<TD HEIGHT="17">charin</TD>
+<TD>Read in the next character and put it in %o0. EOF is indicated if %o0 =
+0xFFFFFFFF = -1.</TD></TR>
+<TR>
+<TD HEIGHT="17">memdump</TD>
+<TD>Write out the memory contents starting at address in %o0 and going
+for  %o1 bytes.</TD></TR>
+</TABLE>
+</P>
+
+
+
+
+</BODY>
+</HTML>

@@ -1,0 +1,16 @@
+NAME             Trevor Bekolay
+STUDENT NUMBER   6796723
+COURSE           74.222
+INSTRUCTOR       John van Rees
+ASSIGNMENT	      2
+QUESTION	      3
+Please enter amount in pennies to return:123
+Loonies: 1
+Quarters: 0
+Dimes: 2
+Nickels: 0
+Pennies: 3
+Total Coins: 6
+
+End of Processing
+

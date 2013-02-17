@@ -1,0 +1,129 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+  <title>74.222 Assignment 3</title>
+</head>
+  <body>
+
+<div align="center">
+<h3>74.222 - Assembly Language Programming - Spring 2004</h3>
+
+<h2>Assignment 3 - 68000 Programming</h2>
+</div>
+
+<h3>Due dates: Thursday, Mar. 4 (L02), Wednesday<sup>1</sup>, Mar. 3 (L01)</h3>
+<h3>Handing in:</h3>
+
+<ul>
+  <li>Observe <a href="../AssnStand.html">Assignment Standards</a>
+  <li>Include an <a href="http://www.cs.umanitoba.ca/newsite/honesty.html">honesty declaration</a>.
+  <li>Use the 68000 Simulator <tt>BSVC</tt> to run your programs.
+  <li>Use the routines in <tt>68kIO.s</tt> for all I/O.
+  <li>Print the source program once (the <tt>.s</tt> file) and print the output file
+      <tt>68kout.txt</tt><sup>2</sup> for each test run<sup>3</sup> of your program.
+</ul>
+
+<sup>1</sup> For Section L01, Mr. Boyer will accept assignments in his office
+up until noon Thursday, Mar. 4 without penalty. After that time, sample
+solutions will be posted on the web site (this means <strong> Absolutely
+No Lates!!!</strong>).
+<p>
+<sup>2</sup> Note, you will have  to clear the output file <tt>68kout.txt</tt>
+for  each question as it accumulates text instead  of replacing  the previous
+contents.
+<p>
+<sup>3</sup> Since there is no file input for the simulator, we will use the
+<tt>include</tt> assembler directive to define the "input"  as a constant
+in the source  program. Be sure to print this "input" during  execution so
+the marker knows what it was.
+
+<hr width="100%" size="2" align="left">
+
+<ol>
+<!-- Question 1 -->
+<li>
+(20 marks) Write a program that uses a loop to calculate and print the
+numbers    1 to 20 and the squares of those numbers in a table with numbers
+right justified   (numbers  aligned on units digit) as in</p>
+<pre>
+   x         x^2
+   -------------
+    1          1
+    2          4
+    3          9
+       . . .
+   20        400</pre>
+<p>Note: you have to check if a number has 1, 2 or 3 digits to know how many spaces to
+ output  to get right justification.</p>
+
+<!-- Question 2 -->
+<li>
+(20 marks) Write a program which will read from the keyboard
+one or more pairs of integer values. The
+integers will be greater than 0. For each pair, it should find and print
+the GCD (Greatest Common Divisor) of that pair of integers. A special pair
+of sentinel values (0 0) should cause the program to quit. (It may quit
+if either one of the two values is zero - there is no need to check both
+of them, since 0 is not normally a valid input value.) Use integers
+(2 bytes) for all values.  Remember only one integer can be
+read per input line.
+
+<P>
+Use the Euclidean Algorithm to find the GCD. The
+algorithm is: Start with the pair of values (L,S) where L is the larger
+number, and S is the smaller one. Replace the pair (L,S) by (S, L mod S)
+until you get the pair (GCD,0). For example, to find the GCD of 6930 and
+3900:
+
+<PRE>6930 mod 3900 is 3030
+3900 mod 3030 is  870
+3030 mod  870 is  420
+ 870 mod  420 is   30
+ 420 mod   30 is    0
+so 30 is the GCD.</PRE>
+
+Here is an example of what the output should look like:
+<BLOCKQUOTE>
+<PRE>The GCD of 120  and 36   is 12
+The GCD of 3900   and 6930   is 30
+The GCD of 1   and 1   is 1
+
+Program terminated normally.</PRE>
+</BLOCKQUOTE>
+It is impossible to reproduce this on your log file.  So I will accept
+anything reasonable with titles, echoed input and an answer.
+<p>
+Test your program on:
+(10, 25), (60, 15), (20, 20), (1, 100) and (1200, 960).  You are not
+allowed to change the order of the numbers in the pairings.  Note that you
+can only read one number per line using <tt>decin</tt>.
+<p>
+<!-- Question 3 -->
+<li>
+(20 marks) Write a program to decrypt an encrypted string back into the
+original clear text.
+The decryption is performed by "rotating" the characters an amount specified
+by an integer key. If the rotation goes past the end of the alphabet, then
+it wraps around to the beginning.
+For example, the encrypted string <tt>qrsnop</tt>, with a key value of 10,
+is decrypted into the string <tt>abcxyz</tt>.
+<p>
+Uppercase letters, lowercase letters and digits are all
+treated separately, which means that an
+uppercase letter in the encryped message always produces an uppercase letter
+in the clear text; likewise for lowercase letters and digits. All other characters
+are left unchanged. The key value will be a positive integer between 1 and 26. Note
+that for digits the rotation may wrap around more than once.
+<p>
+Print both the encrypted string and the clear text in your output. You can use a
+separate buffer for the clear text if you wish, or you can simply replace the encryped
+string with the clear text.
+
+<p>
+Use the <tt> include</tt>  files <a href="A3Q3D1.txt">A3Q3D1.txt</a> , <a
+ href="A3Q3D2.txt">A3Q3D2.txt</a> , <a href="A3Q3D3.txt">A3Q3D3.txt</a> ,
+<a href="A3Q3D4.txt">A3Q3D4.txt</a> , <a href="A3Q3D5.txt">A3Q3D5.txt</a>,
+ which define a string named <tt>crypt</tt> and an integer named <tt>key</tt>.</p>
+
+</body>
+</html>

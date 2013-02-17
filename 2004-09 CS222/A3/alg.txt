@@ -1,0 +1,61 @@
+*Sort array
+*d1 - data[j]
+*d2 - temporary register
+*d3 - temporary register
+*a1 - inner loop counter
+*a2 - points to current outer loop counter
+*a3 - points to last data element
+*a5 - points to second to last data element
+*a6 - points to current min in inner loop
+
+
+*  for (i = 0; i < array_size-1; i++)
+*  {
+*    min = i;
+*    for (j = i+1; j < array_size; j++)
+*    {
+*      if (numbers[j] < numbers[min])
+*        min = j;
+*    }
+*    temp = numbers[i];
+*    numbers[i] = numbers[min];
+*    numbers[min] = temp;
+*  }
+
+startsort:
+	  suba.l    #4,a3
+	  lea	    data,a2
+	  movea.l   a3,a5
+	  suba.l    #4,a5
+
+*This implements the outer for loop
+   	  bra  	    outerlooptest        test if past end of the array
+
+outerLoop:
+	 movea.l    a2,a6
+	 movea.l    a2,a1
+	  
+*This implements the (inner) while loop
+innerLoop:
+	 adda.l	    #4,a1
+	 cmpa.l     a1,a3
+	 bge	    doneIter
+	 move.l     (a1),d1
+	 move.l     (a5),d2
+	 cmp.l      d2,d1		if data[min] <= data[j]
+	 ble        innerLoop     	exit inner while loop
+
+	 movea.l    a1,a6
+	 bra        innerLoop
+
+doneIter:
+	 move.l     (a1),d2
+	 move.l	    (a6),d3	 
+	 
+	 move.l     d2,(a6)
+	 move.l     d3,(a1)
+
+	 adda.l     #4,a2		i = i + 1
+outlooptest:
+	 cmpa.l	    a2,a5
+         blt	    outerLoop	 

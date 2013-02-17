@@ -1,0 +1,110 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+  <title>Lab 1</title>
+</head>
+  <body>
+            
+<h3 align="center">74.222 - Assembly Language Programming - Winter
+2004<br>
+           </h3>
+           
+<h1> 
+<center>Lab 1</center>
+           </h1>
+           
+<hr width="100%" size="2"> 
+<h3>Week of 19-23 January, 2004</h3>
+ If you don't have an active <tt>UNIX</tt> account, be sure to do <tt>claimID</tt> 
+before attending the lab.<br>
+            
+<h3>Task 1: Getting Started in <tt>UNIX</tt></h3>
+                  
+<ol>
+            <li>Turn on machine if it is off.  If on but blank move
+mouse.  In prompt box, type in MHUSER006 for user and no password.  Hit
+<tt> return </tt> and wait.  Note the user name for your machine is taped
+on the upper right of your keyboard.  It will be MHUSERXXX where XXX is a
+number.
+            <li>To get a terminal window for <tt>UNIX</tt>, click on the
+<tt> start,</tt> button on the lower left of screen and select <tt>INS
+Programs-&gt;Internet -&gt;Telnet-&gt;Putty .52</tt>, then login
+to your cc account. (Alternatively, you could use <tt>Internet -&gt;Utilities
+-&gt;XWin32 5.3</tt>). &nbsp; </li>
+             <li>Use the <tt>ls</tt> command to see what directories and
+files    you   have.  Try <tt>ls -l</tt>. </li>
+             <li>Use the <tt>mkdir</tt> command to create or make a new directory 
+    to  store all your cs222 files together in a separate directory. Type: 
+     <tt>mkdir    cs222</tt> . </li>
+             <li>Use the <tt>cd</tt> command to change directories so that
+ the   directory   you are active in becomes <tt>cs222.</tt> Type: <tt>cd
+cs222</tt> . </li>
+             <li>Use the <tt>pico</tt> command to create a file and input 
+your   name,   section  number and Id number and some other typing there. 
+ Check   out all   the commands in <tt>pico</tt> using the help. (You can 
+use other   text editors.)  </li>
+             <li>Exit <tt>pico</tt> and save the file with the name <tt>junk.txt</tt>. 
+     Now use <tt>pico</tt> to edit the file <tt>junk.txt</tt> by typing <tt>pico 
+     junk.txt</tt> . </li>
+             <li>Change something in the file and save it again. </li>
+             <li>Change the name of the file to <tt>stuff.txt</tt> by using 
+ the       <tt>mv</tt> or move command. Type: <tt>mv junk.txt stuff.txt </tt>. 
+ Use      <tt>ls</tt> to   check what files you have.   </li>
+             <li> Now copy the file <tt>stuff.txt</tt> to <tt>copystuff.txt</tt> 
+using  the      <tt>cp</tt> or copy command. Type: <tt>cp stuff.txt copystuff.txt</tt> 
+.  Use     <tt>ls</tt> to check your files.     </li>
+             <li>Print the file <tt>copystuff.txt</tt> using the <tt>lpr</tt> 
+command       <tt>lpr  -Pmh114_p2 copystuff.txt</tt> . The <tt>_p</tt> comes 
+before the printer number (which can be 1,2,3 or 4)  and you change the room 
+number from <tt>mh114</tt>.   The printers have their names printed   on them
+except  they use  a dash instead  of an underscore and the <tt>mh114_p3</tt> 
+must  be lowercase.   </li>
+             <li>Delete the file <tt>copystuff.txt</tt> using the <tt>rm</tt> 
+or remove  command. Type:&nbsp;<tt>rm copystuff.txt</tt> .  You will be prompted 
+to see if you really  meant to delete the file.</li>
+       
+</ol>
+       
+<p>Show the demonstrator your directory <tt>cs222</tt> and the printout of 
+   <tt>copystuff.txt</tt> so that you can be marked  off for  task 1.    
+</p>
+           
+<h3> </h3>
+      
+<h3>Task 2: Run SparcAplusB.s program</h3>
+                   
+<ol>
+ <li> Create a directory under cs222 called Lab1 and change directories to
+it.  Now type <tt>netscape </tt> and wait for a netscape window.  Go to
+URL  <tt>http://www.cs.umanitoba.ca/~cs222/Programs/</tt>.  Click on
+<tt>SparcIO.c</tt>. Look at the code.  Click the <tt>file</tt> button on
+top left and choose <tt> save as </tt>.  In dialogue box click <tt> ok
+</tt>. Use <tt> ls </tt> to see if the file transferred properly.  Do the
+same for <tt>SparcAplusB.s</tt>.  Hit the <tt> file </tt> button again and
+choose exit.  You should be back in your <tt> UNIX </tt> account in the
+Common Desktop Environment. 
+<li>Run the <tt>SparcAplusB.s</tt> program by typing <tt>cc&nbsp;</tt><tt>SparcAplusB</tt><tt>.s
+       SparcIO.c</tt> . This uses the C compiler to assemble the program
+    <tt>SparcAplusB.s</tt> and to compile the input/output package  <tt>SparcIO.c</tt>
+. The file <tt>SparcAplusB</tt><tt>.s</tt> is a <tt>SPARC</tt> assembly language
+program that will prompt for two integers and  then print the sum.&nbsp;<tt>SparcIO.c</tt>
+is a set of C functions that are called from within the assembly language
+program. These functions, called      <tt>decin</tt><i>, </i><tt>decout</tt><i>,
+    </i><tt>hexin</tt><i>, </i><tt>hexout</tt><i>,</i>     <tt>memdump</tt>,
+    <tt>newline</tt>, <tt>strin</tt><i>, </i>and      <tt>strout</tt> perform
+the  required I/O operations.<br>
+           </li>
+ <li>    List the files in the <tt>Lab1</tt> directory. You should have three
+  new files (<tt>SparcAplusB.o</tt>, <tt>SparcIO.o</tt>,  and     <tt>a.out</tt>)
+  in you directory.</li>
+ <li>Type: <tt>a.out</tt> to execute the program.</li>
+          
+</ol>
+       Show the demonstrator your program executing by typing <tt>a.out</tt>
+while the demonstrator is watching so you can be checked off for task
+2.   Remember to exit your <tt> UNIX </tt> account and to exit the Common
+Desktop Enviroment by clicking on the <tt> exit </tt> button in the middle
+of the bottom tool bar.  This is quite important.
+ <br>
+</body>
+</html>

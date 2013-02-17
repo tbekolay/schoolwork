@@ -1,0 +1,106 @@
+<HTML>
+<HEAD>
+  <META NAME="GENERATOR" CONTENT="Adobe PageMill 2.0 Mac">
+  <TITLE> Ifs, Loops and the DBRA instruction</TITLE>
+</HEAD>
+<BODY>
+
+Everything you have learned about constructs in SPARC also apply to 68k.  But
+there are special looping constructs in 68k much like a PASCAL For
+statement or a Fortran DO statement.  We will study and use only one type.
+
+
+
+
+<H2>The DBRA Instruction 68000k </H2>
+
+<UL>
+  <LI>The syntax of the dbra (decrement and branch) instruction is
+</UL>
+
+<BLOCKQUOTE>
+  <BLOCKQUOTE>
+    <PRE>dbra  Di,Addr</PRE>
+  </BLOCKQUOTE>
+</BLOCKQUOTE>
+
+<UL>
+  <LI>This instruction decrements Di.w and branches to Addr if the result
+  is not -1.
+  <LI>It is the equivalent of the following 3 instructions
+</UL>
+
+<BLOCKQUOTE>
+  <BLOCKQUOTE>
+    <PRE>sub.w #1,Di
+cmp.w #-1,Di
+bne   Addr</PRE>
+  </BLOCKQUOTE>
+</BLOCKQUOTE>
+
+<UL>
+  <LI>This is a very typical CISC (COMPLEX INSTRUCTION SET 
+COMPUTER) instruction. In a program for a RISC machine,
+you would use the three separate instructions.
+  <LI>Its purpose is to make &quot;count-controlled loops&quot; easier. (That
+  is, if you know in advance exactly how many times a loop should execute,
+  use this instruction.)
+  <LI>To execute a loop exactly N times, use this code:
+ </UL>
+
+<BLOCKQUOTE>
+  <BLOCKQUOTE>
+    <PRE>      move.w N,D2 ;Get N into a D reg, if not there already
+      bra    EndL ;Start at the dbra instruction at the bottom
+Loop: ...
+      ...
+EndL: dbra   D2,Loop</PRE>
+  </BLOCKQUOTE>
+</BLOCKQUOTE>
+
+<UL>
+  <LI>This is the &quot;right&quot; kind of loop, with only one branch in
+  it, at the bottom. The loop is entered by branching to the &quot;dbra&quot;
+  at the bottom.
+  <LI>This also explains why the dbra instruction checks for -1 and not 0.
+  <LI>If you want to use the values in the register , they are
+   N-1,N-2,...1,0. 
+ <LI>Here are two incorrect ways to do it:
+</UL>
+
+<BLOCKQUOTE>
+  <BLOCKQUOTE>
+    <PRE>      move.w N,D1
+Loop: ...
+      ...
+      dbra   D1,Loop</PRE>
+  </BLOCKQUOTE>
+</BLOCKQUOTE>
+
+<UL>
+  <LI>The above loop executes N+1 times, not N times.
+  <LI>OK, so how about decrementing N first to fix that problem?
+</UL>
+
+<BLOCKQUOTE>
+  <BLOCKQUOTE>
+    <PRE>      move.w  N,D1
+      sub.w  #1,D1
+Loop: ...
+      ...
+      dbra   D1,Loop</PRE>
+  </BLOCKQUOTE>
+</BLOCKQUOTE>
+
+<UL>
+  <LI>The above loop contains a <B>huge</B> bug. If N=0 the loop will not
+  be executed 0 times (which is correct). Instead, it will be executed 65536
+  times!! (The first time through, the &quot;dbra&quot; will decrement -1
+  and get -2. This is not -1 so it will keep going. The value in D1 will
+  have to count all the way down to -32768, overflow up to +32767, and continue
+  down until it finally reaches -1 the hard way.)
+  <LI>Beware of quick fixes!!
+</UL>
+
+</BODY>
+</HTML>
