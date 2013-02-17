@@ -1,0 +1,20 @@
+ COMP3430 Assignment 3
+Trevor Bekolay, 6796723
+-----------------------
+
+Works like a charm and gives the same output as wc. I saved output in 
+out.txt, but running the program is surely more interesting.
+All necessary files are included in the directory.
+
+To compile:
+  gcc produce_consume.c -o produce_consume -lpthread
+
+To run:
+  produce_consume <num_threads> subject.txt
+Where <num_threads> is a value between 1 - 10 denoting the number of 
+consumer threads you want running.
+
+Also note that the second argument (subject.txt) can be any file 
+containing text; I figured you would be using subject.txt, however.
+
+Happy marking!

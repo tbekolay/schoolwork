@@ -1,0 +1,29 @@
+echo try some simple commands
+date
+pwd
+echo
+echo try some commands with options
+date -u 
+ls -al
+echo
+echo the next 2 commands don't exist.
+foo
+hello world
+echo 
+echo the next 2 cmds should  be found, but not execute.
+mv
+cp
+echo 
+echo try some globbing
+echo try ls -l "*.c"
+ls -l *.c
+echo try ls -l "a?.c"
+ls -l a?.c
+echo try ls -l "*.c" "*.txt"
+ls -l *.c *.txt
+echo try ls "a[1-3].c"
+ls a[1-3].c
+echo try ls "a[!1-9]*.c"
+ls a[!1-9]*.c
+echo try cat a1.c
+cat a1.c

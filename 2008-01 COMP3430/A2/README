@@ -1,0 +1,21 @@
+COMP3430 Assignment 2
+Trevor Bekolay, 6796723
+
+Greetings! Program works well and gives good data. I was considering an optimization in which the thread 
+would cache the number of found/not_found and only update the shared variable at the end of the method, 
+but it makes more sense to have the methods slow to more clearly show the disparity between the mutex and 
+read/write solutions.
+
+Also note that I have done 20 writes, defined as NUMWRITES in 
+a2parameters.h. There were never any explicit instructions on how many 
+values to write into the list, so I just chose 20 arbitrarily.
+
+To compile:
+  gcc -o mutex main_mutex.c concurrentList.c -lpthread
+  gcc -o rw main_rw.c concurrentRWList.c -lpthread
+
+To run:
+  mutex
+  rw
+
+Note that mutex can take upwards of five minutes to run, so put on a pot of coffee!

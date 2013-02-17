@@ -1,0 +1,123 @@
+=========
+Test Info
+=========
+
+Length: 50 minutes (in class)
+Question formats:
+  - definition
+  - short answer (explain/demonstrate, etc.)
+  - programming 
+  
+NOTE: pseudocode is expected/acceptable for programming questions.
+You DO NOT need to memorize the exact names/arguments for POSIX
+functions, e.g. create_thread() is OK instead of pthread_create(...).
+You DO NOT need to memorize C syntax as long as the meaning of your
+program is reasonably clear. Comments are NOT required.
+
+======
+Topics
+======
+
+Intro
+=====
+- Multiprogramming
+  - why it was needed
+  - pure multiprogramming vs. timesharing
+- How OS gains control of CPU
+  - synchronous (internal) event e.g. trap
+  - asynchronous (external) event e.g. interrupt
+- Interrupt handling & system call mechanism
+- I/O strategies
+  - programmed I/O (polling)
+  - Interrupts
+  - DMA
+  - Buffering/Spooling
+
+Processes
+=========
+- Definition
+- Development of a State Model for Processes
+- Swapping (suspend state)
+- Process Image
+  - PCB
+  - code/data
+  - stack
+  - shared address space
+- Execution modes (user/supervisor)
+  - mode switching vs process (context) switching
+- Kernel design strategies
+- *** NO questions on Unix states/system initialization ***
+
+Threads
+=======
+- Concept (a unit of execution within a process)
+- Implementation
+  - ULT/KLT
+  - strengths and weaknesses of both implementations
+- *** NO Parallel/Shared memory/SMP ***
+- *** NO microkernels ***
+
+Concurrency
+===========
+- Definitions
+  - Mutual Exclusion (mutex)
+  - critical resource/critical section
+  - deadlock
+  - starvation
+- Mutex
+  - *** DO NOT memorize software solutions for mutex ***
+  - *** NO Dekker's/Peterson's algorithms ***
+  - You won't be asked to reproduce the 6 requirements of mutex
+    schemes, but you should know them (see below)
+  - May need to provide a sequence of execution
+    that demonstrates why a solution is inadequate
+  - Mutex using Interrupt disabling
+    - Why is it generally NOT used?
+- Special instructions
+  - test and set
+  - exchange
+  - know how to implement mutex using them
+- Semaphores
+  - strong/weak semaphores
+  - init/wait/signal operations
+  - *** DO NOT need to know how to implement semaphore operations ***
+  - implementing mutex with semaphores
+- Producer/Consumer
+  - infinite/bounded buffer
+- Monitors
+  - Object-oriented synchronization facility
+  - condition variables
+  - May need to program a synchronization problem using a monitor
+
+IPC
+===
+- Messages
+  - send/receive
+  - blocking/non-blocking
+  - direct communication
+    - synchronous (blocking), asynchronous (non-blocking)
+    - symmetric addressing (both sender and receiver must be
+      specified)
+    - asymmetric addressing (only the receiver is specified)
+  - indirect communication
+    - mailboxes (multiple receivers)
+    - ports (one receiver)
+  - *** NO Buffering/Error Handling ***
+  - Synchronization using message passing
+    - distributed systems
+    - mutex, producer/consumer
+- Signals
+  - asynchronous type of IPC
+  - sending a signal: kill/raise
+  - receiving a signal
+    - binding a signal handler function using signal()
+- Pipes
+  - One-way synchronous IPC
+  - Anonymous pipes for related processes
+  - Named pipes (FIFO) for unrelated processes
+  
+Assignments/Labs
+================
+- As always, material covered in Assignments/Labs IS EXAMINABLE
+
+

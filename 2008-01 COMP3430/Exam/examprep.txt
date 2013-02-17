@@ -1,0 +1,222 @@
+=========
+Exam Info
+=========
+
+Length: 2 hours
+Question formats: (same as midterm)
+  - definition
+  - short answer (explain/demonstrate, etc.)
+  - programming
+
+NOTE: pseudocode is expected/acceptable for programming questions.
+You DO NOT need to memorize the exact names/arguments for POSIX
+functions, e.g. create_thread() is OK instead of pthread_create(...).
+You DO NOT need to memorize C syntax as long as the meaning of your
+program is reasonably clear. Comments are NOT required.
+
+======
+Topics
+======
+
+NOTE: The exam will cover material predominantly from the second
+half of the course, but WE RESERVE THE RIGHT to examine material
+from the first half as well.
+
+Scheduling
+==========
+- Nature of process behavior
+
+  - bursts of CPU, I/O
+
+  - CPU-bound, I/O-bound
+
+- Types of Scheduling
+
+  - long/medium/short
+
+- Evaluating scheduling policies
+
+  - user-oriented/system-oriented criteria
+
+- Classifying short-term scheduling policies
+
+  - FCFS, priority, execution history
+
+  - preemptive, non-preemptive
+
+- Short-term scheduling policies
+
+  - FCFS, RR, SPN, SRT
+
+    - should be able to schedule processes using these policies
+
+  - HRRN, Feedback
+
+    - know how these policies work, but NO scheduling
+
+  - Other policies
+
+    - Multi-level queue
+
+    - Multi-level feedback queue
+
+    - know how these policies work, but NO scheduling
+
+- NO Real-time scheduling
+
+
+Deadlock & Starvation
+=====================
+- Definitions
+
+  - PERMANENT blocking of a set of processes contending for resources
+
+  - A process is perpetually denied necessary resources
+
+- OS policies necessary for deadlock
+
+  - mutex
+
+  - hold and wait
+
+  - no preemption
+
+- Definition of circular wait
+
+- Resource types
+
+  - reusable, consumable
+
+- Resource Allocation Graph
+
+  - reusable resources only
+
+  - reduction
+
+  - cycle, knot
+
+- Deadlock Strategies
+
+  - Prevention
+
+  - Avoidance
+
+    - safe state
+
+    - Banker's algorithm
+
+  - Detection
+
+    - detection algorithm
+
+  - Recovery
+
+- Integrated Deadlock Strategy
+
+
+Memory Management
+=================
+- Sharing memory
+
+  - transparency, safety, efficiency, relocation
+
+- Addressing
+
+  - logical/relative/physical
+
+- Relocatability
+
+  - Binding
+
+  - Dynamic Address Translation (base and bounds registers)
+
+- Memory Management schemes
+
+  - Fixed/Dynamic Partitioning
+
+    - internal/external fragmentation
+
+    - placement algorithms
+
+    - buddy system
+
+  - Paging/Segmentation
+
+    - page/segment table
+
+    - address translation
+
+  - Virtual memory
+
+    - resident set
+
+    - locality/working set
+
+  - Translation Lookaside Buffer
+
+- Memory Management Policies
+
+  - *** NO Fetch, Placement, Resident Set, Cleansing, Load Control
+
+  - Replacement
+
+    - OPT
+
+    - FIFO
+
+    - LRU
+
+    - CLOCK
+
+Secondary Storage
+=================
+- File abstraction
+
+  - named collection of related information
+
+  - persistent, can be moved/copied, access by many users
+
+  - attributes
+
+    - name, owner, etc.
+
+  - operations
+
+    - read, write, etc.
+
+  - access methods
+
+    - sequential, random, indexed (keyed)
+
+  - NO file types
+
+- Directories
+
+  - Abstract method of file organization
+
+  - Directory structures
+
+    - flat, hierarchical (DAG)
+
+- File protection/sharing
+
+  - ACL, Unix
+
+- File allocation
+
+  - contiguous, linked, indexed
+
+- Free space management
+
+  - Bit maps, chains, indexed
+
+- Unix I-nodes
+
+  - indexed allocation
+
+  - disk/partition layout
+
+Assignments/Labs
+================
+- As always, material covered in Assignments/Labs IS EXAMINABLE
+

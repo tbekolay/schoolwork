@@ -1,0 +1,18 @@
+COMP3430 Assignment 1 - Question 4
+Trevor Bekolay, 6796723
+
+To compile my shell program, you just need to do typical gcc command:
+  gcc shell.c -o shell
+
+Running it is similarly straightforward;
+  shell
+
+If you'd like to run the sample commands, navigate to the test directory 
+and redirect cmd.dat to the shell program.
+  cd test
+  shell < cmd.dat
+
+Note that my answers to questions 1-3 are located in the A1_Q1-3.pdf file 
+in the current directory.
+
+Happy marking!

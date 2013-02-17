@@ -1,0 +1,10 @@
+eagle.cs.umanitoba.ca 106% gcc -o mutex main_mutex.c concurrentList.c -lpthread
+eagle.cs.umanitoba.ca 107% gcc -o rw main_rw.c concurrentRWList.c -lpthread
+eagle.cs.umanitoba.ca 108% mutex
+121 items were found. 79 items were not found.
+        Time taken: 254 seconds.
+End of processing
+eagle.cs.umanitoba.ca 109% rw
+121 items were found. 79 items were not found.
+        Time taken: 50 seconds.
+End of processing

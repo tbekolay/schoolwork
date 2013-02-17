@@ -1,0 +1,17 @@
+goose.cs.umanitoba.ca 357% produce_consume 10 subject.txt
+ thread ID | # of words found
+-----------------------------
+     0     |  6503
+     1     |  5324
+     2     |  6283
+     3     |  2532
+     4     |  3909
+     5     |  3970
+     6     |  4026
+     7     |  4132
+     8     |  4205
+     9     |  4145
+
+Total number of words: 45029
+removing message queue 9109506
+End of processing
